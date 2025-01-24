@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="10dp"
+    android:elevation="10dp"
+    app:cardUseCompatPadding="true"
+    android:backgroundTint="@color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:id="@+id/courseimg"
+            android:src="@drawable/logo"
+            android:layout_centerVertical="true"
+            app:civ_border_width="2dp"
+            app:civ_border_color="@color/red"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/courseId"
+            android:text="101"
+            android:textStyle="bold"
+            android:textSize="24sp"
+            android:layout_toRightOf="@id/courseimg"/>
+        <TextView
+            android:id="@+id/courseTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/courseimg"
+            android:layout_below="@id/courseId"
+            android:layout_marginLeft="12dp"
+            android:padding="6dp"
+            android:text="First AID"
+            android:textStyle="bold"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/courseDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:padding="6dp"
+            android:layout_toRightOf="@+id/courseimg"
+            android:layout_below="@+id/courseTitle"
+            android:text="Course Description"
+            android:textStyle="bold"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/courseDuration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:padding="6dp"
+            android:layout_toRightOf="@+id/courseimg"
+            android:layout_below="@+id/courseDescription"
+            android:text="Course Duration"
+            android:textColor="@color/red"
+            android:textStyle="bold"
+            android:textSize="20sp"/>
+        <TextView
+            android:id="@+id/certificationStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:padding="6dp"
+            android:layout_toRightOf="@+id/courseimg"
+            android:layout_below="@+id/courseDuration"
+            android:text="Yes"
+            android:textColor="@color/red"
+            android:textStyle="bold"
+            android:textSize="20sp"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/assignButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/certificationStatus"
+            android:layout_toRightOf="@id/editButton"
+            android:backgroundTint="@color/red"
+            android:text="Assign To" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/editButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/certificationStatus"
+            android:layout_marginLeft="30dp"
+            android:backgroundTint="@color/red"
+            android:text="Edit Course" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/deleteButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/certificationStatus"
+            android:layout_toRightOf="@id/assignButton"
+            android:backgroundTint="@color/red"
+            android:text="Delete" />
+
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

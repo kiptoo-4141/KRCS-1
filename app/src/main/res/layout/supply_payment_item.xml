@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="12dp"
+    android:layout_marginBottom="8dp"
+    android:background="@android:color/white">
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:padding="8dp">
+
+        <TableLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:stretchColumns="1">
+
+            <!-- Table Header Row -->
+            <TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Item Name"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:textAlignment="center"
+                    android:padding="8dp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Category"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:textAlignment="center"
+                    android:padding="8dp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Date"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:textAlignment="center"
+                    android:padding="8dp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Manager"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:textAlignment="center"
+                    android:padding="8dp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Request Count"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:textAlignment="center"
+                    android:padding="8dp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Amount"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:textAlignment="center"
+                    android:padding="8dp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Status"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:textAlignment="center"
+                    android:padding="8dp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Actions"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:textAlignment="center"
+                    android:padding="8dp"
+                    android:textStyle="bold" />
+            </TableRow>
+
+            <!-- Table Data Row -->
+            <TableRow>
+                <TextView
+                    android:id="@+id/itemNameTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="First Aid Kit"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
+                    android:textAlignment="center"
+                    android:padding="8dp" />
+                <TextView
+                    android:id="@+id/itemCategoryFN"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Medical"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
+                    android:textAlignment="center"
+                    android:padding="8dp" />
+                <TextView
+                    android:id="@+id/dateTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2024-10-01"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
+                    android:textAlignment="center"
+                    android:padding="8dp" />
+                <TextView
+                    android:id="@+id/inventoryManagerName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Moses Kiptoo"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
+                    android:textAlignment="center"
+                    android:padding="8dp" />
+                <TextView
+                    android:id="@+id/rqstcount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="12"
+                    android:textColor="@color/black"
+                    android:textAlignment="center"
+                    android:textSize="16sp"
+                    android:padding="8dp" />
+                <TextView
+                    android:id="@+id/amountTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Kshs 0"
+                    android:textColor="@color/black"
+                    android:textAlignment="center"
+                    android:textSize="16sp"
+                    android:padding="8dp" />
+                <TextView
+                    android:id="@+id/statusTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pending"
+                    android:textColor="@color/black"
+                    android:textAlignment="center"
+                    android:textSize="16sp"
+                    android:padding="8dp" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <Button
+                        android:id="@+id/approveButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Approve"
+                        android:textColor="@android:color/white"
+                        android:backgroundTint="@android:color/holo_green_dark"
+                        android:padding="4dp" />
+                    <Button
+                        android:id="@+id/rejectButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Reject"
+                        android:textColor="@android:color/white"
+                        android:backgroundTint="@android:color/holo_red_dark"
+                        android:padding="4dp"
+                        android:layout_marginStart="8dp" />
+                </LinearLayout>
+            </TableRow>
+
+        </TableLayout>
+    </HorizontalScrollView>
+
+</RelativeLayout>

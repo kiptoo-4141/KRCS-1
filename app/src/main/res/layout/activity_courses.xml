@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.CoursesActivity"
+    android:background="@color/white"
+    android:backgroundTint="@color/white"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_margin="8dp"
+            android:background="@color/white">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/enroll_in_a_courses_today"
+                android:textAlignment="center"
+                android:textSize="27sp"
+                android:textColor="@color/white"
+                android:background="@drawable/background2"
+                android:backgroundTint="@color/red"/>
+
+            <SearchView
+                android:id="@+id/courseSearch"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="20dp"
+                android:layout_margin="8dp"
+                android:background="@color/white">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvCourses"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:elevation="-17dp"
+                    android:padding="25dp"/>
+
+            </LinearLayout>
+            <TextView
+                android:id="@+id/feedbackLink"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Give a Feedback"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                android:textAlignment="center"
+                android:background="@drawable/background2"
+                android:layout_margin="12dp"
+                android:padding="6dp"
+                android:elevation="12dp"/>
+
+        </LinearLayout>
+
+
+
+    </ScrollView>
+
+
+
+
+
+
+</LinearLayout>

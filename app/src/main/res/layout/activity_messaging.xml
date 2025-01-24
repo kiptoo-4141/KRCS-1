@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.MessagingActivity"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/red"
+        android:id="@+id/messaging_toolbar">
+
+        <TextView
+            android:layout_marginTop="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Messages"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:layout_marginLeft="12dp"/>
+        <ImageButton
+            android:id="@+id/personSearch"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:src="@drawable/baseline_person_search_24"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:tint="@color/white"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="12dp"/>
+
+    </RelativeLayout>
+
+    <FrameLayout
+        android:background="@color/white"
+        android:id="@+id/messaging_frame_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/messaging_toolbar"
+        android:layout_above="@+id/divider"/>
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_alignTop="@+id/messaging_bottom_navigation_view"/>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        app:backgroundTint="@color/red"
+        android:id="@+id/messaging_bottom_navigation_view"
+        app:menu="@menu/messaging_bottom_navigation_menu"
+        app:itemIconTint="@color/red"
+        android:padding="6dp"/>
+
+
+</RelativeLayout>

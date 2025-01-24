@@ -1,0 +1,77 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="40dp"
+    android:elevation="10dp"
+    android:orientation="vertical"
+    app:cardUseCompatPadding="true"
+    android:background="@color/white"
+    android:backgroundTint="@color/white">
+
+    <HorizontalScrollView
+        android:id="@+id/enrollCourseHScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <!-- Username TextView -->
+            <TextView
+                android:id="@+id/enrolledUserName"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_margin="8dp"
+                android:text="Username" />
+
+            <!-- Email TextView -->
+            <TextView
+                android:id="@+id/enrolledUserEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_margin="8dp"
+                android:text="Email" />
+
+            <!-- Course Title TextView -->
+            <TextView
+                android:id="@+id/enrolledCourse"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_margin="8dp"
+                android:text="Course Title" />
+
+            <!-- Course Instructor Spinner -->
+
+
+            <!-- Approve and Reject Buttons in a horizontal layout -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <!-- Approve Button -->
+                <Button
+                    android:id="@+id/btnApprove"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#3F51B5"
+                    android:text="Approve"
+                    android:backgroundTint="#FFC107" />
+
+                <!-- Reject Button -->
+                <Button
+                    android:id="@+id/btnReject"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/red"
+                    android:text="Reject" />
+            </LinearLayout>
+        </LinearLayout>
+    </HorizontalScrollView>
+
+</LinearLayout>

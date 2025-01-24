@@ -1,0 +1,82 @@
+<resources>
+    <string name="app_name">Kenya Red Cross</string>
+    <string name="welcome">WELCOME</string>
+    <string name="picture">picture</string>
+    <string name="logo">logo</string>
+    <string name="email">Email</string>
+    <string name="kiptoo_gmail_com">kiptoo@gmail.com</string>
+    <string name="password">Password</string>
+    <string name="login">LOGIN</string>
+    <string name="loginlogo">LoginLogo</string>
+    <string name="login1">LOGIN</string>
+    <string name="login_as">Login As?</string>
+    <string name="password_hint">******</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="kiptoo">Kiptoo</string>
+    <string name="last_name">Last Name</string>
+    <string name="moses">Moses</string>
+    <string name="first_name">First Name</string>
+    <string name="sign_up">Sign Up ?</string>
+    <string name="about_us_logo">About Us Logo</string>
+    <string name="about_us">About us</string>
+    <string name="our_brief_but_rich_history">Our Brief but rich History</string>
+    <string name="history">The Kenya Red Cross Society (KRCS) was founded in 1965 under the Kenya Red Cross Society Act (Chapter 256 Laws of Kenya) and officialy acknowledged by the Kenyan governmeent as a voluntary aid society working alongside public authorities. It holds the distinction of being the sole National Red Cross Society in Kenya \n \nRegarding its relationship with public authorities, KRCS maintains independence, enabling it to operate in alignment with Fundamental Principles of the Red Cross and Red Crescent Movement. Its Constitution is rooted in the Geneva Conventions of 1949 and Additional Protocols of 1977, to which Kenya is a Signitory</string>
+    <string name="our_vision">Our Vision</string>
+    <string name="vision">To be a leading humanitatrian Organization sustainably promoting the well-being, health and resilience of communities</string>
+    <string name="our_mission">Our Mission</string>
+    <string name="mission">We facilitate communities to respond to humanatarian emergencies to elleviate human suffering and work with patners to implement innovate community driven programmes that transform lives and enhance comminity resilience.</string>
+    <string name="our_core_values">Our Core Values</string>
+    <string name="values">Service to himanity\nAccountability\nCommunity Centered\nInclusivity\nInnovation</string>
+    <string name="contact_us">CONTACT US</string>
+    <string name="dasboard">Dasboard</string>
+    <string name="todo">TODO</string>
+    <string name="search">Search......</string>
+    <string name="register_for_courses_below">Register For Courses Below</string>
+    <string name="get_started">Get Started</string>
+    <string name="Open">Open</string>
+    <string name="Close">Close</string>
+
+    <string-array name="role">
+        <item>Youth</item>
+        <item>Volunteer</item>
+        <item>Service Manager</item>
+        <item>Trainer</item>
+        <item>Coordinator</item>
+        <item>Finance Manager</item>
+        <item>Inventory Manager</item>
+    </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="open_nav">Open</string>
+    <string name="close_nav">Close</string>
+    <string name="home">HOME</string>
+    <string name="info">Info!</string>
+    <string name="contact_us2">Contact Us</string>
+    <string name="log_out">Log Out</string>
+    <string name="importance_of_volunteering">Volunteering with the Kenya Red Cross Society is a rewarding experience that allows you to make a significant difference in the lives of others. As a volunteer, you become part of a dedicated team working tirelessly to provide essential services to vulnerable communities across the country.\n One of the primary benefits of volunteering with the Kenya Red Cross is the opportunity to gain valuable skills and experience. You will have the chance to learn first aid, disaster response, and other essential skills that can be applied in various aspects of your life. Additionally, volunteering can help you develop leadership, teamwork, and communication abilities, which are highly sought after in both personal and professional settings.\n By volunteering with the Kenya Red Cross, you will also contribute to a noble cause and make a positive impact on your community. You will have the satisfaction of knowing that your efforts are helping to alleviate suffering, provide relief during emergencies, and promote health and well-being.\n Moreover, volunteering with the Kenya Red Cross offers a unique opportunity to connect with like-minded individuals who share your passion for humanitarian work. You will have the chance to build lasting friendships and networks while making a difference in the world.</string>
+    <string name="rr">Volunteering with the Kenya Red Cross Society is a rewarding experience that allows you to make a significant difference in the lives of others. As a volunteer, you become part of a dedicated team working tirelessly to provide essential services to vulnerable communities across the country.\n One of the primary benefits of volunteering with the Kenya Red Cross is the opportunity to gain valuable skills and experience. You will have the chance to learn first aid, disaster response, and other essential skills that can be applied in various aspects of your life. Additionally, volunteering can help you develop leadership, teamwork, and communication abilities, which are highly sought after in both personal and professional settings.\n By volunteering with the Kenya Red Cross, you will also contribute to a noble cause and make a positive impact on your community. You will have the satisfaction of knowing that your efforts are helping to alleviate suffering, provide relief during emergencies, and promote health and well-being.\n Moreover, volunteering with the Kenya Red Cross offers a unique opportunity to connect with like-minded individuals who share your passion for humanitarian work. You will have the chance to build lasting friendships and networks while making a difference in the world.</string>
+    <string name="kenyaredcrossistory">The Kenya Red Cross Society (KRCS) was founded in 1965 under the Kenya Red Cross Society Act (Chapter 256 Laws of Kenya) and officially acknowledged by the Kenyan government as a voluntary aid society working alongside public authorities. It holds the distinction of being the sole National Red Cross Society in Kenya.\n Regarding its relationship with public authorities, KRCS maintains independence, enabling it to operate in alignment with the Fundamental Principles of the Red Cross and Red Crescent Movement. Its Constitution is rooted in the Geneva Conventions of 1949 and their Additional Protocols of 1977, to which Kenya is a signatory</string>
+    <string name="our_brief_but_rich_history2">Our Brief but Rich <font color='#FF0000'>History</font></string>
+    <string name="our_vision2">To be a <font color='#FF0000'>leading humanitarian organization</font> sustainably promoting the <font color='#FF0000'>well-being, health and resilience </font>of communities.</string>
+    <string name="our_mision">We facilitate communities to respond to humanitarian emergencies to alleviate human suffering and work with partners to implement innovative community driven programmes that transform lives and enhance community resilience.</string>
+    <string name="core_values">Service to humanity\n Accountability\n Community Centered\n Inclusivity\n Innovation</string>
+    <string name="contact_us22">Contact Us</string>
+    <string name="none">none</string>
+    <string name="send_us_mail">Send Us Mail?</string>
+    <string name="info_redcross_or_ke">info@redcross.or.ke</string>
+    <string name="communications_redcross_or_ke">communications@redcross.or.ke</string>
+    <string name="call_us_anytime">Call Us Anytime</string>
+    <string name="_254_703_037_000">(+254)703 037 000</string>
+    <string name="toll_free_1199">Toll Free: 1199</string>
+    <string name="visit_our_offices">Visit Our Offices</string>
+    <string name="south_c_bellevue_red_cross_road_n_off_popo_nairobi_kenya">South C (Bellevue), Red Cross Road,\n off Popo,Nairobi ,Kenya</string>
+    <string name="enroll_in_a_courses_today">Enroll in a Courses Today</string>
+
+
+    <string-array name="report_types">
+        <item>FinanceReports</item>
+        <item>DonationsReports</item>
+    </string-array>
+
+
+</resources>

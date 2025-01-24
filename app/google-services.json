@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "875886335283",
+    "firebase_url": "https://red-cross-project-database-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "red-cross-project-database",
+    "storage_bucket": "red-cross-project-database.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:875886335283:android:48d7dd6f66f2de67ae1a46",
+        "android_client_info": {
+          "package_name": "com.kenyaredcross"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkFEam23zU7AZMHjt3-pohQb432Pi14JE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

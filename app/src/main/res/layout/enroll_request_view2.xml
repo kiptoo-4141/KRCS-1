@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@color/white"
+    android:backgroundTint="@color/white"
+    android:padding="12dp">
+
+    <HorizontalScrollView
+        android:id="@+id/enrollCourseHScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_gravity="center">
+
+            <TextView
+                android:id="@+id/enrolledUserName"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_margin="8dp"
+                android:text="Username" />
+
+            <TextView
+                android:id="@+id/enrolledUserEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_margin="8dp"
+                android:text="Email" />
+
+            <TextView
+                android:id="@+id/enrolledCourse"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_margin="8dp"
+                android:text="Course Title" />
+
+            <!-- Replace TextView with Spinner for instructor selection -->
+            <Spinner
+                android:id="@+id/courseInstructorSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_margin="8dp"
+                android:spinnerMode="dropdown"
+                android:prompt="@anim/slide_out_bottom"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnApprove"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#3F51B5"
+                    android:text="Approve"
+                    android:backgroundTint="#FFC107"/>
+
+                <Button
+                    android:id="@+id/btnReject"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/red"
+                    android:text="Reject" />
+            </LinearLayout>
+        </LinearLayout>
+    </HorizontalScrollView>
+
+</LinearLayout>

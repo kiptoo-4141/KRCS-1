@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/editCourseTitle"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:hint="Course Title"/>
+
+    <EditText
+        android:id="@+id/editCourseDescription"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:hint="Course Description"/>
+
+    <EditText
+        android:id="@+id/editCourseCertificationStatus"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:hint="Certification Status"/>
+
+</LinearLayout>

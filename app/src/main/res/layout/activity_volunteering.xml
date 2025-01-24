@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.VolunteeringActivity"
+    android:background="@color/white"
+    android:backgroundTint="@color/white">
+
+    <LinearLayout
+        android:id="@+id/volunteeringtxtholder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:backgroundTint="@color/red"
+        android:background="@color/red">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="22sp"
+            android:textColor="@color/white"
+            android:text="WANT TO BECOME A VOLUNTEER?"/>
+
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/importanceofvolunteering"
+        android:layout_width="405dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="30dp"
+        android:padding="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/volunteeringtxtholder"
+        android:background="@drawable/background2">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/rr"
+            android:padding="8dp"
+            android:layout_margin="15dp"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="15sp"/>
+
+
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="vertical"
+        android:layout_marginTop="15dp"
+        app:layout_constraintTop_toBottomOf="@+id/importanceofvolunteering">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/volunteerBtn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="VOLUNTEER"
+            android:textColor="@color/white"
+            android:background="@drawable/background2"
+            android:backgroundTint="@color/red"
+            android:elevation="15dp"/>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
