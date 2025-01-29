@@ -111,6 +111,7 @@ public class Supplier extends AppCompatActivity implements NavigationView.OnNavi
             // Handle log out
             FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(Supplier.this, Login.class));
+            finish();
         }
 
         // Close the drawer after item selection

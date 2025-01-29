@@ -29,7 +29,7 @@ public class Login extends AppCompatActivity {
     // UI elements
     EditText loginEmail, loginPassword;
     Button buttonLogin;
-    TextView textViewSignUp;
+    TextView textViewSignUp,forgotPassword;
 
     // Role selection dropdown
     String[] role = {"Youth", "Volunteer", "Service Manager", "Trainer", "Coordinator", "Finance Manager", "Inventory Manager", "Supplier"};
@@ -100,6 +100,14 @@ public class Login extends AppCompatActivity {
         textViewSignUp.setOnClickListener(v -> {
             Intent intent = new Intent(Login.this, SignUp.class);
             startActivity(intent);
+        });
+        forgotPassword = findViewById(R.id.forgotPassword);
+        forgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Login.this,ForgotPasswordActivity.class);
+                startActivity(intent);
+            }
         });
     }
 
