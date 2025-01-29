@@ -13,16 +13,19 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.kenyaredcross.R;
 import com.kenyaredcross.domain_model.RequestModel;
 
 import java.util.List;
 
 public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHolder> {
-    private Context context;
-    private List<RequestModel> requestList;
+    private final Context context;
+    private final List<RequestModel> requestList;
 
     public RequestAdapter(Context context, List<RequestModel> requestList) {
         this.context = context;
@@ -48,19 +51,32 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
 
         Glide.with(context).load(request.getImage()).into(holder.imageView);
 
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance()
+        DatabaseReference userEnrollmentsRef = FirebaseDatabase.getInstance()
                 .getReference("Enrollments")
-                .child(request.getEmail().replace(".", "_"))
-                .child("101");
+                .child(request.getEmail().replace(".", "_"));
 
-        holder.btnApprove.setOnClickListener(v -> updateStatus(databaseReference, request, "approved"));
-        holder.btnReject.setOnClickListener(v -> updateStatus(databaseReference, request, "rejected"));
+        holder.btnApprove.setOnClickListener(v -> updateAllCoursesStatus(userEnrollmentsRef, request, "approved"));
+        holder.btnReject.setOnClickListener(v -> updateAllCoursesStatus(userEnrollmentsRef, request, "rejected"));
     }
 
-    private void updateStatus(DatabaseReference databaseReference, RequestModel request, String newStatus) {
-        databaseReference.child("status").setValue(newStatus);
-        request.setStatus(newStatus);
-        notifyDataSetChanged();
+    private void updateAllCoursesStatus(DatabaseReference userEnrollmentsRef, RequestModel request, String newStatus) {
+        userEnrollmentsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot courseSnapshot : snapshot.getChildren()) {
+                    DatabaseReference courseStatusRef = courseSnapshot.getRef().child("status");
+                    courseStatusRef.setValue(newStatus);
+                }
+                request.setStatus(newStatus);
+                notifyDataSetChanged();
+                Toast.makeText(context, "All courses updated to " + newStatus, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(context, "Failed to update courses", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

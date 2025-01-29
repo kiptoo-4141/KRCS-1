@@ -28,8 +28,8 @@ import java.io.IOException;
 import java.util.List;
 
 public class ReceiptAdapter extends RecyclerView.Adapter<ReceiptAdapter.ReceiptViewHolder> {
-    private Context context;
-    private List<Receipt> receiptList;
+    private final Context context;
+    private final List<Receipt> receiptList;
 
     public ReceiptAdapter(Context context, List<Receipt> receiptList) {
         this.context = context;
