@@ -97,12 +97,12 @@ public class MyStudentsActivity extends AppCompatActivity {
 
         public void bind(AssignedCourseModel model) {
             courseTitleTextView.setText(model.getCourseTitle());
-            fetchEnrolledUsers(model.getCourseId());
+            fetchEnrolledUsers(model.getCourseTitle());
         }
 
-        private void fetchEnrolledUsers(String courseId) {
+        private void fetchEnrolledUsers(String courseTitle) {
             DatabaseReference enrollmentsRef = FirebaseDatabase.getInstance().getReference().child("Enrollments");
-            Query query = enrollmentsRef.orderByChild("courseId").equalTo(courseId);
+            Query query = enrollmentsRef.orderByChild("title").equalTo(courseTitle);
 
             FirebaseRecyclerOptions<EnrollmentModel> options = new FirebaseRecyclerOptions.Builder<EnrollmentModel>()
                     .setQuery(query, EnrollmentModel.class)
@@ -140,15 +140,16 @@ public class MyStudentsActivity extends AppCompatActivity {
 
         public void bind(EnrollmentModel model) {
             studentNameTextView.setText(model.getUsername());
-            passButton.setOnClickListener(v -> updateStudentStatus(model.getCourseId(), model.getUsername(), "Passed"));
-            failButton.setOnClickListener(v -> updateStudentStatus(model.getCourseId(), model.getUsername(), "Failed"));
+            passButton.setOnClickListener(v -> updateStudentStatus(model.getEmail(), model.getTitle(), "Passed"));
+            failButton.setOnClickListener(v -> updateStudentStatus(model.getEmail(), model.getTitle(), "Failed"));
         }
 
-        private void updateStudentStatus(String courseId, String username, String status) {
+        private void updateStudentStatus(String userEmail, String courseTitle, String status) {
+            String formattedEmail = userEmail.replace(".", "_");
             DatabaseReference enrollmentRef = FirebaseDatabase.getInstance().getReference()
-                    .child("Enrollments").child(username).child(courseId).child("status");
+                    .child("Enrollments").child(formattedEmail).child(courseTitle).child("status");
             enrollmentRef.setValue(status).addOnSuccessListener(aVoid ->
-                    Toast.makeText(itemView.getContext(), username + " marked as " + status, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(itemView.getContext(), userEmail + " marked as " + status, Toast.LENGTH_SHORT).show()
             ).addOnFailureListener(e ->
                     Toast.makeText(itemView.getContext(), "Failed to update status", Toast.LENGTH_SHORT).show()
             );

@@ -6,6 +6,20 @@ public class EnrollmentModel {
     private String username;
     private String status;
 
+    String email;
+
+    public EnrollmentModel(String email) {
+        this.email = email;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public EnrollmentModel() {}
 
     public String getCourseId() { return courseId; }

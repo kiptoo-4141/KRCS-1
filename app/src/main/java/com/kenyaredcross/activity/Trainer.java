@@ -23,7 +23,7 @@ public class Trainer extends AppCompatActivity implements NavigationView.OnNavig
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
 
-    CardView students,attendance;
+    CardView students,attendance, myclass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +36,15 @@ public class Trainer extends AppCompatActivity implements NavigationView.OnNavig
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+
+        myclass = findViewById(R.id.classCard);
+        myclass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Trainer.this, MyClassesActivity.class);
+                startActivity(intent);
+            }
         });
 
         attendance = findViewById(R.id.classAttendance);
