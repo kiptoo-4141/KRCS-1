@@ -1,4 +1,3 @@
-// Receipt Model
 package com.kenyaredcross.domain_model;
 
 public class Receipt {

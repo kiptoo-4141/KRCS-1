@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.MyProfileActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/profile_logo"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:src="@drawable/logo2"
+                android:background="@color/white"
+                android:layout_marginTop="12dp"
+                android:layout_marginLeft="176dp"
+                android:layout_marginRight="176dp"
+                />
+
+            <TextView
+                android:id="@+id/my_profile_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/profile_logo"
+                android:layout_marginLeft="106dp"
+                android:layout_marginRight="76dp"
+                android:text="My Profile"
+                android:textSize="34sp"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:layout_marginTop="24dp"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Name"
+                android:id="@+id/username"
+                android:layout_below="@+id/my_profile_title"
+                android:textSize="22sp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Email"
+                android:id="@+id/email"
+                android:layout_below="@+id/username"
+                android:textSize="22sp"/>
+
+
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

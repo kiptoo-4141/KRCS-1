@@ -7,7 +7,8 @@
     android:layout_height="wrap_content"
     app:cardCornerRadius="8dp"
     app:cardElevation="4dp"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:layout_marginTop="24dp">
 
     <LinearLayout
         android:orientation="vertical"
@@ -15,11 +16,48 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/logo3"
+            android:layout_marginTop="6dp"
+            android:layout_marginLeft="95dp"/>
         <TextView
-            android:id="@+id/amount"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="95dp"
+            android:layout_height="wrap_content"
+            android:text="Kenya Red Cross"
+            android:textColor="@color/red2"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="55dp"
+            android:text="Email: info@redcross.or.ke"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="55dp"
+            android:text="Phone: +(254) 703 037 000"/>
+
+        <TextView
+            android:id="@+id/usernamereceipt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Amount: $1000"
+            android:text="Moses Kiptoo"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Email: kiptoo@gmail.com"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Amount: Ksh 1000"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -45,14 +83,14 @@
             android:textSize="14sp" />
 
         <TextView
-            android:id="@+id/paymentDetails"
+            android:id="@+id/tv_paymentDetails"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Payment Details: 1212454578879696"
             android:textSize="14sp" />
 
         <TextView
-            android:id="@+id/time"
+            android:id="@+id/tv_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Time: 10:16:26"

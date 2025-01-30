@@ -1,4 +1,3 @@
-// Receipt Adapter
 package com.kenyaredcross.adapters;
 
 import android.content.Context;
@@ -23,7 +22,6 @@ import com.kenyaredcross.domain_model.Receipt;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
@@ -47,6 +45,9 @@ public class ReceiptAdapter extends RecyclerView.Adapter<ReceiptAdapter.ReceiptV
     public void onBindViewHolder(@NonNull ReceiptViewHolder holder, int position) {
         Receipt receipt = receiptList.get(position);
 
+        holder.email.setText("Email: " + receipt.getUserEmail());
+        holder.time.setText("Time: " + receipt.getTime());
+        holder.paymentdetails.setText("Payment Details: " + receipt.getPaymentDetails());
         holder.tvCourseId.setText("Course ID: " + receipt.getCourseId());
         holder.tvDate.setText(receipt.getDate());
         holder.tvPaymentMethod.setText("Payment Method: " + receipt.getPaymentMethod());
@@ -113,14 +114,16 @@ public class ReceiptAdapter extends RecyclerView.Adapter<ReceiptAdapter.ReceiptV
         }
     }
 
-
     public static class ReceiptViewHolder extends RecyclerView.ViewHolder {
-        TextView tvCourseId, tvDate, tvPaymentMethod;
+        TextView tvCourseId,email, tvDate, tvPaymentMethod, paymentdetails, time;
         Button btnDownload;
 
         public ReceiptViewHolder(@NonNull View itemView) {
             super(itemView);
 
+            email = itemView.findViewById(R.id.tv_email);
+            time= itemView.findViewById(R.id.tv_time);
+            paymentdetails = itemView.findViewById(R.id.tv_paymentDetails);
             tvCourseId = itemView.findViewById(R.id.tv_course_id);
             tvDate = itemView.findViewById(R.id.tv_date);
             tvPaymentMethod = itemView.findViewById(R.id.tv_payment_method);

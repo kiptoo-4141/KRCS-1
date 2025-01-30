@@ -1,5 +1,4 @@
 package com.kenyaredcross.activity;
-
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.View;
@@ -115,6 +114,8 @@ public class AssignTaskActivity extends AppCompatActivity {
         String taskDesc = taskDescription.getText().toString().trim();
         String start = startDate.getText().toString().trim();
         String end = endDate.getText().toString().trim();
+
+        String status = "Pending";
 
         if (taskDesc.isEmpty() || start.isEmpty() || end.isEmpty() || selectedGroupId == null) {
             Toast.makeText(this, "All fields are required.", Toast.LENGTH_SHORT).show();

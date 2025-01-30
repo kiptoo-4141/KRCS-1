@@ -6,6 +6,20 @@ public class Task {
     private String endDate;
     private String groupId;
 
+    private String status;
+
+    public Task(String status, String start, String end, String selectedGroupId, String s) {
+        this.status = status;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public Task() {
         // Default constructor required for Firebase
     }

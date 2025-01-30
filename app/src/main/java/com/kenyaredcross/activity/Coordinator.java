@@ -24,7 +24,7 @@ public class Coordinator extends AppCompatActivity implements NavigationView.OnN
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
 
-    CardView volunteers, groupss, task;
+    CardView volunteers, groupss, task,events;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +44,15 @@ public class Coordinator extends AppCompatActivity implements NavigationView.OnN
             public void onClick(View view) {
                 Intent intent = new Intent(Coordinator.this, AssignTaskActivity.class);
                 startActivity(intent );
+            }
+        });
+
+        events = findViewById(R.id.events);
+        events.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Coordinator.this, PendingTaskActivity.class);
+                startActivity(intent);
             }
         });
 

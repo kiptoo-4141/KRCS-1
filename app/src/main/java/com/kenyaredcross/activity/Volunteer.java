@@ -3,6 +3,7 @@ package com.kenyaredcross.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -22,7 +23,7 @@ public class Volunteer extends AppCompatActivity implements NavigationView.OnNav
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
 
-    CardView group;
+    CardView group, courses;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +42,15 @@ public class Volunteer extends AppCompatActivity implements NavigationView.OnNav
         group.setOnClickListener(v -> {
             Intent intent = new Intent(Volunteer.this, MyGroupsActivity.class);
             startActivity(intent);
+        });
+
+        courses = findViewById(R.id.volunteercourses);
+        courses.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Volunteer.this, CoursesActivity.class);
+                startActivity(intent);
+            }
         });
 
         // Initialize drawer layout and navigation view
