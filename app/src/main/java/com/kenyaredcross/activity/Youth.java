@@ -57,7 +57,7 @@ public class Youth extends AppCompatActivity implements NavigationView.OnNavigat
         messaging.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Youth.this,MessagingActivity.class);
+                Intent intent = new Intent(Youth.this,MessagesActivity.class);
                 startActivity(intent);
             }
         });

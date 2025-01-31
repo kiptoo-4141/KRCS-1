@@ -40,7 +40,8 @@
             android:textStyle="normal"
             android:textColor="@color/black"
             android:layout_marginLeft="55dp"
-            android:textSize="18sp"/>
+            android:textSize="18sp"
+            android:visibility="gone"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="48dp"
@@ -50,10 +51,12 @@
             android:layout_marginRight="55dp"
             android:layout_marginTop="12dp"
             android:textSize="18sp"
+            android:hint="Full Name"
             android:padding="8dp"
             android:textColor="@color/black"
             android:textAppearance="@color/black"
-            android:background="@drawable/edittext_bg2"/>
+            android:background="@drawable/edittext_bg2"
+            android:visibility="gone"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -62,12 +65,14 @@
             android:textStyle="normal"
             android:textColor="@color/black"
             android:layout_marginLeft="55dp"
-            android:textSize="18sp"/>
+            android:textSize="18sp"
+            android:visibility="gone"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:id="@+id/contactPhoneNumber"
             android:inputType="phone"
+            android:hint="0795310625"
             android:layout_marginLeft="55dp"
             android:layout_marginRight="55dp"
             android:layout_marginTop="12dp"
@@ -75,7 +80,8 @@
             android:padding="8dp"
             android:textColor="@color/black"
             android:textAppearance="@color/black"
-            android:background="@drawable/edittext_bg2"/>
+            android:background="@drawable/edittext_bg2"
+            android:visibility="gone"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -83,20 +89,23 @@
             android:textStyle="normal"
             android:textColor="@color/black"
             android:layout_marginLeft="55dp"
-            android:textSize="18sp"/>
+            android:textSize="18sp"
+            android:visibility="gone"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:id="@+id/contactEmail"
             android:inputType="textEmailAddress"
             android:layout_marginLeft="55dp"
+            android:hint="kiptoo@gmail.com"
             android:layout_marginTop="12dp"
             android:layout_marginRight="55dp"
             android:textSize="18sp"
             android:padding="8dp"
             android:textColor="@color/black"
             android:textAppearance="@color/black"
-            android:background="@drawable/edittext_bg2"/>
+            android:background="@drawable/edittext_bg2"
+            android:visibility="gone"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -104,12 +113,15 @@
             android:textStyle="normal"
             android:textColor="@color/black"
             android:layout_marginLeft="55dp"
-            android:textSize="18sp"/>
+            android:textSize="18sp"
+            android:visibility="gone"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:id="@+id/contactMessage"
             android:inputType="text"
+            android:hint="write here........"
+            android:textColorHint="@color/black"
             android:layout_marginLeft="55dp"
             android:layout_marginTop="12dp"
             android:layout_marginRight="55dp"

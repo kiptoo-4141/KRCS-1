@@ -42,12 +42,12 @@ public class MyClassesAdapter extends RecyclerView.Adapter<MyClassesAdapter.View
         holder.username.setText("Enrolled by: " + model.getUsername());
         Glide.with(context).load(model.getImage()).into(holder.image);
 
-        holder.passButton.setOnClickListener(v -> updateStatus(model.getEmail(), model.getCourseId(), "passed"));
-        holder.failButton.setOnClickListener(v -> updateStatus(model.getEmail(), model.getCourseId(), "failed"));
+        holder.passButton.setOnClickListener(v -> updateStatus( "passed"));
+        holder.failButton.setOnClickListener(v -> updateStatus( "failed"));
     }
 
-    private void updateStatus(String email, String courseId, String newStatus) {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Enrollments").child(email).child(courseId);
+    private void updateStatus( String newStatus) {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Enrollments");
         ref.child("status").setValue(newStatus).addOnSuccessListener(aVoid ->
                 Toast.makeText(context, "Updated to " + newStatus, Toast.LENGTH_SHORT).show()
         );
