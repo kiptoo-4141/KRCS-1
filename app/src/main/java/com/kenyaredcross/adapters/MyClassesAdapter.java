@@ -18,8 +18,8 @@ import com.kenyaredcross.R;
 import com.kenyaredcross.domain_model.MyClassesModel;
 
 public class MyClassesAdapter extends RecyclerView.Adapter<MyClassesAdapter.ViewHolder> {
-    private Context context;
-    private List<MyClassesModel> classList;
+    private final Context context;
+    private final List<MyClassesModel> classList;
 
     public MyClassesAdapter(Context context, List<MyClassesModel> classList) {
         this.context = context;

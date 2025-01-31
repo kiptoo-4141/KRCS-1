@@ -1,24 +1,18 @@
 package com.kenyaredcross.domain_model;
 
 public class ContactUsMessage {
+
     private String message;
     private String status;
     private String userEmail;
     private String userId;
+    private String reply;  // Add this field to store the service manager's reply
 
-    // No-argument constructor
     public ContactUsMessage() {
+        // Default constructor required for Firebase
     }
 
-    // Constructor with parameters
-    public ContactUsMessage(String message, String status, String userEmail, String userId) {
-        this.message = message;
-        this.status = status;
-        this.userEmail = userEmail;
-        this.userId = userId;
-    }
-
-    // Getters and setters
+    // Getter and setter for message
     public String getMessage() {
         return message;
     }
@@ -27,6 +21,7 @@ public class ContactUsMessage {
         this.message = message;
     }
 
+    // Getter and setter for status
     public String getStatus() {
         return status;
     }
@@ -35,6 +30,7 @@ public class ContactUsMessage {
         this.status = status;
     }
 
+    // Getter and setter for userEmail
     public String getUserEmail() {
         return userEmail;
     }
@@ -43,11 +39,21 @@ public class ContactUsMessage {
         this.userEmail = userEmail;
     }
 
+    // Getter and setter for userId
     public String getUserId() {
         return userId;
     }
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    // Getter and setter for reply (newly added)
+    public String getReply() {
+        return reply;
+    }
+
+    public void setReply(String reply) {
+        this.reply = reply;
     }
 }

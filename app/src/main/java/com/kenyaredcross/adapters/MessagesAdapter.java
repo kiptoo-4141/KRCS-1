@@ -12,7 +12,7 @@ import java.util.List;
 
 public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.MessageViewHolder> {
 
-    private List<ContactUsMessage> messageList;
+    private final List<ContactUsMessage> messageList;
 
     public MessagesAdapter(List<ContactUsMessage> messageList) {
         this.messageList = messageList;
