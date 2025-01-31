@@ -38,14 +38,14 @@ public class Trainer extends AppCompatActivity implements NavigationView.OnNavig
             return insets;
         });
 
-//        myclass = findViewById(R.id.classCard);
-//        myclass.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(Trainer.this, MyClassesActivity.class);
-//                startActivity(intent);
-//            }
-//        });
+        myclass = findViewById(R.id.classCard);
+        myclass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Trainer.this, MyClassesActivity.class);
+                startActivity(intent);
+            }
+        });
 
         attendance = findViewById(R.id.classAttendance);
         attendance.setOnClickListener(new View.OnClickListener() {
