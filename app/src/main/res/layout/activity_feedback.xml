@@ -10,10 +10,17 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="100dp"
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:padding="16dp">
+
+        <Spinner
+            android:id="@+id/recipientSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"/>
 
         <EditText
             android:id="@+id/feedbackText"
@@ -21,18 +28,17 @@
             android:layout_height="100dp"
             android:hint="Enter Feedback"
             android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="24sp"
-            android:textStyle="bold|italic" />
+            android:textSize="18sp"
+            android:textColor="@color/black"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/sendfeedbackBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="SEND FEEDBACK"
-            android:padding="4dp"
-            android:textSize="32sp"
-            android:layout_gravity="center"/>
-
+            android:textSize="20sp"
+            android:layout_gravity="center"
+            android:padding="8dp"/>
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -17,6 +17,12 @@
         android:theme="@style/Theme.KenyaRedCross"
         tools:targetApi="31">
         <activity
+            android:name=".activity.RequestedItemsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.ViewFeedbacksActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.RequestItemsActivity"
             android:exported="false" />
         <activity

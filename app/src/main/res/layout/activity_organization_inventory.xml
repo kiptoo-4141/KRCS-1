@@ -136,7 +136,11 @@
                         android:text="Delete"
                         android:textColor="@android:color/holo_red_dark" />
 
+
+
                 </LinearLayout>
+
+
 
 
 
@@ -144,6 +148,16 @@
 
 
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/requested_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/red"
+            android:text="Requested Items"
+            android:textStyle="bold"
+            android:textSize="22sp"
+            android:textColor="@color/white"/>
 
 
     </LinearLayout>

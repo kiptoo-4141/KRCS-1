@@ -25,7 +25,7 @@ public class RequestItemsActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ItemAdapter adapter;
     private List<Item> itemList;
-    private String trainerEmail = "trainer@gmail.com"; // Get this dynamically from login session
+    private final String trainerEmail = "trainer@gmail.com"; // Get this dynamically from login session
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

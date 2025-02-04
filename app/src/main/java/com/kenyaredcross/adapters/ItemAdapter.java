@@ -22,9 +22,9 @@ import com.kenyaredcross.domain_model.ItemRequest;
 import java.util.List;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder> {
-    private Context context;
-    private List<Item> itemList;
-    private String trainerEmail;
+    private final Context context;
+    private final List<Item> itemList;
+    private final String trainerEmail;
 
     public ItemAdapter(Context context, List<Item> itemList, String trainerEmail) {
         this.context = context;

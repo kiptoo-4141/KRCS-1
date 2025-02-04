@@ -15,131 +15,6 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/background2"
-            android:text="@string/contact_us22"
-            android:textSize="24sp"
-            android:textColor="@color/black"
-            android:textAlignment="center"
-            android:paddingEnd="25dp"
-            android:paddingStart="25dp"
-            android:layout_marginEnd="25dp"
-            android:layout_marginStart="25dp"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="SEND US A MESSAGE"
-            android:layout_marginLeft="105dp"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="@color/red2"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Full Name"
-            android:textStyle="normal"
-            android:textColor="@color/black"
-            android:layout_marginLeft="55dp"
-            android:textSize="18sp"
-            android:visibility="gone"/>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:id="@+id/contactFullName"
-            android:inputType="textPersonName"
-            android:layout_marginLeft="55dp"
-            android:layout_marginRight="55dp"
-            android:layout_marginTop="12dp"
-            android:textSize="18sp"
-            android:hint="Full Name"
-            android:padding="8dp"
-            android:textColor="@color/black"
-            android:textAppearance="@color/black"
-            android:background="@drawable/edittext_bg2"
-            android:visibility="gone"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Phone Number"
-            android:textStyle="normal"
-            android:textColor="@color/black"
-            android:layout_marginLeft="55dp"
-            android:textSize="18sp"
-            android:visibility="gone"/>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:id="@+id/contactPhoneNumber"
-            android:inputType="phone"
-            android:hint="0795310625"
-            android:layout_marginLeft="55dp"
-            android:layout_marginRight="55dp"
-            android:layout_marginTop="12dp"
-            android:textSize="18sp"
-            android:padding="8dp"
-            android:textColor="@color/black"
-            android:textAppearance="@color/black"
-            android:background="@drawable/edittext_bg2"
-            android:visibility="gone"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Email Address"
-            android:textStyle="normal"
-            android:textColor="@color/black"
-            android:layout_marginLeft="55dp"
-            android:textSize="18sp"
-            android:visibility="gone"/>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:id="@+id/contactEmail"
-            android:inputType="textEmailAddress"
-            android:layout_marginLeft="55dp"
-            android:hint="kiptoo@gmail.com"
-            android:layout_marginTop="12dp"
-            android:layout_marginRight="55dp"
-            android:textSize="18sp"
-            android:padding="8dp"
-            android:textColor="@color/black"
-            android:textAppearance="@color/black"
-            android:background="@drawable/edittext_bg2"
-            android:visibility="gone"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Message"
-            android:textStyle="normal"
-            android:textColor="@color/black"
-            android:layout_marginLeft="55dp"
-            android:textSize="18sp"
-            android:visibility="gone"/>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:id="@+id/contactMessage"
-            android:inputType="text"
-            android:hint="write here........"
-            android:textColorHint="@color/black"
-            android:layout_marginLeft="55dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginRight="55dp"
-            android:textSize="18sp"
-            android:padding="8dp"
-            android:textColor="@color/black"
-            android:textAppearance="@color/black"
-            android:background="@drawable/edittext_bg2"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="SEND"
-            android:layout_marginLeft="55dp"
-            android:layout_marginTop="12dp"
-            android:id="@+id/contactSendMessage"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:text="CONTACT DETAILS"
             android:textColor="@color/red2"
             android:layout_marginLeft="105dp"
@@ -280,6 +155,135 @@
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background2"
+            android:text="@string/contact_us22"
+            android:textSize="24sp"
+            android:textColor="@color/black"
+            android:textAlignment="center"
+            android:paddingEnd="25dp"
+            android:paddingStart="25dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginStart="25dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SEND US A MESSAGE"
+            android:layout_marginLeft="105dp"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/red2"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Full Name"
+            android:textStyle="normal"
+            android:textColor="@color/black"
+            android:layout_marginLeft="55dp"
+            android:textSize="18sp"
+            android:visibility="gone"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:id="@+id/contactFullName"
+            android:inputType="textPersonName"
+            android:layout_marginLeft="55dp"
+            android:layout_marginRight="55dp"
+            android:layout_marginTop="12dp"
+            android:textSize="18sp"
+            android:hint="Full Name"
+            android:padding="8dp"
+            android:textColor="@color/black"
+            android:textAppearance="@color/black"
+            android:background="@drawable/edittext_bg2"
+            android:visibility="gone"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Phone Number"
+            android:textStyle="normal"
+            android:textColor="@color/black"
+            android:layout_marginLeft="55dp"
+            android:textSize="18sp"
+            android:visibility="gone"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:id="@+id/contactPhoneNumber"
+            android:inputType="phone"
+            android:hint="0795310625"
+            android:layout_marginLeft="55dp"
+            android:layout_marginRight="55dp"
+            android:layout_marginTop="12dp"
+            android:textSize="18sp"
+            android:padding="8dp"
+            android:textColor="@color/black"
+            android:textAppearance="@color/black"
+            android:background="@drawable/edittext_bg2"
+            android:visibility="gone"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Email Address"
+            android:textStyle="normal"
+            android:textColor="@color/black"
+            android:layout_marginLeft="55dp"
+            android:textSize="18sp"
+            android:visibility="gone"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:id="@+id/contactEmail"
+            android:inputType="textEmailAddress"
+            android:layout_marginLeft="55dp"
+            android:hint="kiptoo@gmail.com"
+            android:layout_marginTop="12dp"
+            android:layout_marginRight="55dp"
+            android:textSize="18sp"
+            android:padding="8dp"
+            android:textColor="@color/black"
+            android:textAppearance="@color/black"
+            android:background="@drawable/edittext_bg2"
+            android:visibility="gone"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Message"
+            android:textStyle="normal"
+            android:textColor="@color/black"
+            android:layout_marginLeft="55dp"
+            android:textSize="18sp"
+            android:visibility="gone"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:id="@+id/contactMessage"
+            android:inputType="text"
+            android:hint="write here........"
+            android:textColorHint="@color/black"
+            android:layout_marginLeft="55dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginRight="55dp"
+            android:textSize="18sp"
+            android:padding="8dp"
+            android:textColor="@color/black"
+            android:textAppearance="@color/black"
+            android:background="@drawable/edittext_bg2"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SEND"
+            android:layout_marginLeft="55dp"
+            android:layout_marginTop="12dp"
+            android:id="@+id/contactSendMessage"/>
+
+
+
 
     </LinearLayout>
 

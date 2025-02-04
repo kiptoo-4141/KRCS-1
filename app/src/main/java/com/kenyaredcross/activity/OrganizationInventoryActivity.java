@@ -1,5 +1,6 @@
 package com.kenyaredcross.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -43,7 +44,7 @@ public class OrganizationInventoryActivity extends AppCompatActivity {
     Spinner itemCategorySpinner, itemNameSpinner;
     Button btnRequest, btnDelete;
     EditText requestCount;
-    TextView itemAmount;
+    TextView itemAmount, requesteditem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +55,15 @@ public class OrganizationInventoryActivity extends AppCompatActivity {
         inventoryRef = FirebaseDatabase.getInstance().getReference("OrganisationInventory");
         supplierInventoryRef = FirebaseDatabase.getInstance().getReference("SupplierInventory");
         supplyRequestRef = FirebaseDatabase.getInstance().getReference("SupplyRequest");
+
+        requesteditem =findViewById(R.id.requested_item);
+        requesteditem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(OrganizationInventoryActivity.this, RequestedItemsActivity.class);
+                startActivity(intent);
+            }
+        });
 
         // Initialize UI components
         recyclerView = findViewById(R.id.organizationInventoryView);
