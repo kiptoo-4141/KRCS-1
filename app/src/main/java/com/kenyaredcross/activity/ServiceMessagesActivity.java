@@ -30,7 +30,7 @@ public class ServiceMessagesActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private MessageAdapter adapter;
-    private List<ContactUsMessage> messagesList = new ArrayList<>();
+    private final List<ContactUsMessage> messagesList = new ArrayList<>();
     private DatabaseReference databaseReference;
     private EditText replyEditText;
     private Button sendReplyButton;
