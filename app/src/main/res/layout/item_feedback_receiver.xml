@@ -1,0 +1,10 @@
+<TextView android:id="@+id/feedbackText"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/text_bg"
+    android:text="Received message"
+    android:textSize="14sp"
+    android:padding="10dp"
+    android:textColor="@android:color/black"
+    android:layout_gravity="start"
+    xmlns:android="http://schemas.android.com/apk/res/android" />

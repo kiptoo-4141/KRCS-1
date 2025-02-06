@@ -1,13 +1,10 @@
 package com.kenyaredcross.adapters;
 
-
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kenyaredcross.R;
@@ -15,31 +12,30 @@ import com.kenyaredcross.domain_model.Feedback;
 
 import java.util.List;
 
-public class FeedbackAdapter extends RecyclerView.Adapter<FeedbackAdapter.ViewHolder> {
-    private final List<Feedback> feedbackList;
-    private final String currentUserEmail;
+public class FeedbackAdapter extends RecyclerView.Adapter<FeedbackAdapter.FeedbackViewHolder> {
+
+    private List<Feedback> feedbackList;
+    private String currentUserEmail;
 
     public FeedbackAdapter(List<Feedback> feedbackList, String currentUserEmail) {
         this.feedbackList = feedbackList;
         this.currentUserEmail = currentUserEmail;
     }
 
-    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_feedback2, parent, false);
-        return new ViewHolder(view);
+    public FeedbackViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_feedback2, parent, false);
+        return new FeedbackViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(FeedbackViewHolder holder, int position) {
         Feedback feedback = feedbackList.get(position);
-        holder.feedbackText.setText(feedback.getFeedback());
-        holder.senderText.setText(feedback.getEmail());
-        holder.dateText.setText(feedback.getDateSent());
 
-        if (feedback.getEmail().equals(currentUserEmail)) {
-            holder.feedbackText.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
+        // Make sure the TextView is properly initialized
+        if (holder.feedbackTextView != null) {
+            holder.feedbackTextView.setText(feedback.getMessage());
         }
     }
 
@@ -48,14 +44,13 @@ public class FeedbackAdapter extends RecyclerView.Adapter<FeedbackAdapter.ViewHo
         return feedbackList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView feedbackText, senderText, dateText;
+    public static class FeedbackViewHolder extends RecyclerView.ViewHolder {
 
-        public ViewHolder(@NonNull View itemView) {
+        TextView feedbackTextView;
+
+        public FeedbackViewHolder(View itemView) {
             super(itemView);
-            feedbackText = itemView.findViewById(R.id.feedbackText);
-            senderText = itemView.findViewById(R.id.senderText);
-            dateText = itemView.findViewById(R.id.dateText);
+            feedbackTextView = itemView.findViewById(R.id.feedbackText);  // Ensure this ID matches the XML
         }
     }
 }
