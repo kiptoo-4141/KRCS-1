@@ -29,7 +29,7 @@ public class Supplier extends AppCompatActivity implements NavigationView.OnNavi
     FirebaseAuth auth;
     FirebaseUser user;
 
-    CardView inventoryCard, requests, supplyPayment, reports;
+    CardView inventoryCard, requests, supplyPayment, reports,feeds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +47,15 @@ public class Supplier extends AppCompatActivity implements NavigationView.OnNavi
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Supplier.this, SupplyReportsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        feeds = findViewById(R.id.feedss);
+        feeds.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Supplier.this, FeedbacksActivity.class);
                 startActivity(intent);
             }
         });

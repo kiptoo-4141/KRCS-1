@@ -50,7 +50,7 @@ public class CoursesActivity extends AppCompatActivity {
         feedback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(CoursesActivity.this, FeedbackActivity.class);
+                Intent intent = new Intent(CoursesActivity.this, FeedbacksActivity.class);
                 intent.putExtra("activityName", "CoursesActivity"); // Add this line to pass the activity name
                 startActivity(intent);
             }

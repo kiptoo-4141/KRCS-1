@@ -66,7 +66,7 @@ public class FinanceManager extends AppCompatActivity implements NavigationView.
         feed_backs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(FinanceManager.this, ViewFeedbacksActivity.class);
+                Intent intent = new Intent(FinanceManager.this, FeedbacksActivity.class);
                 startActivity(intent);
             }
         });

@@ -53,7 +53,7 @@ public class EventsActivity extends AppCompatActivity {
 
         TextView feedback = findViewById(R.id.feedbackLink);
         feedback.setOnClickListener(view -> {
-            Intent intent = new Intent(EventsActivity.this, FeedbackActivity.class);
+            Intent intent = new Intent(EventsActivity.this, FeedbacksActivity.class);
             startActivity(intent);
             finish();
         });

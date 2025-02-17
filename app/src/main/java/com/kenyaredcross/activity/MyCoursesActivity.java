@@ -79,7 +79,7 @@ public class MyCoursesActivity extends AppCompatActivity {
 
         feedback = findViewById(R.id.feedbackLink);
         feedback.setOnClickListener(view -> {
-            Intent intent = new Intent(MyCoursesActivity.this, FeedbackActivity.class);
+            Intent intent = new Intent(MyCoursesActivity.this, FeedbacksActivity.class);
             intent.putExtra("activityName", "MyCoursesActivity");
             startActivity(intent);
             finish();
