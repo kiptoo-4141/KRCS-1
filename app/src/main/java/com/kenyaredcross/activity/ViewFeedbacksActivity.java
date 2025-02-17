@@ -21,8 +21,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.kenyaredcross.R;
-import com.kenyaredcross.adapters.FeedbackAdapter;
-import com.kenyaredcross.domain_model.Feedback;
 import com.kenyaredcross.domain_model.User;
 
 import java.util.ArrayList;
