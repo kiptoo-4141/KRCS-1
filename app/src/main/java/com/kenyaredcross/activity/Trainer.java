@@ -49,8 +49,8 @@ public class Trainer extends AppCompatActivity implements NavigationView.OnNavig
         myclass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Trainer.this, MyClassesActivity.class);
-                startActivity(intent);
+              Intent intent = new Intent(Trainer.this, MyClassesActivity.class);
+              startActivity(intent);
             }
         });
 

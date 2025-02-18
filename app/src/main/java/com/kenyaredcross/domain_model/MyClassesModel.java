@@ -1,29 +1,34 @@
 package com.kenyaredcross.domain_model;
 
 public class MyClassesModel {
-    private String courseId, title, description, duration, certificationStatus, image, email, username, status;
+    private String certificationStatus, description, duration, email, image, status, title, username;
 
-    public MyClassesModel() { }
-
-    public MyClassesModel(String courseId, String title, String description, String duration, String certificationStatus, String image, String email, String username, String status) {
-        this.courseId = courseId;
-        this.title = title;
-        this.description = description;
-        this.duration = duration;
-        this.certificationStatus = certificationStatus;
-        this.image = image;
-        this.email = email;
-        this.username = username;
-        this.status = status;
+    public MyClassesModel() {
+        // Default constructor required for Firebase
     }
 
-    public String getCourseId() { return courseId; }
-    public String getTitle() { return title; }
+    public MyClassesModel(String certificationStatus, String description, String duration, String email,
+                          String image, String status, String title, String username) {
+        this.certificationStatus = certificationStatus;
+        this.description = description;
+        this.duration = duration;
+        this.email = email;
+        this.image = image;
+        this.status = status;
+        this.title = title;
+        this.username = username;
+    }
+
+    public String getCertificationStatus() { return certificationStatus; }
     public String getDescription() { return description; }
     public String getDuration() { return duration; }
-    public String getCertificationStatus() { return certificationStatus; }
-    public String getImage() { return image; }
     public String getEmail() { return email; }
-    public String getUsername() { return username; }
+    public String getImage() { return image; }
     public String getStatus() { return status; }
+    public String getTitle() { return title; }
+    public String getUsername() { return username; }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

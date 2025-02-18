@@ -8,68 +8,98 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import java.util.List;
+import com.google.firebase.database.ValueEventListener;
 import com.kenyaredcross.R;
 import com.kenyaredcross.domain_model.MyClassesModel;
 
+import java.util.List;
+
 public class MyClassesAdapter extends RecyclerView.Adapter<MyClassesAdapter.ViewHolder> {
     private final Context context;
-    private final List<MyClassesModel> classList;
+    private final List<MyClassesModel> requestList;
 
-    public MyClassesAdapter(Context context, List<MyClassesModel> classList) {
+    public MyClassesAdapter(Context context, List<MyClassesModel> requestList) {
         this.context = context;
-        this.classList = classList;
+        this.requestList = requestList;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_my_class, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_request2, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        MyClassesModel model = classList.get(position);
-        holder.title.setText(model.getTitle());
-        holder.description.setText(model.getDescription());
-        holder.duration.setText("Duration: " + model.getDuration());
-        holder.username.setText("Enrolled by: " + model.getUsername());
-        Glide.with(context).load(model.getImage()).into(holder.image);
+        MyClassesModel request = requestList.get(position);
+        holder.title.setText(request.getTitle());
+        holder.username.setText("User: " + request.getUsername());
+        holder.email.setText("Email: " + request.getEmail());
+        holder.description.setText(request.getDescription());
+        holder.duration.setText("Duration: " + request.getDuration());
+        holder.status.setText("Status: " + request.getStatus());
 
-        holder.passButton.setOnClickListener(v -> updateStatus( "passed"));
-        holder.failButton.setOnClickListener(v -> updateStatus( "failed"));
+        Glide.with(context).load(request.getImage()).into(holder.imageView);
+
+        DatabaseReference userEnrollmentsRef = FirebaseDatabase.getInstance()
+                .getReference("Enrollments")
+                .child(request.getEmail().replace(".", "_"));
+
+        holder.btnApprove.setOnClickListener(v -> updateAllCoursesStatus(userEnrollmentsRef, request, "passed"));
+        holder.btnReject.setOnClickListener(v -> updateAllCoursesStatus(userEnrollmentsRef, request, "failed"));
     }
 
-    private void updateStatus( String newStatus) {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Enrollments");
-        ref.child("status").setValue(newStatus).addOnSuccessListener(aVoid ->
-                Toast.makeText(context, "Updated to " + newStatus, Toast.LENGTH_SHORT).show()
-        );
+    private void updateAllCoursesStatus(DatabaseReference userEnrollmentsRef, MyClassesModel request, String newStatus) {
+        userEnrollmentsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot courseSnapshot : snapshot.getChildren()) {
+                    DatabaseReference courseStatusRef = courseSnapshot.getRef().child("status");
+                    courseStatusRef.setValue(newStatus);
+                }
+                request.setStatus(newStatus);
+                notifyDataSetChanged();
+                Toast.makeText(context, "courses updated to " + newStatus, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(context, "Failed to update courses", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
-    public int getItemCount() { return classList.size(); }
+    public int getItemCount() {
+        return requestList.size();
+    }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView title, description, duration, username;
-        ImageView image;
-        Button passButton, failButton;
+        TextView title, username, email, description, duration, status;
+        ImageView imageView;
+        Button btnApprove, btnReject;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            title = itemView.findViewById(R.id.class_title);
-            description = itemView.findViewById(R.id.class_description);
-            duration = itemView.findViewById(R.id.class_duration);
-            username = itemView.findViewById(R.id.class_username);
-            image = itemView.findViewById(R.id.class_image);
-            passButton = itemView.findViewById(R.id.pass_button);
-            failButton = itemView.findViewById(R.id.fail_button);
+            title = itemView.findViewById(R.id.tvTitle);
+            username = itemView.findViewById(R.id.tvUsername);
+            email = itemView.findViewById(R.id.tvEmail);
+            description = itemView.findViewById(R.id.tvDescription);
+            duration = itemView.findViewById(R.id.tvDuration);
+            status = itemView.findViewById(R.id.tvStatus);
+            imageView = itemView.findViewById(R.id.ivCourseImage);
+            btnApprove = itemView.findViewById(R.id.btnApprove);
+            btnReject = itemView.findViewById(R.id.btnReject);
         }
     }
 }

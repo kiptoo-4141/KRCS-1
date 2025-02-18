@@ -1,22 +1,29 @@
 package com.kenyaredcross.activity;
 
 import android.os.Bundle;
-import android.util.Log;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.google.firebase.database.*;
-import java.util.ArrayList;
-import java.util.List;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.kenyaredcross.R;
 import com.kenyaredcross.adapters.MyClassesAdapter;
 import com.kenyaredcross.domain_model.MyClassesModel;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MyClassesActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private MyClassesAdapter adapter;
-    private List<MyClassesModel> classList;
+    private List<MyClassesModel> requestList;
     private DatabaseReference databaseReference;
 
     @Override
@@ -26,24 +33,22 @@ public class MyClassesActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        classList = new ArrayList<>();
-        adapter = new MyClassesAdapter(this, classList);
+
+        requestList = new ArrayList<>();
+        adapter = new MyClassesAdapter(this, requestList);
         recyclerView.setAdapter(adapter);
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Enrollments");
-        fetchClasses();
-    }
 
-    private void fetchClasses() {
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                classList.clear();
+                requestList.clear(); // Ensure no duplicate data
                 for (DataSnapshot userSnapshot : snapshot.getChildren()) {
                     for (DataSnapshot courseSnapshot : userSnapshot.getChildren()) {
-                        MyClassesModel model = courseSnapshot.getValue(MyClassesModel.class);
-                        if (model != null && "approved".equals(model.getStatus())) {
-                            classList.add(model);
+                        MyClassesModel request = courseSnapshot.getValue(MyClassesModel.class);
+                        if (request != null) {
+                            requestList.add(request);
                         }
                     }
                 }
@@ -52,7 +57,7 @@ public class MyClassesActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.e("FirebaseError", error.getMessage());
+                Toast.makeText(MyClassesActivity.this, "Failed to load data", Toast.LENGTH_SHORT).show();
             }
         });
     }

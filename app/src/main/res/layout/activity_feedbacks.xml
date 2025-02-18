@@ -11,8 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:drawable/editbox_background"
-        android:padding="8dp"
-        android:hint="Select Recipient" />
+        android:padding="8dp" />
 
     <EditText
         android:id="@+id/messageInput"
@@ -32,7 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Send Feedback"
-        android:backgroundTint="@color/white"
+        android:backgroundTint="@color/red"
         android:textColor="@android:color/white"
         android:layout_marginTop="10dp" />
 
