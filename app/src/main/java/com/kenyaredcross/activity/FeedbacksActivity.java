@@ -29,9 +29,9 @@ public class FeedbacksActivity extends AppCompatActivity {
     private Spinner userSpinner;
     private Button sendFeedbackButton;
     private DatabaseReference feedbackRef, usersRef;
-    private List<String> userList = new ArrayList<>();
-    private String senderId = "currentUserEmail"; // Replace with actual sender
-    private String currentUserRole = "Youth"; // Replace with actual user role
+    private final List<String> userList = new ArrayList<>();
+    private final String senderId = "currentUserEmail"; // Replace with actual sender
+    private final String currentUserRole = "Youth"; // Replace with actual user role
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

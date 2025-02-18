@@ -24,7 +24,7 @@ public class ServiceManager extends AppCompatActivity implements NavigationView.
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
 
-    CardView courses, enrollmentrqst,feedback;
+    CardView courses, enrollmentrqst,feedback,completedcourses;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +50,15 @@ public class ServiceManager extends AppCompatActivity implements NavigationView.
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(ServiceManager.this, RequestsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        completedcourses = findViewById(R.id.completedcoursescard);
+        completedcourses.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ServiceManager.this, CompletedCoursesActivity.class);
                 startActivity(intent);
             }
         });
