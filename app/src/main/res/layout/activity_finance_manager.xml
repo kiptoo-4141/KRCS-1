@@ -26,9 +26,9 @@
             android:layout_height="wrap_content"
             android:background="@color/red"
             android:elevation="8dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="25dp"
             app:title="Finance Manager Dashboard"
-            app:titleTextColor="@color/black"
+            app:titleTextColor="@color/white"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 

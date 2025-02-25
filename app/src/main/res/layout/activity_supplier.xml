@@ -9,7 +9,7 @@
     tools:context=".activity.Supplier"
     android:fitsSystemWindows="true"
     android:background="@color/white"
-    android:backgroundTint="#0F2153"
+    android:backgroundTint="@color/white"
     tools:openDrawer="">
 
     <!-- Main content layout -->
@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:background="@color/red"
             android:elevation="8dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="25dp"
             app:title="Supplier Dashboard"
             app:titleTextColor="@color/white"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
@@ -195,12 +195,12 @@
                     <ImageView
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:src="@drawable/baseline_inventory_2_24" />
+                        android:src="@drawable/baseline_add_reaction_24" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Inventory"
+                        android:text="Feedback"
                         android:textSize="18sp"
                         android:textColor="@color/black"
                         android:textStyle="bold" />

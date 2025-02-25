@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/txtItemName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Item Name"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txtCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Category"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/txtStock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Stock"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/txtUnitPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Unit Price"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/btnEditStock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit Stock" />
+
+    <Button
+        android:id="@+id/btnEditPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit Unit Price" />
+</LinearLayout>

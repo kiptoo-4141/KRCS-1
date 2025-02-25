@@ -23,7 +23,7 @@ public class Volunteer extends AppCompatActivity implements NavigationView.OnNav
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
 
-    CardView group, courses, profile;
+    CardView group, courses, profile, myCourses;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +36,14 @@ public class Volunteer extends AppCompatActivity implements NavigationView.OnNav
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+        myCourses = findViewById(R.id.volunteermycourses);
+        myCourses.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Volunteer.this, MyCoursesActivity.class);
+                startActivity(intent);
+            }
         });
 
         profile = findViewById(R.id.profileCard);

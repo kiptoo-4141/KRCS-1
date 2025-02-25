@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@color/white">
 
     <!-- Company Logo -->
     <ImageView
@@ -16,20 +17,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- Course Title -->
+    <!-- Certificate Title -->
     <TextView
         android:id="@+id/certificateTitle2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Certificate of Completion"
-        android:textSize="20sp"
+        android:textSize="22sp"
         android:textStyle="bold"
+        android:textColor="@android:color/black"
         android:gravity="center"
         app:layout_constraintTop_toBottomOf="@id/companyLogo2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- Student Name -->
+    <!-- Awarded To -->
     <TextView
         android:id="@+id/certificateName2"
         android:layout_width="wrap_content"
@@ -37,9 +39,12 @@
         android:text="Awarded to: John Doe"
         android:textSize="18sp"
         android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:gravity="center"
         app:layout_constraintTop_toBottomOf="@id/certificateTitle2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp"/>
 
     <!-- Course Description -->
     <TextView
@@ -48,20 +53,62 @@
         android:layout_height="wrap_content"
         android:text="For successfully completing Basic First Aid"
         android:textSize="16sp"
+        android:textColor="@android:color/black"
         app:layout_constraintTop_toBottomOf="@id/certificateName2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"/>
 
-    <!-- Duration -->
+    <!-- Course Duration -->
     <TextView
         android:id="@+id/certificateDuration2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Duration: 4 hours"
         android:textSize="14sp"
+        android:textColor="@android:color/black"
         app:layout_constraintTop_toBottomOf="@id/certificateDescription2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"/>
+
+    <!-- Date of Completion -->
+    <TextView
+        android:id="@+id/certificateDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Date: 12th February 2025"
+        android:textSize="14sp"
+        android:textColor="@android:color/black"
+        app:layout_constraintTop_toBottomOf="@id/certificateDuration2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"/>
+
+    <!-- Trainer Name -->
+    <TextView
+        android:id="@+id/certificateTrainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Trainer: Jane Smith"
+        android:textSize="14sp"
+        android:textColor="@android:color/black"
+        app:layout_constraintTop_toBottomOf="@id/certificateDate"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"/>
+
+    <!-- Signature -->
+    <ImageView
+        android:id="@+id/certificateSignature"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:src="@drawable/signature"
+        android:contentDescription="Trainer Signature"
+        app:layout_constraintTop_toBottomOf="@id/certificateTrainer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp"/>
 
     <!-- Download Button -->
     <Button
@@ -69,8 +116,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Download Certificate"
-        app:layout_constraintTop_toBottomOf="@id/certificateDuration2"
+        android:padding="8dp"
+        app:layout_constraintTop_toBottomOf="@id/certificateSignature"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

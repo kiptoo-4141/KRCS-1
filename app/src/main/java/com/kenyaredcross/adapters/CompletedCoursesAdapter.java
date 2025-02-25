@@ -36,7 +36,7 @@ public class CompletedCoursesAdapter extends RecyclerView.Adapter<CompletedCours
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_request, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_completed_courses, parent, false);
         return new ViewHolder(view);
     }
 
@@ -56,7 +56,7 @@ public class CompletedCoursesAdapter extends RecyclerView.Adapter<CompletedCours
                 .getReference("Enrollments")
                 .child(request.getEmail().replace(".", "_"));
 
-        holder.btnApprove.setOnClickListener(v -> updateAllCoursesStatus(userEnrollmentsRef, request, "approved"));
+        holder.btnApprove.setOnClickListener(v -> updateAllCoursesStatus(userEnrollmentsRef, request, "completed"));
         holder.btnReject.setOnClickListener(v -> updateAllCoursesStatus(userEnrollmentsRef, request, "rejected"));
     }
 

@@ -1,6 +1,9 @@
 package com.kenyaredcross.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -9,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.kenyaredcross.R;
@@ -19,6 +23,7 @@ import com.kenyaredcross.domain_model.SupplierInventoryModel;
 public class SupplierInventoryActivity extends AppCompatActivity {
 
     RecyclerView inventoryRecyclerView;
+    FloatingActionButton fabAddItem;
     SupplierInventoryAdapter adapter;
     DatabaseReference databaseReference;
 
@@ -32,6 +37,15 @@ public class SupplierInventoryActivity extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+
+        fabAddItem = findViewById(R.id.fabAddItem);
+        fabAddItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SupplierInventoryActivity.this, MyInventoryActivity.class);
+                startActivity(intent);
+            }
         });
 
         // Initialize RecyclerView
