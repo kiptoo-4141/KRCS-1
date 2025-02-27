@@ -56,7 +56,7 @@ public class Youth extends AppCompatActivity implements NavigationView.OnNavigat
         cert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Youth.this, MyCompletedCoursesActivity.class);
+                Intent intent = new Intent(Youth.this, CertActivity.class);
                 startActivity(intent);
             }
         });

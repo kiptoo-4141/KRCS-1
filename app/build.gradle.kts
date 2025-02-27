@@ -57,6 +57,9 @@ dependencies {
     implementation(libs.dialogplus)
     implementation("com.google.android.gms:play-services-appset:16.0.0")
 
+    implementation ("com.squareup.picasso:picasso:2.8")
+
+
     implementation(libs.firebase.database)
     implementation(libs.firebase.auth)
     implementation(libs.firebase.firestore)
