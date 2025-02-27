@@ -25,7 +25,7 @@ public class Youth extends AppCompatActivity implements NavigationView.OnNavigat
 
     private DrawerLayout drawerLayout;
 
-    CardView courses, youthDonationCard, myCourses, volunteeringCard,events, messaging, receipt;
+    CardView courses, youthDonationCard, myCourses, volunteeringCard,events, messaging, receipt, cert;
 
     Toolbar toolbar;
 
@@ -52,6 +52,14 @@ public class Youth extends AppCompatActivity implements NavigationView.OnNavigat
             return insets;
         });
 
+        cert = findViewById(R.id.youthCertificationCard);
+        cert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Youth.this, MyCompletedCoursesActivity.class);
+                startActivity(intent);
+            }
+        });
 
         messaging = findViewById(R.id.youthMessagingCard);
         messaging.setOnClickListener(new View.OnClickListener() {
@@ -81,11 +89,11 @@ public class Youth extends AppCompatActivity implements NavigationView.OnNavigat
         });
 
         // Initialize CardViews
-        volunteeringCard = findViewById(R.id.youthVolunteeringCard);
-        volunteeringCard.setOnClickListener(v -> {
-            Intent intent = new Intent(Youth.this, VolunteeringActivity.class);
-            startActivity(intent);
-        });
+//        volunteeringCard = findViewById(R.id.youthVolunteeringCard);
+//        volunteeringCard.setOnClickListener(v -> {
+//            Intent intent = new Intent(Youth.this, VolunteeringActivity.class);
+//            startActivity(intent);
+//        });
 
         myCourses = findViewById(R.id.mycourses);
         myCourses.setOnClickListener(v -> {
