@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/etPhone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Phone Number"
+        android:inputType="phone" />
+
+    <EditText
+        android:id="@+id/etTown"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Town" />
+
+    <EditText
+        android:id="@+id/etIdNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="ID Number"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/etDob"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Date of Birth (DD/MM/YYYY)"
+        android:focusable="false"
+        android:clickable="true" />
+
+    <Button
+        android:id="@+id/btnSaveProfile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save Profile"
+        android:backgroundTint="#D32F2F"
+        android:textColor="#FFFFFF"
+        android:padding="8dp"/>
+</LinearLayout>
