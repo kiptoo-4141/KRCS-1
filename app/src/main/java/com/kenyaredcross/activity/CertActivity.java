@@ -81,9 +81,12 @@ public class CertActivity extends AppCompatActivity {
                     String certificationStatus = courseSnapshot.child("certificationStatus").getValue(String.class);
                     String imageUrl = courseSnapshot.child("image").getValue(String.class);
                     String status = courseSnapshot.child("status").getValue(String.class);
+                    String description = courseSnapshot.child("description").getValue(String.class);
+                    String email = courseSnapshot.child("email").getValue(String.class);
+                    String username = courseSnapshot.child("username").getValue(String.class);
 
                     if ("completed".equals(status)) {
-                        addCertificateView(title, duration, certificationStatus, imageUrl);
+                        addCertificateView(title, duration, certificationStatus, imageUrl, description, email, username);
                     }
                 }
             }
@@ -95,19 +98,26 @@ public class CertActivity extends AppCompatActivity {
         });
     }
 
-    private void addCertificateView(String title, String duration, String certificationStatus, String imageUrl) {
+    private void addCertificateView(String title, String duration, String certificationStatus, String imageUrl,String description, String email, String username) {
         View certView = getLayoutInflater().inflate(R.layout.cert_item, certContainer, false);
 
         TextView certTitle = certView.findViewById(R.id.certTitle);
         TextView certDuration = certView.findViewById(R.id.certDuration);
         TextView certStatus = certView.findViewById(R.id.certStatus);
-        ImageView certImage = certView.findViewById(R.id.certImage);
+        TextView certDescription = certView.findViewById(R.id.certDescription);
+        TextView username2 = certView.findViewById(R.id.username1);
+        TextView email2 = certView.findViewById(R.id.email);
+
+
 
         certTitle.setText("Course: " + title);
         certDuration.setText("Duration: " + duration);
-        certStatus.setText("Certification: " + certificationStatus);
+//        certStatus.setText("Certification: " + certificationStatus);
+        email2.setText(email);
+        username2.setText(username);
+        certDescription.setText(description);
 
-        Picasso.get().load(imageUrl).into(certImage);
+
         certContainer.addView(certView);
     }
 

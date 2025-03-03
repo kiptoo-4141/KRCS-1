@@ -1,0 +1,40 @@
+<svg xmlns:tools="http://schemas.android.com/tools"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400">
+    <!-- White background -->
+    <rect width="600" height="400" fill="#FFFFFF"/>
+
+    <!-- Red sidebar on left -->
+    <rect x="0" y="0" width="150" height="400" fill="#CE1E2C"/>
+
+    <!-- Curved red accent shape -->
+    <path d="M150,0 Q300,150 550,50 L600,0 L150,0 Z" fill="#CE1E2C"/>
+
+    <!-- Pink curved shape and gradient -->
+    <path d="M500,180 Q550,220 550,280 T500,380 Q450,400 400,380 T300,350 Q250,380 200,350 T150,300 Q130,270 150,240 T200,190 Q250,170 300,190 T400,200 Q450,180 500,180 Z" fill="#FF899D" opacity="0.7"/>
+
+    <!-- Certificate title -->
+<!--    <text x="180" y="60" font-family="Arial" font-size="24" font-weight="bold" fill="#CE1E2C">CERTIFICATE</text>-->
+<!--    <text x="180" y="85" font-family="Arial" font-size="16" fill="#CE1E2C">OF ACHIEVEMENT</text>-->
+
+    <!-- Award line -->
+<!--    <text x="180" y="130" font-family="Arial" font-size="12" fill="#555555">PROUDLY PRESENTED TO</text>-->
+
+    <!-- Name placeholder -->
+<!--    <text x="180" y="170" font-family="Arial" font-size="24" font-style="italic" fill="#333333">Name Surname</text>-->
+
+    <!-- Horizontal line -->
+    <line x1="180" y1="190" x2="500" y2="190" stroke="#CCCCCC" stroke-width="1"/>
+
+    <!-- Award medal circle -->
+    <circle cx="530" cy="100" r="35" fill="#CE1E2C"/>
+    <circle cx="530" cy="100" r="28" fill="#FFD700"/>
+    <path d="M530,85 L535,95 L545,97 L537,105 L540,115 L530,110 L520,115 L523,105 L515,97 L525,95 Z" fill="#CE1E2C"/>
+
+    <!-- Signature line -->
+    <line x1="200" y1="300" x2="300" y2="300" stroke="#333333" stroke-width="1"/>
+<!--    <text x="230" y="320" font-family="Arial" font-size="12" fill="#555555">SIGNATURE</text>-->
+
+    <!-- Date line -->
+    <line x1="400" y1="300" x2="500" y2="300" stroke="#333333" stroke-width="1"/>
+<!--    <text x="435" y="320" font-family="Arial" font-size="12" fill="#555555">DATE</text>-->
+</svg>

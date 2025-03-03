@@ -8,28 +8,63 @@
     android:elevation="4dp">
 
     <ImageView
-        android:id="@+id/certImage"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:scaleType="centerCrop"/>
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/logo3"
+        android:id="@+id/logo"
+        android:layout_gravity="center"/>
+
+    <TextView
+        android:id="@+id/username1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAllCaps="true"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:layout_gravity="center"
+        android:textSize="18sp"
+        android:paddingTop="8dp"/>
+    <TextView
+        android:id="@+id/email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:paddingTop="8dp"/>
 
     <TextView
         android:id="@+id/certTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textStyle="bold"
+        android:layout_gravity="center"
+        android:textColor="@color/black"
         android:textSize="18sp"
         android:paddingTop="8dp"/>
 
     <TextView
+        android:id="@+id/certDescription"
+        android:layout_width="wrap_content"
+        android:textColor="@color/black"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textSize="14sp"/>
+
+    <TextView
         android:id="@+id/certDuration"
         android:layout_width="wrap_content"
+        android:textColor="@color/black"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:textSize="14sp"/>
 
     <TextView
         android:id="@+id/certStatus"
         android:layout_width="wrap_content"
+        android:textColor="@color/black"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:textSize="14sp"/>
 </LinearLayout>
