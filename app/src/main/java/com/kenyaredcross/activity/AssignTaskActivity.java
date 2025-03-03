@@ -71,19 +71,29 @@ public class AssignTaskActivity extends AppCompatActivity {
     }
 
     private void setupDatePickers() {
+        Calendar calendar = Calendar.getInstance();
+
         startDate.setOnClickListener(v -> showDatePickerDialog((datePicker, year, month, day) -> {
             startDate.setText(String.format("%d-%02d-%02d", year, month + 1, day));
-        }));
+        }, true)); // Restrict past dates
 
         endDate.setOnClickListener(v -> showDatePickerDialog((datePicker, year, month, day) -> {
             endDate.setText(String.format("%d-%02d-%02d", year, month + 1, day));
-        }));
+        }, false)); // No restriction
+    };
+
+    private void showDatePickerDialog(DatePickerDialog.OnDateSetListener listener, boolean restrictPastDates) {
+        Calendar calendar = Calendar.getInstance();
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, listener,
+                calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+
+        if (restrictPastDates) {
+            datePickerDialog.getDatePicker().setMinDate(calendar.getTimeInMillis()); // Restrict past dates
+        }
+
+        datePickerDialog.show();
     }
 
-    private void showDatePickerDialog(DatePickerDialog.OnDateSetListener listener) {
-        Calendar calendar = Calendar.getInstance();
-        new DatePickerDialog(this, listener, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
-    }
 
     private void loadGroups() {
         databaseReference.addValueEventListener(new ValueEventListener() {

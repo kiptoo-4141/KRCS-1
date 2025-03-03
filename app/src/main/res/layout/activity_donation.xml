@@ -41,31 +41,21 @@
                 android:hint="Full Name"
                 android:inputType="text"
                 android:padding="12dp"
-                android:background="@drawable/edittext_bg1"/>
+                android:background="@drawable/edittext_bg1"
+                android:enabled="false"/>
 
-            <!-- Phone Number -->
             <EditText
-                android:id="@+id/userDonationPhoneNumber"
+                android:id="@+id/userDonationEmail"
                 android:layout_width="300dp"
                 android:layout_height="50dp"
                 android:layout_marginBottom="25dp"
                 android:gravity="center"
-                android:hint="ACCOUNT Number"
-                android:inputType="phone"
-                android:background="@drawable/edittext_bg1"/>
+                android:hint="Email"
+                android:inputType="textEmailAddress"
+                android:padding="12dp"
+                android:background="@drawable/edittext_bg1"
+                android:enabled="false"/>
 
-            <!-- Donation Amount -->
-            <EditText
-                android:id="@+id/userDonationAmount"
-                android:layout_width="300dp"
-                android:layout_height="50dp"
-                android:layout_marginBottom="25dp"
-                android:gravity="center"
-                android:hint="Amount"
-                android:inputType="number"
-                android:background="@drawable/edittext_bg1"/>
-
-            <!-- Payment Method Radio Buttons -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -100,6 +90,33 @@
 
 
             </RadioGroup>
+
+            <!-- Phone Number -->
+            <EditText
+                android:id="@+id/userDonationPhoneNumber"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_marginBottom="25dp"
+                android:gravity="center"
+                android:hint="Account Number"
+                android:inputType="phone"
+                android:background="@drawable/edittext_bg1"/>
+
+            <!-- Donation Amount -->
+            <EditText
+                android:id="@+id/userDonationAmount"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_marginBottom="25dp"
+                android:gravity="center"
+                android:hint="Amount"
+                android:inputType="number"
+                android:background="@drawable/edittext_bg1"/>
+
+            <!-- Payment Method Radio Buttons -->
+
+
+
 
             <!-- Donate Button -->
             <androidx.appcompat.widget.AppCompatButton

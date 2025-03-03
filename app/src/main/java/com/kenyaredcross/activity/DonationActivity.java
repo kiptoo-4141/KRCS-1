@@ -8,12 +8,16 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.kenyaredcross.R;
 
 import java.text.SimpleDateFormat;
@@ -26,10 +30,10 @@ public class DonationActivity extends AppCompatActivity {
 
     FirebaseAuth auth;
     FirebaseUser user;
-    DatabaseReference databaseReference;
+    DatabaseReference databaseReference, userReference;
 
     Button donation;
-    EditText fname, phone, amount;
+    EditText fname, phone, email, amount;
     RadioGroup paymentMethodGroup;
     RadioButton selectedPaymentMethod;
 
@@ -44,16 +48,53 @@ public class DonationActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
         databaseReference = FirebaseDatabase.getInstance().getReference();
+        userReference = FirebaseDatabase.getInstance().getReference("Users");
 
         donation = findViewById(R.id.donateBtn);
         fname = findViewById(R.id.userDonationFullName);
         phone = findViewById(R.id.userDonationPhoneNumber);
+        email = findViewById(R.id.userDonationEmail);
         amount = findViewById(R.id.userDonationAmount);
         paymentMethodGroup = findViewById(R.id.paymentMethodGroup);
+
+        // Disable editing for username and email
+        fname.setEnabled(false);
+        email.setEnabled(false);
+
+        // Retrieve logged-in user details
+        if (user != null) {
+            String userEmail = user.getEmail();
+            if (userEmail != null) {
+                String formattedEmailKey = userEmail.replace(".", "_");
+                userReference.child(formattedEmailKey).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            String username = snapshot.child("username").getValue(String.class);
+                            String userPhone = snapshot.child("phone").getValue(String.class);
+
+                            if (username != null) {
+                                fname.setText(username);
+                            }
+                            if (userPhone != null) {
+                                phone.setText(userPhone);
+                            }
+                            email.setText(userEmail);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Toast.makeText(DonationActivity.this, "Failed to load user details", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        }
 
         donation.setOnClickListener(v -> {
             String fullName = fname.getText().toString().trim();
             String phoneNumber = phone.getText().toString().trim();
+            String userEmail = email.getText().toString().trim();
             String donationAmountStr = amount.getText().toString().trim();
 
             if (TextUtils.isEmpty(fullName) || TextUtils.isEmpty(phoneNumber) || TextUtils.isEmpty(donationAmountStr)) {
@@ -91,8 +132,9 @@ public class DonationActivity extends AppCompatActivity {
             HashMap<String, Object> donationMap = new HashMap<>();
             donationMap.put("fullName", fullName);
             donationMap.put("phoneNumber", phoneNumber);
+            donationMap.put("email", userEmail);
             donationMap.put("amount", donationAmountStr);
-            donationMap.put("paymentMethod", paymentMethod);  // Add payment method
+            donationMap.put("paymentMethod", paymentMethod);
             donationMap.put("donationId", donationId);
 
             databaseReference.child("Donations").child(donationId).setValue(donationMap)
@@ -102,17 +144,16 @@ public class DonationActivity extends AppCompatActivity {
                             HashMap<String, Object> donationReportMap = new HashMap<>();
                             donationReportMap.put("fullName", fullName);
                             donationReportMap.put("phoneNumber", phoneNumber);
+                            donationReportMap.put("email", userEmail);
                             donationReportMap.put("donationId", donationId);
                             donationReportMap.put("donationTime", currentTime);
                             donationReportMap.put("status", "approved");
-                            donationReportMap.put("paymentMethod", paymentMethod);  // Add payment method
+                            donationReportMap.put("paymentMethod", paymentMethod);
 
                             databaseReference.child("DonationReports").child(donationId).setValue(donationReportMap)
                                     .addOnCompleteListener(reportTask -> {
                                         if (reportTask.isSuccessful()) {
                                             Toast.makeText(DonationActivity.this, "Donation Successful", Toast.LENGTH_SHORT).show();
-                                            fname.setText("");
-                                            phone.setText("");
                                             amount.setText("");
                                             paymentMethodGroup.clearCheck();
                                         } else {

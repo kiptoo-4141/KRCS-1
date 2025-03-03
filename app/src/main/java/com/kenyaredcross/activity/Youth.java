@@ -23,8 +23,11 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.kenyaredcross.R;
 
 public class Youth extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -83,6 +86,27 @@ public class Youth extends AppCompatActivity implements NavigationView.OnNavigat
     }
 
     private void showProfilePopup() {
+        String userId = user.getUid();
+
+        databaseReference.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    // Profile already exists, do nothing
+                } else {
+                    // Profile does not exist, show the popup
+                    showProfileDialog();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(Youth.this, "Error checking profile: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void showProfileDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.dialog_profile_update, null);
@@ -138,6 +162,7 @@ public class Youth extends AppCompatActivity implements NavigationView.OnNavigat
 
         alertDialog.show();
     }
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
