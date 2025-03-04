@@ -4,13 +4,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.kenyaredcross.R;
 import com.kenyaredcross.domain_model.FeedbacksModel;
-
 import java.util.List;
 
 public class FeedbacksAdapter extends RecyclerView.Adapter<FeedbacksAdapter.ViewHolder> {
@@ -31,7 +28,7 @@ public class FeedbacksAdapter extends RecyclerView.Adapter<FeedbacksAdapter.View
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         FeedbacksModel feedback = feedbackList.get(position);
-        holder.senderText.setText(feedback.getSenderId());
+        holder.senderText.setText("From: " + feedback.getSenderEmail());
         holder.messageText.setText(feedback.getMessage());
     }
 

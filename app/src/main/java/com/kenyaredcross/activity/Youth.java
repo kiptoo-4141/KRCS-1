@@ -164,11 +164,7 @@ public class Youth extends AppCompatActivity implements NavigationView.OnNavigat
     }
 
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        drawerLayout.closeDrawer(GravityCompat.START);
-        return true;
-    }
+
 
     // Corrected: Created Profile Class
     public static class Profile {
@@ -210,5 +206,29 @@ public class Youth extends AppCompatActivity implements NavigationView.OnNavigat
         public String getDob() {
             return dob;
         }
+    }
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        int id = menuItem.getItemId();
+
+        // Handle navigation item selections
+        if (id == R.id.nav_about_us2) {
+            Intent intent = new Intent(Youth.this, AboutUsActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_home) {
+            // Handle home menu item click if needed
+        } else if (id == R.id.nav_contact_us) {
+            Intent intent = new Intent(Youth.this, ContactUsActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_log_out) {
+            // Handle log out
+            FirebaseAuth.getInstance().signOut();
+            startActivity(new Intent(Youth.this, Login.class));
+            finish(); // Optional: finish this activity to prevent returning to it
+        }
+
+        // Close the drawer after item selection
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
     }
 }

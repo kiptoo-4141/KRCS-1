@@ -2,36 +2,33 @@ package com.kenyaredcross.activity;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.Toast;
-
+import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.*;
 import com.kenyaredcross.R;
+import com.kenyaredcross.adapters.FeedbacksAdapter;
 import com.kenyaredcross.domain_model.FeedbacksModel;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class FeedbacksActivity extends AppCompatActivity {
 
     private EditText messageInput;
     private Spinner userSpinner;
     private Button sendFeedbackButton;
+    private RecyclerView feedbackRecyclerView;
+
     private DatabaseReference feedbackRef, usersRef;
-    private final List<String> userList = new ArrayList<>();
-    private final String senderId = "currentUserEmail"; // Replace with actual sender
-    private final String currentUserRole = "Youth"; // Replace with actual user role
+    private List<String> userList = new ArrayList<>();
+    private List<FeedbacksModel> feedbackList = new ArrayList<>();
+    private FeedbacksAdapter feedbacksAdapter;
+
+    private String senderEmail = "";
+    private String selectedReceiverEmail = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,13 +38,29 @@ public class FeedbacksActivity extends AppCompatActivity {
         messageInput = findViewById(R.id.messageInput);
         userSpinner = findViewById(R.id.userSpinner);
         sendFeedbackButton = findViewById(R.id.sendFeedbackButton);
+        feedbackRecyclerView = findViewById(R.id.feedbackRecyclerView);
 
         feedbackRef = FirebaseDatabase.getInstance().getReference("Feedbacks");
         usersRef = FirebaseDatabase.getInstance().getReference("Users");
 
-        loadUsers(); // Load users dynamically
+        feedbackRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        feedbacksAdapter = new FeedbacksAdapter(feedbackList);
+        feedbackRecyclerView.setAdapter(feedbacksAdapter);
 
-        sendFeedbackButton.setOnClickListener(v -> sendFeedback());
+        getLoggedInUser();
+    }
+
+    private void getLoggedInUser() {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            senderEmail = currentUser.getEmail();
+            loadUsers();
+            setupUserSelection();
+            setupSendButton();
+        } else {
+            Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show();
+            finish(); // Close activity if no user is logged in
+        }
     }
 
     private void loadUsers() {
@@ -55,18 +68,10 @@ public class FeedbacksActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 userList.clear();
-
                 for (DataSnapshot userSnap : snapshot.getChildren()) {
-                    String username = userSnap.child("username").getValue(String.class);
-                    String role = userSnap.child("role").getValue(String.class);
                     String email = userSnap.child("email").getValue(String.class);
-
-                    if (username != null && role != null && email != null) {
-                        // Apply role-based filtering
-                        if (isValidRecipient(role)) {
-                            String displayText = username + " (" + role + ") - " + email;
-                            userList.add(displayText);
-                        }
+                    if (email != null && !email.equals(senderEmail)) {
+                        userList.add(email);
                     }
                 }
 
@@ -85,28 +90,58 @@ public class FeedbacksActivity extends AppCompatActivity {
         });
     }
 
+    private void setupUserSelection() {
+        userSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedReceiverEmail = userList.get(position);
+                if (!selectedReceiverEmail.equals("No users available")) {
+                    loadConversation(selectedReceiverEmail);
+                }
+            }
 
-    private boolean isValidRecipient(String role) {
-        switch (currentUserRole) {
-            case "Youth":
-                return !(role.equals("Volunteer") || role.equals("Supplier") || role.equals("Youth"));
-            case "Supplier":
-                return role.equals("Inventory Manager") || role.equals("Finance Manager") || role.equals("Service Manager");
-            default:
-                return true; // Other roles can send to anyone
-        }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+    }
+
+    private void loadConversation(String receiverEmail) {
+        feedbackRef.orderByChild("timestamp").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                feedbackList.clear();
+
+                for (DataSnapshot messageSnap : snapshot.getChildren()) {
+                    FeedbacksModel message = messageSnap.getValue(FeedbacksModel.class);
+                    if (message != null &&
+                            ((message.getSenderEmail().equals(senderEmail) && message.getReceiverEmail().equals(receiverEmail)) ||
+                                    (message.getSenderEmail().equals(receiverEmail) && message.getReceiverEmail().equals(senderEmail)))) {
+                        feedbackList.add(message);
+                    }
+                }
+
+                feedbacksAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(FeedbacksActivity.this, "Failed to load messages", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void setupSendButton() {
+        sendFeedbackButton.setOnClickListener(v -> sendFeedback());
     }
 
     private void sendFeedback() {
-        if (userSpinner.getSelectedItem() == null || userSpinner.getSelectedItem().toString().equals("No users available")) {
-            Toast.makeText(this, "No valid recipient selected", Toast.LENGTH_SHORT).show();
+        if (selectedReceiverEmail.isEmpty() || selectedReceiverEmail.equals("No users available")) {
+            Toast.makeText(this, "No recipient selected", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        String receiverId = userSpinner.getSelectedItem().toString();
-        String message = messageInput.getText().toString().trim();
-
-        if (message.isEmpty()) {
+        String messageText = messageInput.getText().toString().trim();
+        if (messageText.isEmpty()) {
             Toast.makeText(this, "Enter a message", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -114,12 +149,13 @@ public class FeedbacksActivity extends AppCompatActivity {
         String feedbackId = UUID.randomUUID().toString();
         long timestamp = System.currentTimeMillis();
 
-        FeedbacksModel feedback = new FeedbacksModel(feedbackId, senderId, receiverId, message, timestamp);
+        FeedbacksModel feedback = new FeedbacksModel(feedbackId, senderEmail, selectedReceiverEmail, messageText, timestamp);
+
         feedbackRef.child(feedbackId).setValue(feedback)
                 .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(this, "Feedback sent!", Toast.LENGTH_SHORT).show();
-                    messageInput.setText(""); // Clear input after sending
+                    Toast.makeText(this, "Message sent!", Toast.LENGTH_SHORT).show();
+                    messageInput.setText("");
                 })
-                .addOnFailureListener(e -> Toast.makeText(this, "Failed to send feedback", Toast.LENGTH_SHORT).show());
+                .addOnFailureListener(e -> Toast.makeText(this, "Failed to send message", Toast.LENGTH_SHORT).show());
     }
 }
