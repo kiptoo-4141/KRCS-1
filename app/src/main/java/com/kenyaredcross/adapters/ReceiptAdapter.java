@@ -17,6 +17,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.kenyaredcross.R;
 import com.kenyaredcross.domain_model.Receipt;
 
@@ -47,12 +52,16 @@ public class ReceiptAdapter extends RecyclerView.Adapter<ReceiptAdapter.ReceiptV
 
         holder.email.setText("Email: " + receipt.getUserEmail());
         holder.time.setText("Time: " + receipt.getTime());
+        holder.ammount.setText("Amount: " + receipt.getAmount());
         holder.paymentdetails.setText("Payment Details: " + receipt.getPaymentDetails());
         holder.tvCourseId.setText("Course ID: " + receipt.getCourseId());
         holder.tvDate.setText(receipt.getDate());
         holder.tvPaymentMethod.setText("Payment Method: " + receipt.getPaymentMethod());
 
-        holder.btnDownload.setOnClickListener(v -> downloadReceipt(receipt));
+        // Retrieve username from Firebase using email
+        fetchUsername(receipt.getUserEmail(), holder.username);
+
+        holder.btnDownload.setOnClickListener(v -> downloadReceipt(receipt, holder.username.getText().toString()));
     }
 
     @Override
@@ -60,7 +69,35 @@ public class ReceiptAdapter extends RecyclerView.Adapter<ReceiptAdapter.ReceiptV
         return receiptList.size();
     }
 
-    private void downloadReceipt(Receipt receipt) {
+    private void fetchUsername(String userEmail, TextView usernameTextView) {
+        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Users");
+
+        usersRef.orderByChild("email").equalTo(userEmail).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot userSnapshot : snapshot.getChildren()) {
+                        String username = userSnapshot.child("username").getValue(String.class);
+                        if (username != null) {
+                            usernameTextView.setText("Username: " + username);
+                        } else {
+                            usernameTextView.setText("Username: N/A");
+                        }
+                        break;
+                    }
+                } else {
+                    usernameTextView.setText("Username: N/A");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                usernameTextView.setText("Username: Error");
+            }
+        });
+    }
+
+    private void downloadReceipt(Receipt receipt, String username) {
         // Create a PDF document
         PdfDocument pdfDocument = new PdfDocument();
         Paint paint = new Paint();
@@ -97,6 +134,8 @@ public class ReceiptAdapter extends RecyclerView.Adapter<ReceiptAdapter.ReceiptV
         canvas.drawText("Amount: " + receipt.getAmount(), 50, y, paint);
         y += lineSpacing;
         canvas.drawText("Payment Details: " + receipt.getPaymentDetails(), 50, y, paint);
+        y += lineSpacing;
+        canvas.drawText("Username: " + username, 50, y, paint);
 
         // Finish the page
         pdfDocument.finishPage(page);
@@ -115,15 +154,17 @@ public class ReceiptAdapter extends RecyclerView.Adapter<ReceiptAdapter.ReceiptV
     }
 
     public static class ReceiptViewHolder extends RecyclerView.ViewHolder {
-        TextView tvCourseId,email, tvDate, tvPaymentMethod, paymentdetails, time;
+        TextView tvCourseId, email, tvDate, tvPaymentMethod, paymentdetails, time, ammount, username;
         Button btnDownload;
 
         public ReceiptViewHolder(@NonNull View itemView) {
             super(itemView);
 
             email = itemView.findViewById(R.id.tv_email);
-            time= itemView.findViewById(R.id.tv_time);
+            username = itemView.findViewById(R.id.tv_username);
+            time = itemView.findViewById(R.id.tv_time);
             paymentdetails = itemView.findViewById(R.id.tv_paymentDetails);
+            ammount = itemView.findViewById(R.id.tv_amount);
             tvCourseId = itemView.findViewById(R.id.tv_course_id);
             tvDate = itemView.findViewById(R.id.tv_date);
             tvPaymentMethod = itemView.findViewById(R.id.tv_payment_method);
