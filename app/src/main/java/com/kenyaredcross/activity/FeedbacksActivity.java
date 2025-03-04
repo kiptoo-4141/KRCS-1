@@ -19,6 +19,11 @@ public class FeedbacksActivity extends AppCompatActivity {
 
     private EditText messageInput;
     private Spinner userSpinner;
+
+    private SearchView userSearchView;
+    private ArrayAdapter<String> userAdapter;
+    private List<String> displayList = new ArrayList<>();
+
     private Button sendFeedbackButton;
     private RecyclerView feedbackRecyclerView;
 
@@ -34,6 +39,22 @@ public class FeedbacksActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feedbacks);
+
+        userSearchView = findViewById(R.id.userSearchView);
+        userSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                filterUsers(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filterUsers(newText);
+                return true;
+            }
+        });
+
 
         messageInput = findViewById(R.id.messageInput);
         userSpinner = findViewById(R.id.userSpinner);
@@ -68,19 +89,29 @@ public class FeedbacksActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 userList.clear();
+                displayList.clear();
+
                 for (DataSnapshot userSnap : snapshot.getChildren()) {
                     String email = userSnap.child("email").getValue(String.class);
+                    String username = userSnap.child("username").getValue(String.class);
+                    String role = userSnap.child("role").getValue(String.class);
+
                     if (email != null && !email.equals(senderEmail)) {
+                        username = (username != null) ? username : "Unknown";
+                        role = (role != null) ? role : "No role";
+
+                        String displayText = username + " (" + role + ") - " + email;
+                        displayList.add(displayText);
                         userList.add(email);
                     }
                 }
 
-                if (userList.isEmpty()) {
-                    userList.add("No users available");
+                if (displayList.isEmpty()) {
+                    displayList.add("No users available");
                 }
 
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(FeedbacksActivity.this, android.R.layout.simple_spinner_dropdown_item, userList);
-                userSpinner.setAdapter(adapter);
+                userAdapter = new ArrayAdapter<>(FeedbacksActivity.this, android.R.layout.simple_spinner_dropdown_item, displayList);
+                userSpinner.setAdapter(userAdapter);
             }
 
             @Override
@@ -89,6 +120,21 @@ public class FeedbacksActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void filterUsers(String query) {
+        List<String> filteredList = new ArrayList<>();
+        for (String user : displayList) {
+            if (user.toLowerCase().contains(query.toLowerCase())) {
+                filteredList.add(user);
+            }
+        }
+        userAdapter.clear();
+        userAdapter.addAll(filteredList);
+        userAdapter.notifyDataSetChanged();
+    }
+
+
+
 
     private void setupUserSelection() {
         userSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
