@@ -105,18 +105,23 @@ public class FeedbacksActivity extends AppCompatActivity {
         });
     }
 
-    private void loadConversation(String receiverEmail) {
-        feedbackRef.orderByChild("timestamp").addValueEventListener(new ValueEventListener() {
+    private void loadConversation(String selectedReceiverEmail) {
+        feedbackList.clear();
+
+        feedbackRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 feedbackList.clear();
 
-                for (DataSnapshot messageSnap : snapshot.getChildren()) {
-                    FeedbacksModel message = messageSnap.getValue(FeedbacksModel.class);
-                    if (message != null &&
-                            ((message.getSenderEmail().equals(senderEmail) && message.getReceiverEmail().equals(receiverEmail)) ||
-                                    (message.getSenderEmail().equals(receiverEmail) && message.getReceiverEmail().equals(senderEmail)))) {
-                        feedbackList.add(message);
+                for (DataSnapshot conversationSnap : snapshot.getChildren()) {
+                    for (DataSnapshot messageSnap : conversationSnap.getChildren()) {
+                        FeedbacksModel message = messageSnap.getValue(FeedbacksModel.class);
+                        if (message != null && message.getSenderEmail() != null && message.getReceiverEmail() != null) {
+                            // Load only conversations related to the logged-in user
+                            if (message.getSenderEmail().equals(senderEmail) || message.getReceiverEmail().equals(senderEmail)) {
+                                feedbackList.add(message);
+                            }
+                        }
                     }
                 }
 
@@ -129,6 +134,8 @@ public class FeedbacksActivity extends AppCompatActivity {
             }
         });
     }
+
+
 
     private void setupSendButton() {
         sendFeedbackButton.setOnClickListener(v -> sendFeedback());
@@ -146,16 +153,27 @@ public class FeedbacksActivity extends AppCompatActivity {
             return;
         }
 
-        String feedbackId = UUID.randomUUID().toString();
+        // Generate a consistent feedbackId based on sender and receiver emails
+        String feedbackId = generateFeedbackId(senderEmail, selectedReceiverEmail);
         long timestamp = System.currentTimeMillis();
 
-        FeedbacksModel feedback = new FeedbacksModel(feedbackId, senderEmail, selectedReceiverEmail, messageText, timestamp);
+        // Create message object
+        FeedbacksModel feedback = new FeedbacksModel(UUID.randomUUID().toString(), senderEmail, selectedReceiverEmail, messageText, timestamp);
 
-        feedbackRef.child(feedbackId).setValue(feedback)
+        // Push message under the same feedbackId
+        feedbackRef.child(feedbackId).push().setValue(feedback)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(this, "Message sent!", Toast.LENGTH_SHORT).show();
                     messageInput.setText("");
                 })
                 .addOnFailureListener(e -> Toast.makeText(this, "Failed to send message", Toast.LENGTH_SHORT).show());
     }
+
+    // Helper function to generate a consistent feedback ID
+    private String generateFeedbackId(String sender, String receiver) {
+        List<String> sortedEmails = Arrays.asList(sender, receiver);
+        Collections.sort(sortedEmails);
+        return sortedEmails.get(0).replace(".", "_") + "_" + sortedEmails.get(1).replace(".", "_");
+    }
+
 }
