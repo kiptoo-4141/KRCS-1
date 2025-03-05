@@ -72,14 +72,14 @@ public class Trainer extends AppCompatActivity implements NavigationView.OnNavig
             }
         });
 
-        students = findViewById(R.id.studentsCard);
-        students.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Trainer.this, MyStudentsActivity.class);
-                startActivity(intent);
-            }
-        });
+//        students = findViewById(R.id.studentsCard);
+//        students.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(Trainer.this, MyStudentsActivity.class);
+//                startActivity(intent);
+//            }
+//        });
 
         // Initialize drawer layout and navigation view
         drawerLayout = findViewById(R.id.main);
