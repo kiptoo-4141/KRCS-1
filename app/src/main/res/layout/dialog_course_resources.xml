@@ -35,4 +35,10 @@
         android:layout_height="wrap_content"
         android:hint="Resource Links"
         android:inputType="textUri"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/resourcesRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scrollbars="vertical"/>
 </LinearLayout>

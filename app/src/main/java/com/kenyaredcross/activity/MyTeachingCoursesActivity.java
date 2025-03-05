@@ -23,7 +23,10 @@ import com.kenyaredcross.R;
 import com.kenyaredcross.domain_model.Course;
 import com.kenyaredcross.viewholder.CourseViewHolder;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 
 public class MyTeachingCoursesActivity extends AppCompatActivity {
 
@@ -106,8 +109,8 @@ public class MyTeachingCoursesActivity extends AppCompatActivity {
         EditText resourceLinks = view.findViewById(R.id.resourceLinks);
 
         builder.setView(view);
-        builder.setPositiveButton("Save", (dialog, which) -> {
-            saveCourseResources(course.getCourseId(), courseOutline.getText().toString(),
+        builder.setPositiveButton("Add", (dialog, which) -> {
+            addCourseResources(course.getCourseId(), courseOutline.getText().toString(),
                     courseActivities.getText().toString(), courseStructure.getText().toString(),
                     resourceLinks.getText().toString());
         });
@@ -116,18 +119,22 @@ public class MyTeachingCoursesActivity extends AppCompatActivity {
         builder.show();
     }
 
-    private void saveCourseResources(String courseId, String outline, String activities, String structure, String links) {
+    private void addCourseResources(String courseId, String outline, String activities, String structure, String links) {
         DatabaseReference resourcesRef = FirebaseDatabase.getInstance().getReference("CoursesResources").child(courseId);
-        resourcesRef.child("courseOutline").setValue(outline);
-        resourcesRef.child("courseActivities").setValue(activities);
-        resourcesRef.child("courseStructure").setValue(structure);
-        resourcesRef.child("resourceLinks").setValue(links)
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        Toast.makeText(this, "Resources Updated", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(this, "Failed to update", Toast.LENGTH_SHORT).show();
-                    }
-                });
+
+        if (!outline.isEmpty()) {
+            resourcesRef.child("courseOutlines").push().setValue(outline);
+        }
+        if (!activities.isEmpty()) {
+            resourcesRef.child("courseActivities").push().setValue(activities);
+        }
+        if (!structure.isEmpty()) {
+            resourcesRef.child("courseStructures").push().setValue(structure);
+        }
+        if (!links.isEmpty()) {
+            resourcesRef.child("resourceLinks").push().setValue(links);
+        }
+
+        Toast.makeText(this, "Resources Added", Toast.LENGTH_SHORT).show();
     }
 }
