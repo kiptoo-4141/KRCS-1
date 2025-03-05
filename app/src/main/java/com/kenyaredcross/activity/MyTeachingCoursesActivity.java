@@ -1,7 +1,8 @@
 package com.kenyaredcross.activity;
 
-import android.app.AlertDialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,16 +19,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.kenyaredcross.R;
 import com.kenyaredcross.domain_model.Course;
 import com.kenyaredcross.viewholder.CourseViewHolder;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
 
 public class MyTeachingCoursesActivity extends AppCompatActivity {
 
@@ -34,7 +35,7 @@ public class MyTeachingCoursesActivity extends AppCompatActivity {
     private DatabaseReference coursesRef;
     private FirebaseRecyclerAdapter<Course, CourseViewHolder> adapter;
     private SearchView searchView;
-    private final String loggedInTrainerEmail = "trainer3@gmail.com"; // Replace with dynamically fetched email
+    private String loggedInTrainerEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +49,15 @@ public class MyTeachingCoursesActivity extends AppCompatActivity {
 
         coursesRef = FirebaseDatabase.getInstance().getReference("AssignedCourses");
 
-        loadCourses("");
+        // Retrieve logged-in user's email dynamically
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            loggedInTrainerEmail = user.getEmail();
+            loadCourses(""); // Load courses after getting the email
+        } else {
+            Toast.makeText(this, "Error: User not logged in!", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         // Search functionality
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -67,7 +76,14 @@ public class MyTeachingCoursesActivity extends AppCompatActivity {
     }
 
     private void loadCourses(String query) {
+        if (loggedInTrainerEmail == null) return;
+
         HashSet<String> displayedCourses = new HashSet<>();
+
+        // Convert email format if needed
+        String formattedEmail = loggedInTrainerEmail.replace(".", "_");
+
+        Log.d("DEBUG", "Querying courses for trainer: " + loggedInTrainerEmail);
 
         FirebaseRecyclerOptions<Course> options = new FirebaseRecyclerOptions.Builder<Course>()
                 .setQuery(coursesRef.orderByChild("trainerEmail").equalTo(loggedInTrainerEmail), Course.class)
