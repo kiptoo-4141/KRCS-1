@@ -18,8 +18,8 @@ import com.kenyaredcross.domain_model.MyCompletedCoursesModel;
 import java.util.List;
 
 public class MyCompletedCoursesAdapter extends RecyclerView.Adapter<MyCompletedCoursesAdapter.ViewHolder> {
-    private Context context;
-    private List<MyCompletedCoursesModel> courseList;
+    private final Context context;
+    private final List<MyCompletedCoursesModel> courseList;
 
     public MyCompletedCoursesAdapter(Context context, List<MyCompletedCoursesModel> courseList) {
         this.context = context;

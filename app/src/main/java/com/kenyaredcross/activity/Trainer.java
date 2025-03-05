@@ -23,7 +23,7 @@ public class Trainer extends AppCompatActivity implements NavigationView.OnNavig
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
 
-    CardView students,attendance, myclass, itemrqst;
+    CardView students,attendance, myclass, itemrqst, course;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +51,15 @@ public class Trainer extends AppCompatActivity implements NavigationView.OnNavig
             public void onClick(View v) {
               Intent intent = new Intent(Trainer.this, MyClassesActivity.class);
               startActivity(intent);
+            }
+        });
+
+        course = findViewById(R.id.courseCard);
+        course.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Trainer.this, MyTeachingCoursesActivity.class);
+                startActivity(intent);
             }
         });
 

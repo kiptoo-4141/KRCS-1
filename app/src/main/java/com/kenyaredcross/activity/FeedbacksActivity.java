@@ -22,14 +22,14 @@ public class FeedbacksActivity extends AppCompatActivity {
 
     private SearchView userSearchView;
     private ArrayAdapter<String> userAdapter;
-    private List<String> displayList = new ArrayList<>();
+    private final List<String> displayList = new ArrayList<>();
 
     private Button sendFeedbackButton;
     private RecyclerView feedbackRecyclerView;
 
     private DatabaseReference feedbackRef, usersRef;
-    private List<String> userList = new ArrayList<>();
-    private List<FeedbacksModel> feedbackList = new ArrayList<>();
+    private final List<String> userList = new ArrayList<>();
+    private final List<FeedbacksModel> feedbackList = new ArrayList<>();
     private FeedbacksAdapter feedbacksAdapter;
 
     private String senderEmail = "";

@@ -27,7 +27,7 @@ public class MyCompletedCoursesActivity extends AppCompatActivity {
     private MyCompletedCoursesAdapter adapter;
     private List<MyCompletedCoursesModel> courseList;
     private DatabaseReference enrollmentsRef, coursesRef;
-    private String userEmail = "youth1@gmail_com"; // Get dynamically
+    private final String userEmail = "youth1@gmail_com"; // Get dynamically
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

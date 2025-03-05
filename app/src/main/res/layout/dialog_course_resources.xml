@@ -1,0 +1,38 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/courseOutline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Course Outline"
+        android:inputType="textMultiLine"
+        android:minLines="2"/>
+
+    <EditText
+        android:id="@+id/courseActivities"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Activities"
+        android:inputType="textMultiLine"
+        android:minLines="2"/>
+
+    <EditText
+        android:id="@+id/courseStructure"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Structure"
+        android:inputType="textMultiLine"
+        android:minLines="2"/>
+
+    <EditText
+        android:id="@+id/resourceLinks"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Resource Links"
+        android:inputType="textUri"/>
+</LinearLayout>

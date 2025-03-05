@@ -22,7 +22,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/red"
+            android:background="@color/white"
             android:elevation="8dp"
             android:layout_marginTop="20dp"
             app:title="Trainer Dashboard"
@@ -44,11 +44,41 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/white"
             android:layout_marginTop="15dp"
-            android:padding="15dp"
+            android:padding="0dp"
             app:columnCount="2"
             app:rowCount="3">
 
             <!-- Card 1: Courses -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/courseCard"
+                android:backgroundTint="@color/white"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_margin="10dp"
+                android:background="@color/cardview_dark_background"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/baseline_class_24" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Assigne Courses"
+                        android:textSize="18sp"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
                 android:id="@+id/studentsCard"
                 android:layout_width="150dp"

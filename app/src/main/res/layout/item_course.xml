@@ -16,4 +16,12 @@
         android:textColor="@android:color/black"
         android:textStyle="bold"
         android:text="Course Title" />
+    <TextView
+        android:id="@+id/courseDesc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        android:text="Course Title" />
 </LinearLayout>

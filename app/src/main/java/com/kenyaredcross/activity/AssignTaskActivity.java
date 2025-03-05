@@ -80,7 +80,7 @@ public class AssignTaskActivity extends AppCompatActivity {
         endDate.setOnClickListener(v -> showDatePickerDialog((datePicker, year, month, day) -> {
             endDate.setText(String.format("%d-%02d-%02d", year, month + 1, day));
         }, false)); // No restriction
-    };
+    }
 
     private void showDatePickerDialog(DatePickerDialog.OnDateSetListener listener, boolean restrictPastDates) {
         Calendar calendar = Calendar.getInstance();
