@@ -24,7 +24,7 @@ import com.kenyaredcross.domain_model.EnrolledCourseModel;
 
 public class MyCoursesActivity extends AppCompatActivity {
 
-    TextView feedback;
+    TextView feedback,resc;
     RecyclerView mycourses;
     EnrolledCourseAdapter enrolledCourseAdapter;
     FirebaseAuth auth;
@@ -77,12 +77,21 @@ public class MyCoursesActivity extends AppCompatActivity {
             return insets;
         });
 
+        resc = findViewById(R.id.coursesresources);
+        resc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MyCoursesActivity.this, CoursesResourcesActivity.class);
+                startActivity(intent);
+            }
+        });
+
         feedback = findViewById(R.id.feedbackLink);
         feedback.setOnClickListener(view -> {
             Intent intent = new Intent(MyCoursesActivity.this, FeedbacksActivity.class);
             intent.putExtra("activityName", "MyCoursesActivity");
             startActivity(intent);
-            finish();
+
         });
     }
 

@@ -17,6 +17,12 @@
         android:theme="@style/Theme.KenyaRedCross"
         tools:targetApi="31">
         <activity
+            android:name=".activity.CoursesResourcesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.MyCoursesResourcesActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.MyTeachingCoursesActivity"
             android:exported="false" />
         <activity
