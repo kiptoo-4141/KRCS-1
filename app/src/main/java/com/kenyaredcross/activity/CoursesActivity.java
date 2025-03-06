@@ -105,19 +105,22 @@ public class CoursesActivity extends AppCompatActivity {
             }
         });
 
+
         return super.onCreateOptionsMenu(menu);
     }
 
-    private void txtSearch (String str){
-
+    private void txtSearch(String str) {
         FirebaseRecyclerOptions<CoursesModel> options =
                 new FirebaseRecyclerOptions.Builder<CoursesModel>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("Courses").orderByChild("courseTitle")
-                                .startAt(str).endAt(str+"~"),CoursesModel.class)
+                        .setQuery(FirebaseDatabase.getInstance().getReference().child("Courses")
+                                .orderByChild("title") // Ensure field name matches Firebase
+                                .startAt(str)
+                                .endAt(str + "\uf8ff"), CoursesModel.class) // "\uf8ff" ensures the range is correct
                         .build();
-        CoursesAdapter = new CoursesAdapter(options);
-        CoursesAdapter.startListening();
-        rvCourses.setAdapter(CoursesAdapter);
+
+        CoursesAdapter.updateOptions(options);
+        CoursesAdapter.notifyDataSetChanged();
     }
+
 
 }

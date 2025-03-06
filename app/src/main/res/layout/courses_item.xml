@@ -6,7 +6,7 @@
     app:cardCornerRadius="40dp"
     android:elevation="10dp"
     app:cardUseCompatPadding="true"
-    android:background="@drawable/background2"
+    android:background="@drawable/edittext_bg1"
     android:backgroundTint="@color/white">
 
     <RelativeLayout
@@ -67,18 +67,18 @@
             android:textColor="@color/red"
             android:textStyle="bold"
             android:textSize="20sp"/>
-        <TextView
-            android:id="@+id/certificationStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:padding="6dp"
-            android:layout_toRightOf="@+id/courseimg"
-            android:layout_below="@+id/courseDuration"
-            android:text="Yes"
-            android:textColor="@color/red"
-            android:textStyle="bold"
-            android:textSize="20sp"/>
+<!--        <TextView-->
+<!--            android:id="@+id/certificationStatus"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginLeft="12dp"-->
+<!--            android:padding="6dp"-->
+<!--            android:layout_toRightOf="@+id/courseimg"-->
+<!--            android:layout_below="@+id/courseDuration"-->
+<!--            android:text="Yes"-->
+<!--            android:textColor="@color/red"-->
+<!--            android:textStyle="bold"-->
+<!--            android:textSize="20sp"/>-->
         <TextView
             android:id="@+id/feesAmount"
             android:layout_width="wrap_content"
@@ -86,7 +86,7 @@
             android:layout_marginLeft="12dp"
             android:padding="6dp"
             android:layout_toRightOf="@+id/courseimg"
-            android:layout_below="@+id/certificationStatus"
+            android:layout_below="@+id/courseDuration"
             android:text="Ksh: 2300"
             android:textColor="@color/red"
             android:textStyle="bold"

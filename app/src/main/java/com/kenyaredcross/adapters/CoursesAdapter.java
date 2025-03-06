@@ -53,7 +53,7 @@ public class CoursesAdapter extends FirebaseRecyclerAdapter<CoursesModel, Course
         holder.courseTitle.setText(coursesModel.getTitle());
         holder.courseDescription.setText(coursesModel.getDescription());
         holder.courseDuration.setText(coursesModel.getDuration());
-        holder.certificationStatus.setText(coursesModel.getCertification_status());
+//        holder.certificationStatus.setText(coursesModel.getCertification_status());
         holder.fees.setText("Kshs " + coursesModel.getFees().toString());
 
         Glide.with(holder.img.getContext())
@@ -133,6 +133,11 @@ public class CoursesAdapter extends FirebaseRecyclerAdapter<CoursesModel, Course
                 .show();
     }
 
+    public void updateOptions(FirebaseRecyclerOptions<CoursesModel> options) {
+        updateOptions(options);
+    }
+
+
     private void recordPayment(myViewHolder holder, CoursesModel coursesModel, String userEmailKey, String paymentMethod, String paymentDetail) {
         String currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
         String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
@@ -177,7 +182,7 @@ public class CoursesAdapter extends FirebaseRecyclerAdapter<CoursesModel, Course
             courseTitle = itemView.findViewById(R.id.courseTitle);
             courseDescription = itemView.findViewById(R.id.courseDescription);
             courseDuration = itemView.findViewById(R.id.courseDuration);
-            certificationStatus = itemView.findViewById(R.id.certificationStatus);
+//            certificationStatus = itemView.findViewById(R.id.certificationStatus);
             enrollButton = itemView.findViewById(R.id.enrollButton);
             fees = itemView.findViewById(R.id.feesAmount);
         }
