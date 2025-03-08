@@ -42,10 +42,24 @@ public class SupplyRequestAdapter extends FirebaseRecyclerAdapter<SupplyRequestM
 
     private void approveRequest(SupplyRequestModel model, SupplyRequestViewHolder holder) {
         DatabaseReference requestRef = FirebaseDatabase.getInstance().getReference("SupplyRequest").child(model.getRequestId());
+        DatabaseReference suppliedGoodsRef = FirebaseDatabase.getInstance().getReference("SuppliedGoods").push(); // Create a new entry in SuppliedGoods
+
+        // Copy all details from SupplyRequest to SuppliedGoods
+        suppliedGoodsRef.child("requestId").setValue(model.getRequestId());
+        suppliedGoodsRef.child("itemName").setValue(model.getItemName());
+        suppliedGoodsRef.child("category").setValue(model.getCategory());
+        suppliedGoodsRef.child("inventoryManager").setValue(model.getInventoryManager());
+        suppliedGoodsRef.child("supplier").setValue(model.getSupplier());
+        suppliedGoodsRef.child("requestCount").setValue(model.getRequestCount());
+        suppliedGoodsRef.child("status").setValue("pending"); // Set default status to "pending"
+        suppliedGoodsRef.child("timestamp").setValue(model.getTimestamp());
+        suppliedGoodsRef.child("totalAmount").setValue(model.getTotalAmount());
+
+        // Update the status in the SupplyRequest node to "approved"
         requestRef.child("status").setValue("approved")
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        Toast.makeText(holder.itemView.getContext(), "Request approved", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(holder.itemView.getContext(), "Request approved and moved to SuppliedGoods with pending status", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(holder.itemView.getContext(), "Failed to approve request", Toast.LENGTH_SHORT).show();
                     }
