@@ -46,7 +46,10 @@ public class FinanceRequestsActivity extends AppCompatActivity {
                         requestList.clear();
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             FinanceRequestModel request = snapshot.getValue(FinanceRequestModel.class);
-                            requestList.add(request);
+                            if (request != null) {
+                                request.setRequestId(snapshot.getKey()); // Set the requestId
+                                requestList.add(request);
+                            }
                         }
                         adapter.notifyDataSetChanged();
                     }

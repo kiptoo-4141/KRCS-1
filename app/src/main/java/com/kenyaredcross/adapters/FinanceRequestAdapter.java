@@ -1,11 +1,13 @@
 package com.kenyaredcross.adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.database.DataSnapshot;
@@ -36,37 +38,7 @@ public class FinanceRequestAdapter extends RecyclerView.Adapter<FinanceRequestAd
         paymentsRef = FirebaseDatabase.getInstance().getReference("Payments");
         paidRequestsRef = FirebaseDatabase.getInstance().getReference("PaidRequests");
         financeReportsRef = FirebaseDatabase.getInstance().getReference("FinanceReports");
-
-        loadFinanceRequests(); // Load requests from Firebase
     }
-
-    private void loadFinanceRequests() {
-        financeRequestsRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                requestList.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    FinanceRequestModel request = dataSnapshot.getValue(FinanceRequestModel.class);
-                    if (request != null) {
-                        // Set the requestId using the Firebase key
-                        request.setRequestId(dataSnapshot.getKey());
-
-                        // Only add the request to the list if its status is "pending"
-                        if ("pending".equals(request.getStatus())) {
-                            requestList.add(request);
-                        }
-                    }
-                }
-                notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                // Handle potential errors
-            }
-        });
-    }
-
 
     @NonNull
     @Override
@@ -85,17 +57,26 @@ public class FinanceRequestAdapter extends RecyclerView.Adapter<FinanceRequestAd
         holder.dateTime.setText(request.getDateTime());
         holder.inventoryManagerName.setText(request.getInventoryManager());
         holder.rqstcount.setText(String.valueOf(request.getRequestCount()));
-        holder.amountTextView.setText("Kshs " + request.getAmount());
+        holder.amountTextView.setText("Kshs " + request.getTotalAmount()); // Use getTotalAmount()
         holder.statusTextView.setText(request.getStatus());
 
         // Set up button actions
-        holder.approveButton.setOnClickListener(v -> approveRequest(request));
+        holder.approveButton.setOnClickListener(v -> showConfirmationDialog(request));
         holder.rejectButton.setOnClickListener(v -> rejectRequest(request));
     }
 
     @Override
     public int getItemCount() {
         return requestList.size();
+    }
+
+    private void showConfirmationDialog(FinanceRequestModel request) {
+        new AlertDialog.Builder(context)
+                .setTitle("Confirm Payment")
+                .setMessage("Do you want to pay Kshs " + request.getTotalAmount() + " to " + request.getSupplier() + "?")
+                .setPositiveButton("Yes", (dialog, which) -> approveRequest(request))
+                .setNegativeButton("No", (dialog, which) -> dialog.dismiss())
+                .show();
     }
 
     private void approveRequest(FinanceRequestModel request) {
@@ -111,19 +92,22 @@ public class FinanceRequestAdapter extends RecyclerView.Adapter<FinanceRequestAd
                     String currentDateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Calendar.getInstance().getTime());
 
                     HashMap<String, Object> paymentData = new HashMap<>();
-                    paymentData.put("amount", request.getAmount());
+                    paymentData.put("amount", request.getTotalAmount());
                     paymentData.put("category", request.getCategory());
                     paymentData.put("dateTime", currentDateTime);
                     paymentData.put("inventoryManager", request.getInventoryManager());
                     paymentData.put("itemName", request.getItemName());
                     paymentData.put("requestCount", request.getRequestCount());
                     paymentData.put("status", "pending");
+                    paymentData.put("supplier", request.getSupplier());
 
                     paymentsRef.child(paymentId).setValue(paymentData);
 
                     // Create entries in PaidRequests and FinanceReports
                     createPaidRequest(request, paymentId, currentDateTime);
                     createFinanceReport(request, paymentId, currentDateTime);
+
+                    Toast.makeText(context, "Payment approved and processed.", Toast.LENGTH_SHORT).show();
                 }
             }
         }
@@ -133,13 +117,14 @@ public class FinanceRequestAdapter extends RecyclerView.Adapter<FinanceRequestAd
         String paidRequestId = paidRequestsRef.push().getKey();
         if (paidRequestId != null) {
             HashMap<String, Object> paidRequestData = new HashMap<>();
-            paidRequestData.put("amount", request.getAmount());
+            paidRequestData.put("amount", request.getTotalAmount());
             paidRequestData.put("category", request.getCategory());
             paidRequestData.put("dateTime", dateTime);
             paidRequestData.put("inventoryManager", request.getInventoryManager());
             paidRequestData.put("itemName", request.getItemName());
             paidRequestData.put("requestCount", request.getRequestCount());
-            paidRequestData.put("status", "approved"); // Status set to approved
+            paidRequestData.put("status", "approved");
+            paidRequestData.put("supplier", request.getSupplier());
 
             paidRequestsRef.child(paidRequestId).setValue(paidRequestData);
         }
@@ -149,13 +134,14 @@ public class FinanceRequestAdapter extends RecyclerView.Adapter<FinanceRequestAd
         String reportId = financeReportsRef.push().getKey();
         if (reportId != null) {
             HashMap<String, Object> reportData = new HashMap<>();
-            reportData.put("amount", request.getAmount());
+            reportData.put("amount", request.getTotalAmount());
             reportData.put("category", request.getCategory());
             reportData.put("dateTime", dateTime);
             reportData.put("inventoryManager", request.getInventoryManager());
             reportData.put("itemName", request.getItemName());
             reportData.put("requestCount", request.getRequestCount());
-            reportData.put("status", "approved"); // Status set to approved
+            reportData.put("status", "approved");
+            reportData.put("supplier", request.getSupplier());
 
             financeReportsRef.child(reportId).setValue(reportData);
         }
@@ -168,6 +154,8 @@ public class FinanceRequestAdapter extends RecyclerView.Adapter<FinanceRequestAd
 
             // Create entry in FinanceReports with status set to rejected
             createFinanceReportForRejection(request);
+
+            Toast.makeText(context, "Request rejected.", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -175,13 +163,14 @@ public class FinanceRequestAdapter extends RecyclerView.Adapter<FinanceRequestAd
         String reportId = financeReportsRef.push().getKey();
         if (reportId != null) {
             HashMap<String, Object> reportData = new HashMap<>();
-            reportData.put("amount", request.getAmount());
+            reportData.put("amount", request.getTotalAmount());
             reportData.put("category", request.getCategory());
-            reportData.put("dateTime", request.getDateTime()); // Use original dateTime from request
+            reportData.put("dateTime", request.getDateTime());
             reportData.put("inventoryManager", request.getInventoryManager());
             reportData.put("itemName", request.getItemName());
             reportData.put("requestCount", request.getRequestCount());
-            reportData.put("status", "rejected"); // Status set to rejected
+            reportData.put("status", "rejected");
+            reportData.put("supplier", request.getSupplier());
 
             financeReportsRef.child(reportId).setValue(reportData);
         }

@@ -1,23 +1,23 @@
 package com.kenyaredcross.domain_model;
 
 public class FinanceRequestModel {
-
-    private String category, dateTime, inventoryManager, itemName, status, requestId;
-    private Integer amount, requestCount;
+    private String category, dateTime, inventoryManager, itemName, status, requestId, supplier;
+    private Integer requestCount, totalAmount;
 
     // Default constructor required for calls to DataSnapshot.getValue(FinanceRequestModel.class)
     public FinanceRequestModel() {}
 
     // Constructor with requestId
-    public FinanceRequestModel(String requestId, String category, Integer requestCount, Integer amount, String status, String itemName, String inventoryManager, String dateTime) {
+    public FinanceRequestModel(String requestId, String category, Integer requestCount, Integer totalAmount, String status, String itemName, String inventoryManager, String dateTime, String supplier) {
         this.requestId = requestId;
         this.category = category;
         this.requestCount = requestCount;
-        this.amount = amount;
+        this.totalAmount = totalAmount;
         this.status = status;
         this.itemName = itemName;
         this.inventoryManager = inventoryManager;
         this.dateTime = dateTime;
+        this.supplier = supplier;
     }
 
     // Getters and setters
@@ -45,12 +45,12 @@ public class FinanceRequestModel {
         this.requestCount = requestCount;
     }
 
-    public Integer getAmount() {
-        return amount;
+    public Integer getTotalAmount() {
+        return totalAmount;
     }
 
-    public void setAmount(Integer amount) {
-        this.amount = amount;
+    public void setTotalAmount(Integer totalAmount) {
+        this.totalAmount = totalAmount;
     }
 
     public String getStatus() {
@@ -83,5 +83,13 @@ public class FinanceRequestModel {
 
     public void setDateTime(String dateTime) {
         this.dateTime = dateTime;
+    }
+
+    public String getSupplier() {
+        return supplier;
+    }
+
+    public void setSupplier(String supplier) {
+        this.supplier = supplier;
     }
 }
