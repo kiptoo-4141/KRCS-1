@@ -21,33 +21,36 @@ import java.util.List;
 public class SupplyPaymentAdapter extends RecyclerView.Adapter<SupplyPaymentAdapter.SupplyPaymentViewHolder> {
     private final Context context;
     private final List<SupplyPaymentModel> supplyPaymentList = new ArrayList<>();
+    private final String supplierEmail;
 
-    public SupplyPaymentAdapter(Context context) {
+    public SupplyPaymentAdapter(Context context, String supplierEmail) {
         this.context = context;
-        fetchPendingPaymentsFromDatabase();
+        this.supplierEmail = supplierEmail;
+        fetchPaidRequestsForSupplier();
     }
 
-    private void fetchPendingPaymentsFromDatabase() {
-        DatabaseReference paymentsRef = FirebaseDatabase.getInstance().getReference("Payments");
-        paymentsRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                supplyPaymentList.clear();
-                for (DataSnapshot paymentSnapshot : dataSnapshot.getChildren()) {
-                    SupplyPaymentModel payment = paymentSnapshot.getValue(SupplyPaymentModel.class);
-                    if (payment != null && "pending".equals(payment.getStatus())) {
-                        payment.setId(paymentSnapshot.getKey());  // Set the ID from Firebase key
-                        supplyPaymentList.add(payment);
+    private void fetchPaidRequestsForSupplier() {
+        DatabaseReference paidRequestsRef = FirebaseDatabase.getInstance().getReference("PaidRequests");
+        paidRequestsRef.orderByChild("supplier").equalTo(supplierEmail)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        supplyPaymentList.clear();
+                        for (DataSnapshot paymentSnapshot : dataSnapshot.getChildren()) {
+                            SupplyPaymentModel payment = paymentSnapshot.getValue(SupplyPaymentModel.class);
+                            if (payment != null && "approved".equals(payment.getStatus())) {
+                                payment.setId(paymentSnapshot.getKey());  // Set the ID from Firebase key
+                                supplyPaymentList.add(payment);
+                            }
+                        }
+                        notifyDataSetChanged();
                     }
-                }
-                notifyDataSetChanged();
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Handle possible errors
-            }
-        });
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        // Handle possible errors
+                    }
+                });
     }
 
     @NonNull
@@ -68,28 +71,9 @@ public class SupplyPaymentAdapter extends RecyclerView.Adapter<SupplyPaymentAdap
         holder.amountTextView.setText("Kshs " + payment.getAmount());
         holder.statusTextView.setText(payment.getStatus());
 
-        // Set up button actions
-        holder.approveButton.setOnClickListener(v -> updateStatus(payment, "approved"));
-        holder.rejectButton.setOnClickListener(v -> updateStatus(payment, "rejected"));
-    }
-
-    private void updateStatus(SupplyPaymentModel payment, String status) {
-        if (payment.getId() != null) {  // Ensure ID is not null
-            DatabaseReference paymentRef = FirebaseDatabase.getInstance().getReference("Payments").child(payment.getId());
-            paymentRef.child("status").setValue(status);
-
-            // Create a report in the SupplyReports node
-            DatabaseReference reportsRef = FirebaseDatabase.getInstance().getReference("SupplyReports").push();
-            payment.setStatus(status); // Update status in payment before saving to reports
-            reportsRef.setValue(payment)
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            // Report created successfully
-                        } else {
-                            // Handle the error
-                        }
-                    });
-        }
+        // Disable buttons since these are already approved payments
+        holder.approveButton.setVisibility(View.GONE);
+        holder.rejectButton.setVisibility(View.GONE);
     }
 
     @Override

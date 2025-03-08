@@ -74,7 +74,17 @@ public class Supplier extends AppCompatActivity implements NavigationView.OnNavi
                 Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show();
             }
         });
-        supplyPayment.setOnClickListener(v -> startActivity(new Intent(Supplier.this, SupplyPaymentActivity.class)));
+        // Inside the Supplier activity
+        supplyPayment.setOnClickListener(v -> {
+            if (user != null) {
+                String userEmail = user.getEmail(); // Get the logged-in user's email
+                Intent intent = new Intent(Supplier.this, SupplyPaymentActivity.class);
+                intent.putExtra("supplierEmail", userEmail); // Pass the email to the next activity
+                startActivity(intent);
+            } else {
+                Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show();
+            }
+        });
         reports.setOnClickListener(v -> startActivity(new Intent(Supplier.this, SupplyReportsActivity.class)));
         feeds.setOnClickListener(v -> startActivity(new Intent(Supplier.this, FeedbacksActivity.class)));
 
