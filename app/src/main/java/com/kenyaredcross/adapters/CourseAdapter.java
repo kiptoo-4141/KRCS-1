@@ -16,7 +16,7 @@ import com.kenyaredcross.domain_model.Courses;
 import java.util.List;
 
 public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseViewHolder> {
-    private List<Courses> courseList;
+    private final List<Courses> courseList;
 
     public CourseAdapter(List<Courses> courseList) {
         this.courseList = courseList;

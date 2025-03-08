@@ -8,13 +8,13 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -29,7 +29,8 @@ public class Login extends AppCompatActivity {
     // UI elements
     EditText loginEmail, loginPassword;
     Button buttonLogin;
-    TextView textViewSignUp,forgotPassword;
+    TextView textViewSignUp, forgotPassword;
+    TextInputLayout passwordInputLayout;
 
     // Role selection dropdown
     String[] role = {"Youth", "Volunteer", "Service Manager", "Trainer", "Coordinator", "Finance Manager", "Inventory Manager", "Supplier"};
@@ -54,7 +55,8 @@ public class Login extends AppCompatActivity {
         loginPassword = findViewById(R.id.loginPassword);
         buttonLogin = findViewById(R.id.loginButton);
         textViewSignUp = findViewById(R.id.signupoption);
-        textViewSignUp.setVisibility(View.GONE); // Hide Sign-Up option by default
+        forgotPassword = findViewById(R.id.forgotPassword);
+//        passwordInputLayout = findViewById(R.id.loginPassword);
 
         // Initialize Role Dropdown
         autoCompleteTextView = findViewById(R.id.roleSelection);
@@ -101,13 +103,11 @@ public class Login extends AppCompatActivity {
             Intent intent = new Intent(Login.this, SignUp.class);
             startActivity(intent);
         });
-        forgotPassword = findViewById(R.id.forgotPassword);
-        forgotPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Login.this,ForgotPasswordActivity.class);
-                startActivity(intent);
-            }
+
+        // Redirect to Forgot Password activity if clicked
+        forgotPassword.setOnClickListener(v -> {
+            Intent intent = new Intent(Login.this, ForgotPasswordActivity.class);
+            startActivity(intent);
         });
     }
 

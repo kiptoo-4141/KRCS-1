@@ -11,7 +11,7 @@ import com.kenyaredcross.domain_model.CourseResource;
 import java.util.List;
 
 public class CourseResourceAdapter extends RecyclerView.Adapter<CourseResourceAdapter.ViewHolder> {
-    private List<CourseResource> courseResourceList;
+    private final List<CourseResource> courseResourceList;
 
     public CourseResourceAdapter(List<CourseResource> courseResourceList) {
         this.courseResourceList = courseResourceList;
