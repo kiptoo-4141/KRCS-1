@@ -2,12 +2,38 @@ package com.kenyaredcross.domain_model;
 
 public class SuppliedGoodsModel {
 
-    SuppliedGoodsModel(){
-
+    public SuppliedGoodsModel() {
+        // Default constructor required for Firebase
     }
 
-    String category, dateTime, inventoryManager, itemName, requestId, status;
-    Integer amount, requestCount;
+    private String category, dateTime, inventoryManager, itemName, requestId, status, supplier;
+    Integer totalAmount;
+
+    public Integer getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(Integer totalAmount) {
+        this.totalAmount = totalAmount;
+    }
+
+    public SuppliedGoodsModel(Integer totalAmount) {
+        this.totalAmount = totalAmount;
+    }
+
+    public String getSupplier() {
+        return supplier;
+    }
+
+    public void setSupplier(String supplier) {
+        this.supplier = supplier;
+    }
+
+    public SuppliedGoodsModel(String supplier) {
+        this.supplier = supplier;
+    }
+
+    private Integer amount, requestCount;
 
     public SuppliedGoodsModel(String category, Integer requestCount, Integer amount, String status, String requestId, String itemName, String inventoryManager, String dateTime) {
         this.category = category;
@@ -20,6 +46,7 @@ public class SuppliedGoodsModel {
         this.dateTime = dateTime;
     }
 
+    // Getters and Setters
     public String getCategory() {
         return category;
     }
