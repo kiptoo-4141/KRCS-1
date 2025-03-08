@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="120dp"
     android:orientation="vertical"
     android:background="@color/white">
 
@@ -41,7 +41,7 @@
                 android:padding="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/dateTimeRQ"
+                android:id="@+id/timestampRQ"
                 android:hint="2024-08-01"
                 android:textColor="@color/black"/>
             <TextView
@@ -51,6 +51,14 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/countRQ"
                 android:hint="23"
+                android:textColor="@color/black"/>
+            <TextView
+                android:layout_margin="8dp"
+                android:padding="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/totalAmountRQ"
+                android:hint="Kits"
                 android:textColor="@color/black"/>
             <TextView
                 android:layout_margin="8dp"

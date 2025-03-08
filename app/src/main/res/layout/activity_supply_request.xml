@@ -1,32 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="560dp"
-    tools:context=".activity.SupplyRequestActivity"
-    android:background="@color/white">
+    android:layout_height="match_parent"
+    tools:context=".activity.SupplyRequestActivity">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/red"
+        android:padding="10dp"
+        android:text="Supply Requests"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/supplyRequests"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Supply Request"
-            android:background="@color/red"
-            android:textColor="@color/white"
-            android:textAlignment="center"
-            android:textSize="24sp"/>
-        <SearchView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/supplyRequests"/>
-    </LinearLayout>
+        android:layout_below="@id/tvTitle"
+        android:padding="8dp" />
 
-</ScrollView>
+    <TextView
+        android:id="@+id/tvNoRequests"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:text="No supply requests available"
+        android:textSize="18sp"
+        android:visibility="gone" />
+
+</RelativeLayout>

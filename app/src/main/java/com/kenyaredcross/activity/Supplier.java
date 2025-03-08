@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -25,11 +26,9 @@ public class Supplier extends AppCompatActivity implements NavigationView.OnNavi
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private Toolbar toolbar;
-
-    FirebaseAuth auth;
-    FirebaseUser user;
-
-    CardView inventoryCard, requests, supplyPayment, reports,feeds;
+    private FirebaseAuth auth;
+    private FirebaseUser user;
+    private CardView inventoryCard, requests, supplyPayment, reports, feeds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,55 +41,42 @@ public class Supplier extends AppCompatActivity implements NavigationView.OnNavi
             return insets;
         });
 
-        reports = findViewById(R.id.SupplyReports);
-        reports.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Supplier.this, SupplyReportsActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        feeds = findViewById(R.id.feedss);
-        feeds.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Supplier.this, FeedbacksActivity.class);
-                startActivity(intent);
-            }
-        });
-
         // Initialize Firebase Auth
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
 
-        // Set up the toolbar
+        // Initialize views
         toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        // Initialize the drawer layout and navigation view
         drawerLayout = findViewById(R.id.main);
         navigationView = findViewById(R.id.nav_view);
+        inventoryCard = findViewById(R.id.supplyInventoryCrd);
+        requests = findViewById(R.id.FMRequestsCard);
+        supplyPayment = findViewById(R.id.SupplyPayment);
+        reports = findViewById(R.id.SupplyReports);
+        feeds = findViewById(R.id.feedss);
+
+        // Set up toolbar
+        setSupportActionBar(toolbar);
+
+        // Set up navigation drawer
         navigationView.setNavigationItemSelectedListener(this);
 
-        // Set up card view click listeners
-        supplyPayment = findViewById(R.id.SupplyPayment);
-        supplyPayment.setOnClickListener(view -> {
-            Intent intent = new Intent(Supplier.this, SupplyPaymentActivity.class);
-            startActivity(intent);
+        // Set click listeners for card views
+        inventoryCard.setOnClickListener(v -> startActivity(new Intent(Supplier.this, SupplierInventoryActivity.class)));
+        // Inside the Supplier activity
+        requests.setOnClickListener(v -> {
+            if (user != null) {
+                String userEmail = user.getEmail(); // Get the logged-in user's email
+                Intent intent = new Intent(Supplier.this, SupplyRequestActivity.class);
+                intent.putExtra("supplierEmail", userEmail); // Pass the email to the next activity
+                startActivity(intent);
+            } else {
+                Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show();
+            }
         });
-
-        requests = findViewById(R.id.FMRequestsCard);
-        requests.setOnClickListener(view -> {
-            Intent intent = new Intent(Supplier.this, SupplyRequestActivity.class);
-            startActivity(intent);
-        });
-
-        inventoryCard = findViewById(R.id.supplyInventoryCrd);
-        inventoryCard.setOnClickListener(view -> {
-            Intent intent = new Intent(Supplier.this, SupplierInventoryActivity.class);
-            startActivity(intent);
-        });
+        supplyPayment.setOnClickListener(v -> startActivity(new Intent(Supplier.this, SupplyPaymentActivity.class)));
+        reports.setOnClickListener(v -> startActivity(new Intent(Supplier.this, SupplyReportsActivity.class)));
+        feeds.setOnClickListener(v -> startActivity(new Intent(Supplier.this, FeedbacksActivity.class)));
 
         // Handle toolbar navigation
         toolbar.setNavigationOnClickListener(v -> {
@@ -107,23 +93,15 @@ public class Supplier extends AppCompatActivity implements NavigationView.OnNavi
         int id = menuItem.getItemId();
 
         if (id == R.id.nav_about_us2) {
-            Intent intent = new Intent(Supplier.this, AboutUsActivity.class);
-            startActivity(intent);
-        } else if (id == R.id.nav_home) {
-            // Handle home menu item click if needed
+            startActivity(new Intent(this, AboutUsActivity.class));
         } else if (id == R.id.nav_contact_us) {
-            Intent intent = new Intent(Supplier.this, ContactUsActivity.class);
-            startActivity(intent);
-
-            // Handle contact us menu item click if needed
+            startActivity(new Intent(this, ContactUsActivity.class));
         } else if (id == R.id.nav_log_out) {
-            // Handle log out
-            FirebaseAuth.getInstance().signOut();
-            startActivity(new Intent(Supplier.this, Login.class));
+            auth.signOut();
+            startActivity(new Intent(this, Login.class));
             finish();
         }
 
-        // Close the drawer after item selection
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
