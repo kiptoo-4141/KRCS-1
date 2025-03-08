@@ -25,6 +25,7 @@ import com.kenyaredcross.R;
 import com.kenyaredcross.adapters.OrgInventoryAdapter;
 import com.kenyaredcross.adapters.SuppliedGoodsAdapter;
 import com.kenyaredcross.domain_model.OrgInventoryModel;
+import com.kenyaredcross.domain_model.SupplierModel;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -40,11 +41,12 @@ public class OrganizationInventoryActivity extends AppCompatActivity {
     RecyclerView recyclerView, suppliedGoodsRecyclerView;
     OrgInventoryAdapter orgInventoryAdapter;
     SuppliedGoodsAdapter suppliedGoodsAdapter;
-    DatabaseReference inventoryRef, supplierInventoryRef, supplyRequestRef;
-    Spinner itemCategorySpinner, itemNameSpinner;
+    DatabaseReference inventoryRef, supplierInventoryRef, supplyRequestRef, usersRef;
+    Spinner itemCategorySpinner, itemNameSpinner, supplierSelectionSpinner;
     Button btnRequest, btnDelete;
     EditText requestCount;
     TextView itemAmount, requesteditem;
+    List<SupplierModel> suppliersList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +57,9 @@ public class OrganizationInventoryActivity extends AppCompatActivity {
         inventoryRef = FirebaseDatabase.getInstance().getReference("OrganisationInventory");
         supplierInventoryRef = FirebaseDatabase.getInstance().getReference("SupplierInventory");
         supplyRequestRef = FirebaseDatabase.getInstance().getReference("SupplyRequest");
+        usersRef = FirebaseDatabase.getInstance().getReference("Users");
 
-        requesteditem =findViewById(R.id.requested_item);
+        requesteditem = findViewById(R.id.requested_item);
         requesteditem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,13 +70,16 @@ public class OrganizationInventoryActivity extends AppCompatActivity {
 
         // Initialize UI components
         recyclerView = findViewById(R.id.organizationInventoryView);
-        suppliedGoodsRecyclerView = findViewById(R.id.recyclerViewSuppliedGoods);  // Add RecyclerView for supplied goods
+        suppliedGoodsRecyclerView = findViewById(R.id.recyclerViewSuppliedGoods);
         itemCategorySpinner = findViewById(R.id.itemCategorySpinner);
         itemNameSpinner = findViewById(R.id.itemName);
+        supplierSelectionSpinner = findViewById(R.id.supplierSelection);
         requestCount = findViewById(R.id.requestCount);
         itemAmount = findViewById(R.id.itemAmount);
         btnRequest = findViewById(R.id.btnRequest);
         btnDelete = findViewById(R.id.btnDelete);
+
+        suppliersList = new ArrayList<>();
 
         // Set up RecyclerView for organization inventory
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -88,6 +94,7 @@ public class OrganizationInventoryActivity extends AppCompatActivity {
         // Load data
         loadInventoryData();
         loadSupplierInventoryData();
+        loadSuppliers();
 
         // Set up button listeners
         setupButtonListeners();
@@ -145,19 +152,78 @@ public class OrganizationInventoryActivity extends AppCompatActivity {
         });
     }
 
+    private void loadSuppliers() {
+        usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                suppliersList.clear();
+                List<String> supplierDisplayNames = new ArrayList<>();
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String role = snapshot.child("role").getValue(String.class);
+
+                    if ("Supplier".equals(role)) {
+                        String email = snapshot.child("email").getValue(String.class);
+                        String username = snapshot.child("username").getValue(String.class);
+
+                        if (email != null && username != null) {
+                            // Create a supplier model to store data
+                            SupplierModel supplier = new SupplierModel();
+                            supplier.setEmail(email);
+                            supplier.setUsername(username);
+                            suppliersList.add(supplier);
+
+                            // Display format: Username (Email)
+                            supplierDisplayNames.add(username + " (" + email + ")");
+                        }
+                    }
+                }
+
+                // Create and set adapter for supplier spinner
+                ArrayAdapter<String> supplierAdapter = new ArrayAdapter<>(
+                        OrganizationInventoryActivity.this,
+                        android.R.layout.simple_spinner_item,
+                        supplierDisplayNames
+                );
+                supplierAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                supplierSelectionSpinner.setAdapter(supplierAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.w("Firebase", "loadSuppliers:onCancelled", databaseError.toException());
+                Toast.makeText(OrganizationInventoryActivity.this, "Failed to load suppliers", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private void setupButtonListeners() {
         btnRequest.setOnClickListener(v -> {
             String selectedCategory = itemCategorySpinner.getSelectedItem().toString();
             String selectedItemName = itemNameSpinner.getSelectedItem().toString();
             String requestQuantityStr = requestCount.getText().toString();
 
+            // Get selected supplier
+            int supplierPosition = supplierSelectionSpinner.getSelectedItemPosition();
+            String supplierEmail = "";
+
+            if (supplierPosition >= 0 && supplierPosition < suppliersList.size()) {
+                supplierEmail = suppliersList.get(supplierPosition).getEmail();
+            }
+
             if (requestQuantityStr.isEmpty()) {
                 Toast.makeText(this, "Please enter a request quantity", Toast.LENGTH_SHORT).show();
                 return;
             }
 
+            if (supplierEmail.isEmpty()) {
+                Toast.makeText(this, "Please select a supplier", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             int requestQuantity = Integer.parseInt(requestQuantityStr);
 
+            String finalSupplierEmail = supplierEmail;
             supplierInventoryRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -175,6 +241,7 @@ public class OrganizationInventoryActivity extends AppCompatActivity {
                             DatabaseReference newRequestRef = supplyRequestRef.child(requestId);
                             newRequestRef.child("category").setValue(selectedCategory);
                             newRequestRef.child("inventoryManager").setValue("inventory@gmail.com");
+                            newRequestRef.child("supplier").setValue(finalSupplierEmail);
                             newRequestRef.child("itemName").setValue(selectedItemName);
                             newRequestRef.child("requestCount").setValue(requestQuantity);
                             newRequestRef.child("requestId").setValue(requestId);
@@ -182,7 +249,9 @@ public class OrganizationInventoryActivity extends AppCompatActivity {
                             newRequestRef.child("timestamp").setValue(timestamp);
                             newRequestRef.child("totalAmount").setValue(totalPrice);
 
-                            Toast.makeText(OrganizationInventoryActivity.this, "Request sent for " + requestQuantity + " of " + selectedItemName + " with total price: " + totalPrice, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(OrganizationInventoryActivity.this,
+                                    "Request sent to " + finalSupplierEmail + " for " + requestQuantity +
+                                            " of " + selectedItemName + " with total price: " + totalPrice, Toast.LENGTH_SHORT).show();
                             break;
                         }
                     }
