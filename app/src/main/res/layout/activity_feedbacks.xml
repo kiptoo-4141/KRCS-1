@@ -12,7 +12,6 @@
         android:layout_height="wrap_content"
         android:queryHint="Search user..." />
 
-
     <Spinner
         android:id="@+id/userSpinner"
         android:layout_width="match_parent"

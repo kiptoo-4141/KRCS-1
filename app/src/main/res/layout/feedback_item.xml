@@ -2,35 +2,34 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="10dp"
     android:orientation="vertical"
-    android:background="@drawable/text_bg"
-    android:layout_margin="5dp">
+    android:padding="8dp"
+    android:background="@drawable/chat_bubble"
+    android:layout_margin="4dp">
 
     <TextView
         android:id="@+id/senderText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sender: John Doe"
-        android:textStyle="bold"
+        android:text="Sender"
         android:textSize="14sp"
-        android:textColor="@color/black" />
+        android:textColor="@color/black"
+        android:layout_marginBottom="4dp"/>
 
     <TextView
         android:id="@+id/messageText"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Message content goes here..."
+        android:text="Message"
         android:textSize="16sp"
-        android:paddingTop="5dp"
-        android:textColor="@color/black" />
+        android:textColor="@color/black"
+        android:layout_marginBottom="4dp"/>
 
     <TextView
         android:id="@+id/timestampText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="2 hours ago"
+        android:text="Timestamp"
         android:textSize="12sp"
-        android:textColor="@color/black"
-        android:layout_marginTop="5dp"/>
+        android:textColor="@color/black"/>
 </LinearLayout>

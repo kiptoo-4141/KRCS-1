@@ -19,19 +19,15 @@ public class FeedbacksActivity extends AppCompatActivity {
 
     private EditText messageInput;
     private Spinner userSpinner;
-
     private SearchView userSearchView;
     private ArrayAdapter<String> userAdapter;
     private final List<String> displayList = new ArrayList<>();
-
     private Button sendFeedbackButton;
     private RecyclerView feedbackRecyclerView;
-
     private DatabaseReference feedbackRef, usersRef;
     private final List<String> userList = new ArrayList<>();
     private final List<FeedbacksModel> feedbackList = new ArrayList<>();
     private FeedbacksAdapter feedbacksAdapter;
-
     private String senderEmail = "";
     private String selectedReceiverEmail = "";
 
@@ -40,7 +36,22 @@ public class FeedbacksActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feedbacks);
 
+        initializeViews();
+        setupFirebase();
+        getLoggedInUser();
+    }
+
+    private void initializeViews() {
         userSearchView = findViewById(R.id.userSearchView);
+        messageInput = findViewById(R.id.messageInput);
+        userSpinner = findViewById(R.id.userSpinner);
+        sendFeedbackButton = findViewById(R.id.sendFeedbackButton);
+        feedbackRecyclerView = findViewById(R.id.feedbackRecyclerView);
+
+        feedbackRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        feedbacksAdapter = new FeedbacksAdapter(feedbackList);
+        feedbackRecyclerView.setAdapter(feedbacksAdapter);
+
         userSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -54,21 +65,11 @@ public class FeedbacksActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
 
-
-        messageInput = findViewById(R.id.messageInput);
-        userSpinner = findViewById(R.id.userSpinner);
-        sendFeedbackButton = findViewById(R.id.sendFeedbackButton);
-        feedbackRecyclerView = findViewById(R.id.feedbackRecyclerView);
-
+    private void setupFirebase() {
         feedbackRef = FirebaseDatabase.getInstance().getReference("Feedbacks");
         usersRef = FirebaseDatabase.getInstance().getReference("Users");
-
-        feedbackRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        feedbacksAdapter = new FeedbacksAdapter(feedbackList);
-        feedbackRecyclerView.setAdapter(feedbacksAdapter);
-
-        getLoggedInUser();
     }
 
     private void getLoggedInUser() {
@@ -133,9 +134,6 @@ public class FeedbacksActivity extends AppCompatActivity {
         userAdapter.notifyDataSetChanged();
     }
 
-
-
-
     private void setupUserSelection() {
         userSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -163,7 +161,6 @@ public class FeedbacksActivity extends AppCompatActivity {
                     for (DataSnapshot messageSnap : conversationSnap.getChildren()) {
                         FeedbacksModel message = messageSnap.getValue(FeedbacksModel.class);
                         if (message != null && message.getSenderEmail() != null && message.getReceiverEmail() != null) {
-                            // Load only conversations related to the logged-in user
                             if (message.getSenderEmail().equals(senderEmail) || message.getReceiverEmail().equals(senderEmail)) {
                                 feedbackList.add(message);
                             }
@@ -172,6 +169,7 @@ public class FeedbacksActivity extends AppCompatActivity {
                 }
 
                 feedbacksAdapter.notifyDataSetChanged();
+                feedbackRecyclerView.scrollToPosition(feedbackList.size() - 1);
             }
 
             @Override
@@ -180,8 +178,6 @@ public class FeedbacksActivity extends AppCompatActivity {
             }
         });
     }
-
-
 
     private void setupSendButton() {
         sendFeedbackButton.setOnClickListener(v -> sendFeedback());
@@ -199,14 +195,11 @@ public class FeedbacksActivity extends AppCompatActivity {
             return;
         }
 
-        // Generate a consistent feedbackId based on sender and receiver emails
         String feedbackId = generateFeedbackId(senderEmail, selectedReceiverEmail);
         long timestamp = System.currentTimeMillis();
 
-        // Create message object
         FeedbacksModel feedback = new FeedbacksModel(UUID.randomUUID().toString(), senderEmail, selectedReceiverEmail, messageText, timestamp);
 
-        // Push message under the same feedbackId
         feedbackRef.child(feedbackId).push().setValue(feedback)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(this, "Message sent!", Toast.LENGTH_SHORT).show();
@@ -215,11 +208,9 @@ public class FeedbacksActivity extends AppCompatActivity {
                 .addOnFailureListener(e -> Toast.makeText(this, "Failed to send message", Toast.LENGTH_SHORT).show());
     }
 
-    // Helper function to generate a consistent feedback ID
     private String generateFeedbackId(String sender, String receiver) {
         List<String> sortedEmails = Arrays.asList(sender, receiver);
         Collections.sort(sortedEmails);
         return sortedEmails.get(0).replace(".", "_") + "_" + sortedEmails.get(1).replace(".", "_");
     }
-
 }

@@ -30,6 +30,7 @@ public class FeedbacksAdapter extends RecyclerView.Adapter<FeedbacksAdapter.View
         FeedbacksModel feedback = feedbackList.get(position);
         holder.senderText.setText("From: " + feedback.getSenderEmail());
         holder.messageText.setText(feedback.getMessage());
+        holder.timestampText.setText(new java.util.Date(feedback.getTimestamp()).toString());
     }
 
     @Override
@@ -38,12 +39,13 @@ public class FeedbacksAdapter extends RecyclerView.Adapter<FeedbacksAdapter.View
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView senderText, messageText;
+        TextView senderText, messageText, timestampText;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             senderText = itemView.findViewById(R.id.senderText);
             messageText = itemView.findViewById(R.id.messageText);
+            timestampText = itemView.findViewById(R.id.timestampText);
         }
     }
 }
