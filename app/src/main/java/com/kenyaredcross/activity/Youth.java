@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import java.util.Calendar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -30,15 +29,22 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.kenyaredcross.R;
 
+import java.util.Calendar;
+
 public class Youth extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawerLayout;
     private DatabaseReference databaseReference;
-    FirebaseAuth auth;
-    FirebaseUser user;
+    private FirebaseAuth auth;
+    private FirebaseUser user;
 
-    CardView courses, youthDonationCard, myCourses, events, messaging, receipt, cert;
-    Toolbar toolbar;
+    private CardView courses, youthDonationCard, myCourses, events, messaging, receipt, cert;
+    private Toolbar toolbar;
+
+    private ValueEventListener enrollmentsListener;
+    private ValueEventListener completedCoursesListener;
+    private ValueEventListener donationsListener;
+    private ValueEventListener feedbacksListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +53,9 @@ public class Youth extends AppCompatActivity implements NavigationView.OnNavigat
 
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
-        databaseReference = FirebaseDatabase.getInstance().getReference("Profiles");
+        databaseReference = FirebaseDatabase.getInstance().getReference();
 
+        // Initialize UI components
         cert = findViewById(R.id.youthCertificationCard);
         cert.setOnClickListener(v -> startActivity(new Intent(Youth.this, CertActivity.class)));
 
@@ -83,18 +90,130 @@ public class Youth extends AppCompatActivity implements NavigationView.OnNavigat
 
         // Show profile popup when the user first logs in
         showProfilePopup();
+
+        // Attach listeners to relevant nodes
+        attachDatabaseListeners();
+    }
+
+    private void attachDatabaseListeners() {
+        String userId = user.getUid();
+        String userEmail = user.getEmail().replace(".", "_");
+
+        // Listen for changes in Enrollments
+        enrollmentsListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    showNotification("Your course enrollment status has been updated.");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(Youth.this, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        };
+        databaseReference.child("Enrollments").child(userEmail).addValueEventListener(enrollmentsListener);
+
+        // Listen for changes in CompletedCourses
+        completedCoursesListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    showNotification("Your course completion status has been updated.");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(Youth.this, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        };
+        databaseReference.child("CompletedCourses").child(userEmail).addValueEventListener(completedCoursesListener);
+
+        // Listen for changes in Donations
+        donationsListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    showNotification("Your donation status has been updated.");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(Youth.this, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        };
+        databaseReference.child("Donations").orderByChild("email").equalTo(user.getEmail()).addValueEventListener(donationsListener);
+
+        // Listen for changes in Feedbacks
+        feedbacksListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    showNotification("You have new feedback.");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(Youth.this, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        };
+        databaseReference.child("Feedbacks").orderByChild("senderEmail").equalTo(user.getEmail()).addValueEventListener(feedbacksListener);
+    }
+
+    private void showNotification(String message) {
+        // Check if the activity is finishing or destroyed
+        if (isFinishing() || isDestroyed()) {
+            return; // Do not show the dialog if the activity is no longer valid
+        }
+
+        // Use runOnUiThread to ensure the dialog is shown on the main thread
+        runOnUiThread(() -> {
+            // Check again before showing the dialog
+            if (!isFinishing() && !isDestroyed()) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Notification");
+                builder.setMessage(message);
+                builder.setPositiveButton("OK", (dialog, which) -> dialog.dismiss());
+                builder.setCancelable(false);
+
+                // Show the dialog
+                builder.show();
+            }
+        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Remove all listeners to avoid memory leaks
+        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+
+        // Check if listeners are initialized before removing them
+        if (enrollmentsListener != null) {
+            dbRef.child("Enrollments").removeEventListener(enrollmentsListener);
+        }
+        if (completedCoursesListener != null) {
+            dbRef.child("CompletedCourses").removeEventListener(completedCoursesListener);
+        }
+        if (donationsListener != null) {
+            dbRef.child("Donations").removeEventListener(donationsListener);
+        }
+        if (feedbacksListener != null) {
+            dbRef.child("Feedbacks").removeEventListener(feedbacksListener);
+        }
     }
 
     private void showProfilePopup() {
         String userId = user.getUid();
 
-        databaseReference.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.child("Profiles").child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    // Profile already exists, do nothing
-                } else {
-                    // Profile does not exist, show the popup
+                if (!snapshot.exists()) {
                     showProfileDialog();
                 }
             }
@@ -154,7 +273,7 @@ public class Youth extends AppCompatActivity implements NavigationView.OnNavigat
 
             String userId = user.getUid();
             Profile profile = new Profile(user.getEmail(), user.getDisplayName(), phone, town, idNumber, dob);
-            databaseReference.child(userId).setValue(profile);
+            databaseReference.child("Profiles").child(userId).setValue(profile);
 
             Toast.makeText(Youth.this, "Profile Updated Successfully!", Toast.LENGTH_SHORT).show();
             alertDialog.dismiss();
@@ -163,10 +282,6 @@ public class Youth extends AppCompatActivity implements NavigationView.OnNavigat
         alertDialog.show();
     }
 
-
-
-
-    // Corrected: Created Profile Class
     public static class Profile {
         private String email, username, phone, town, idNumber, dob;
 
@@ -207,11 +322,11 @@ public class Youth extends AppCompatActivity implements NavigationView.OnNavigat
             return dob;
         }
     }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         int id = menuItem.getItemId();
 
-        // Handle navigation item selections
         if (id == R.id.nav_about_us2) {
             Intent intent = new Intent(Youth.this, AboutUsActivity.class);
             startActivity(intent);
@@ -221,13 +336,11 @@ public class Youth extends AppCompatActivity implements NavigationView.OnNavigat
             Intent intent = new Intent(Youth.this, ContactUsActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_log_out) {
-            // Handle log out
             FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(Youth.this, Login.class));
-            finish(); // Optional: finish this activity to prevent returning to it
+            finish();
         }
 
-        // Close the drawer after item selection
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
