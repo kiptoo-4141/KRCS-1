@@ -2,7 +2,11 @@ package com.kenyaredcross.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,8 +19,10 @@ import com.kenyaredcross.R;
 
 public class IntroActivity extends AppCompatActivity {
 
-    Button btngetstarted;
+    Button btnGetStarted;
     FirebaseAuth mAuth;
+    ImageView logoImageView;
+    TextView welcomeTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +40,23 @@ public class IntroActivity extends AppCompatActivity {
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
-        // Initialize button and set onClickListener
-        btngetstarted = findViewById(R.id.btnGetStarted);
-        btngetstarted.setOnClickListener(v -> {
+        // Initialize views
+        btnGetStarted = findViewById(R.id.btnGetStarted);
+        logoImageView = findViewById(R.id.imageView10);
+        welcomeTextView = findViewById(R.id.textView27);
+
+        // Load animations
+        Animation heartbeatAnimation = AnimationUtils.loadAnimation(this, R.anim.heartbeat);
+        Animation glowAnimation = AnimationUtils.loadAnimation(this, R.anim.glow);
+
+        // Apply heartbeat animation to the "Get Started" button
+        btnGetStarted.startAnimation(heartbeatAnimation);
+
+        // Apply glow animation to the logo
+        logoImageView.startAnimation(glowAnimation);
+
+        // Set onClickListener for the "Get Started" button
+        btnGetStarted.setOnClickListener(v -> {
             // Log out the current user
             if (mAuth.getCurrentUser() != null) {
                 mAuth.signOut();  // Sign out the current user
