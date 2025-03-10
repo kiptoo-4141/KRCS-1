@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.kenyaredcross">
 
+    <!-- Required Permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!-- Scoped Storage Permissions (deprecated for API 29+) -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="28" />
 
     <application
         android:allowBackup="true"
@@ -16,201 +19,77 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KenyaRedCross"
         tools:targetApi="31">
-        <activity
-            android:name=".activity.CoursesResourcesActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.MyCoursesResourcesActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.MyTeachingCoursesActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.CertActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.MyCompletedCoursesActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.MyInventoryActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.CompletedCoursesActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.MyClassesActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.FeedbacksActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.RequestedItemsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.ViewFeedbacksActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.RequestItemsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.ProfileSetupActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.ServiceMessagesActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.MessagesActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.PendingTaskActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.MyProfileActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.YTReceiptsActivity"
-            android:exported="false" /> <!-- <activity -->
-        <!-- android:name=".activity.YouthReceiptActivity" -->
-        <!-- android:exported="false" /> -->
-        <activity
-            android:name=".activity.CoursePaymentsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.ClassAttendanceActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.ForgotPasswordActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.MyGroupsActivity"
-            android:exported="false" /> <!-- <activity -->
-        <!-- android:name=".activity.HelpActivity" -->
-        <!-- android:exported="false" /> -->
-        <activity
-            android:name=".activity.RequestsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.MyStudentsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.ChatActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.MessagingSearchUsersActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.MessagingActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.AssignTaskActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.GroupsCheckActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.VolunteersCheckActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.SupplyReportsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.SupplyPaymentActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.SupplyRequestActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.FMReportsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.FinanceRequestsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.OrganizationInventoryActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.SMFeedbackViewActivity"
-            android:exported="false" /> <!-- <activity -->
-        <!-- android:name=".activity.EnrollMentRequestsActivity" -->
-        <!-- android:exported="false" /> -->
-        <activity
-            android:name=".activity.EventsActivity"
-            android:exported="false" /> <!-- <activity -->
-        <!-- android:name=".activity.FeedbacksActivity" -->
-        <!-- android:exported="false" /> -->
-        <activity
-            android:name=".activity.AboutUsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.ContactUsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.SupplierInventoryActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.VolunteeringActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.MyCoursesActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.EditCourseActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.ServiceManagerCoursesViewActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.DonationActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.Supplier"
-            android:exported="false" />
-        <activity
-            android:name=".activity.InventoryManager"
-            android:exported="false" />
-        <activity
-            android:name=".activity.FinanceManager"
-            android:exported="false" />
-        <activity
-            android:name=".activity.Coordinator"
-            android:exported="false" />
-        <activity
-            android:name=".activity.Trainer"
-            android:exported="false" />
-        <activity
-            android:name=".activity.ServiceManager"
-            android:exported="false" />
-        <activity
-            android:name=".activity.Volunteer"
-            android:exported="false" />
-        <activity
-            android:name=".activity.CoursesActivity"
-            android:exported="false" />
+
+        <!-- Launcher Activity -->
         <activity
             android:name=".activity.IntroActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity> <!-- <activity -->
-        <!-- android:name=".activity.ContactUs" -->
-        <!-- android:exported="false" /> -->
-        <!-- <activity -->
-        <!-- android:name=".activity.AboutUs" -->
-        <!-- android:exported="false" /> -->
-        <activity
-            android:name=".activity.Youth"
-            android:exported="false" />
-        <activity
-            android:name=".activity.SignUp"
-            android:exported="false" />
-        <activity
-            android:name=".activity.Login"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
+        </activity>
 
+        <!-- Other Activities -->
+        <activity android:name=".activity.CoursesResourcesActivity" android:exported="false" />
+        <activity android:name=".activity.MyCoursesResourcesActivity" android:exported="false" />
+        <activity android:name=".activity.MyTeachingCoursesActivity" android:exported="false" />
+        <activity android:name=".activity.CertActivity" android:exported="false" />
+        <activity android:name=".activity.MyCompletedCoursesActivity" android:exported="false" />
+        <activity android:name=".activity.MyInventoryActivity" android:exported="false" />
+        <activity android:name=".activity.CompletedCoursesActivity" android:exported="false" />
+        <activity android:name=".activity.MyClassesActivity" android:exported="false" />
+        <activity android:name=".activity.FeedbacksActivity" android:exported="false" />
+        <activity android:name=".activity.RequestedItemsActivity" android:exported="false" />
+        <activity android:name=".activity.ViewFeedbacksActivity" android:exported="false" />
+        <activity android:name=".activity.RequestItemsActivity" android:exported="false" />
+        <activity android:name=".activity.ProfileSetupActivity" android:exported="false" />
+        <activity android:name=".activity.ServiceMessagesActivity" android:exported="false" />
+        <activity android:name=".activity.MessagesActivity" android:exported="false" />
+        <activity android:name=".activity.PendingTaskActivity" android:exported="false" />
+        <activity android:name=".activity.MyProfileActivity" android:exported="false" />
+        <activity android:name=".activity.YTReceiptsActivity" android:exported="false" />
+        <activity android:name=".activity.CoursePaymentsActivity" android:exported="false" />
+        <activity android:name=".activity.ClassAttendanceActivity" android:exported="false" />
+        <activity android:name=".activity.ForgotPasswordActivity" android:exported="false" />
+        <activity android:name=".activity.MyGroupsActivity" android:exported="false" />
+        <activity android:name=".activity.RequestsActivity" android:exported="false" />
+        <activity android:name=".activity.MyStudentsActivity" android:exported="false" />
+        <activity android:name=".activity.ChatActivity" android:exported="false" />
+        <activity android:name=".activity.MessagingSearchUsersActivity" android:exported="false" />
+        <activity android:name=".activity.MessagingActivity" android:exported="false" />
+        <activity android:name=".activity.AssignTaskActivity" android:exported="false" />
+        <activity android:name=".activity.GroupsCheckActivity" android:exported="false" />
+        <activity android:name=".activity.VolunteersCheckActivity" android:exported="false" />
+        <activity android:name=".activity.SupplyReportsActivity" android:exported="false" />
+        <activity android:name=".activity.SupplyPaymentActivity" android:exported="false" />
+        <activity android:name=".activity.SupplyRequestActivity" android:exported="false" />
+        <activity android:name=".activity.FMReportsActivity" android:exported="false" />
+        <activity android:name=".activity.FinanceRequestsActivity" android:exported="false" />
+        <activity android:name=".activity.OrganizationInventoryActivity" android:exported="false" />
+        <activity android:name=".activity.SMFeedbackViewActivity" android:exported="false" />
+        <activity android:name=".activity.EventsActivity" android:exported="false" />
+        <activity android:name=".activity.AboutUsActivity" android:exported="false" />
+        <activity android:name=".activity.ContactUsActivity" android:exported="false" />
+        <activity android:name=".activity.SupplierInventoryActivity" android:exported="false" />
+        <activity android:name=".activity.VolunteeringActivity" android:exported="false" />
+        <activity android:name=".activity.MyCoursesActivity" android:exported="false" />
+        <activity android:name=".activity.EditCourseActivity" android:exported="false" />
+        <activity android:name=".activity.ServiceManagerCoursesViewActivity" android:exported="false" />
+        <activity android:name=".activity.DonationActivity" android:exported="false" />
+        <activity android:name=".activity.Supplier" android:exported="false" />
+        <activity android:name=".activity.InventoryManager" android:exported="false" />
+        <activity android:name=".activity.FinanceManager" android:exported="false" />
+        <activity android:name=".activity.Coordinator" android:exported="false" />
+        <activity android:name=".activity.Trainer" android:exported="false" />
+        <activity android:name=".activity.ServiceManager" android:exported="false" />
+        <activity android:name=".activity.Volunteer" android:exported="false" />
+        <activity android:name=".activity.CoursesActivity" android:exported="false" />
+        <activity android:name=".activity.Youth" android:exported="false" />
+        <activity android:name=".activity.SignUp" android:exported="false" />
+        <activity android:name=".activity.Login" android:exported="false" android:windowSoftInputMode="adjustResize" />
+
+        <!-- FileProvider for Secure File Sharing -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.kenyaredcross.provider"
@@ -221,5 +100,4 @@
                 android:resource="@xml/file_paths" />
         </provider>
     </application>
-
 </manifest>

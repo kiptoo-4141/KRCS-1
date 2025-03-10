@@ -3,12 +3,16 @@ package com.kenyaredcross.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,9 +31,11 @@ public class SignUp extends AppCompatActivity {
 
     // Define UI elements
     EditText signupusername, signupemail, signuppassword, signupconfirmpassword;
+    ProgressBar signUpProgressBar;
     Button signupbutton;
     TextView loginredirect;
     AutoCompleteTextView roleSelection;
+    CheckBox showPasswordCheckBox;
 
     // Role selection options
     String[] roles = {"Youth", "Volunteer", "Service Manager", "Trainer", "Coordinator", "Finance Manager", "Inventory Manager", "Supplier"};
@@ -56,6 +62,8 @@ public class SignUp extends AppCompatActivity {
         signupbutton = findViewById(R.id.SignUpButton);
         loginredirect = findViewById(R.id.LoginRedirect);
         roleSelection = findViewById(R.id.roleSelection2);
+        showPasswordCheckBox = findViewById(R.id.showPasswordCheckBox);
+        signUpProgressBar = findViewById(R.id.signUpProgressBar);
 
         // Initialize role dropdown
         adapterItems = new ArrayAdapter<>(this, R.layout.dropdown_role_item, roles);
@@ -71,6 +79,17 @@ public class SignUp extends AppCompatActivity {
         loginredirect.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), Login.class);
             startActivity(intent);
+        });
+
+        // Handle show password checkbox
+        showPasswordCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                signuppassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                signupconfirmpassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+            } else {
+                signuppassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                signupconfirmpassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+            }
         });
 
         // Handle sign-up button click
@@ -90,9 +109,15 @@ public class SignUp extends AppCompatActivity {
                 return;
             }
 
+            // Show progress bar
+            signUpProgressBar.setVisibility(View.VISIBLE);
+
             // Create a new user with email and password
             mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(task -> {
+                        // Hide progress bar
+                        signUpProgressBar.setVisibility(View.GONE);
+
                         if (task.isSuccessful()) {
                             FirebaseUser firebaseUser = mAuth.getCurrentUser();
                             if (firebaseUser != null) {
@@ -116,6 +141,7 @@ public class SignUp extends AppCompatActivity {
                                                 Toast.makeText(SignUp.this, "Sign Up Successful", Toast.LENGTH_SHORT).show();
                                                 Intent intent = new Intent(SignUp.this, Login.class);
                                                 startActivity(intent);
+                                                finish(); // Close the sign-up activity
                                             } else {
                                                 Toast.makeText(SignUp.this, "Database Error: " + task1.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                             }

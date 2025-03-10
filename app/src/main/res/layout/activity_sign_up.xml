@@ -8,153 +8,175 @@
     android:layout_height="match_parent"
     tools:context=".activity.SignUp">
 
+    <!-- Logo at the top -->
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="287dp"
         android:layout_height="60dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/logo4" />
 
+    <!-- Sign Up Title -->
     <TextView
         android:id="@+id/signUpText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="176dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="177dp"
-        android:text="@string/sign_up"
+        android:layout_marginTop="16dp"
+        android:text="Sign Up"
         android:textColor="@color/black"
         android:textSize="34sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
+    <!-- ScrollView to handle small screens -->
     <ScrollView
-        android:layout_width="390dp"
-        android:layout_height="538dp"
-        android:layout_marginEnd="10dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/signUpText">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="1dp"
-            android:layout_marginEnd="7dp"
             android:orientation="vertical"
-            android:padding="15dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/signUpText"
-            app:layout_constraintVertical_bias="0.083">
+            android:padding="16dp">
 
+            <!-- Role Selection Dropdown -->
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.Material3.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
-                android:layout_width="395dp"
-                android:layout_height="64dp"
-                android:hint="">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Select Role"
+                app:boxStrokeColor="@color/black"
+                app:boxStrokeWidth="1dp">
 
                 <AutoCompleteTextView
                     android:id="@+id/roleSelection2"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:padding="10dp"
+                    android:layout_height="wrap_content"
                     android:inputType="none"
-                    android:backgroundTint="@color/white"
-                    android:text="Signup as?" />
-
+                    android:text="Signup as?"
+                    android:backgroundTint="@color/white" />
             </com.google.android.material.textfield.TextInputLayout>
 
-
-
-            <EditText
-                android:id="@+id/SignUpUserName"
+            <!-- Username Field -->
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginLeft="32dp"
-                android:layout_marginTop="7dp"
-                android:background="@drawable/edittext_background"
-                android:ems="10"
-                android:padding="10dp"
-                android:layout_marginBottom="10dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:hint="Username"
-                android:inputType="text"
+                app:boxStrokeColor="@color/black"
+                app:boxStrokeWidth="1dp">
+
+                <EditText
+                    android:id="@+id/SignUpUserName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:textStyle="bold" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Email Field -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:hint="Email"
+                app:boxStrokeColor="@color/black"
+                app:boxStrokeWidth="1dp">
+
+                <EditText
+                    android:id="@+id/SignUpEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress"
+                    android:textStyle="bold" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Password Field -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:hint="Password"
+                app:boxStrokeColor="@color/black"
+                app:boxStrokeWidth="1dp"
+                app:passwordToggleEnabled="true">
+
+                <EditText
+                    android:id="@+id/SignUpPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:textStyle="bold" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Confirm Password Field -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:hint="Confirm Password"
+                app:boxStrokeColor="@color/black"
+                app:boxStrokeWidth="1dp"
+                app:passwordToggleEnabled="true">
+
+                <EditText
+                    android:id="@+id/SignUpConfirmPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:textStyle="bold" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Show Password Checkbox -->
+            <CheckBox
+                android:id="@+id/showPasswordCheckBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Show Password"
                 android:textStyle="bold" />
 
-
-
-
-            <EditText
-                android:id="@+id/SignUpEmail"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginLeft="32dp"
-                android:drawableStart="@drawable/email"
-                android:drawablePadding="10dp"
-                android:background="@drawable/edittext_background"
-                android:ems="10"
-                android:padding="10dp"
-                android:hint="Email"
-                android:layout_marginBottom="10dp"
-                android:inputType="textEmailAddress" />
-
-
-
-            <EditText
-                android:id="@+id/SignUpPassword"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginLeft="32dp"
-                android:layout_marginTop="7dp"
-                android:background="@drawable/edittext_background"
-                android:ems="10"
-                android:padding="10dp"
-                android:layout_marginBottom="10dp"
-                android:hint="Password"
-                android:inputType="textPassword" />
-
-
-
-            <EditText
-                android:id="@+id/SignUpConfirmPassword"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginLeft="32dp"
-                android:layout_marginTop="7dp"
-                android:background="@drawable/edittext_background"
-                android:ems="10"
-                android:padding="10dp"
-                android:layout_marginBottom="10dp"
-                android:hint="Confirm Password"
-                android:inputType="textPassword" />
-
+            <!-- Sign Up Button -->
             <Button
                 android:id="@+id/SignUpButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="54dp"
-                android:layout_marginRight="32dp"
+                android:layout_marginTop="24dp"
                 android:backgroundTint="@color/black"
                 android:text="Sign Up"
                 android:textAlignment="center"
                 android:textStyle="bold" />
 
+            <!-- Progress Bar -->
+            <ProgressBar
+                android:id="@+id/signUpProgressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                android:visibility="gone" />
+
+            <!-- Login Redirect Text -->
             <TextView
                 android:id="@+id/LoginRedirect"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="154dp"
-                android:text="Login?" />
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:text="Already have an account? Login"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
         </LinearLayout>
     </ScrollView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
