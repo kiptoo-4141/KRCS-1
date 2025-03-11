@@ -174,7 +174,12 @@ public class AssignTaskActivity extends AppCompatActivity {
                 for (DataSnapshot taskSnapshot : snapshot.getChildren()) {
                     Task task = taskSnapshot.getValue(Task.class);
                     if (task != null) {
+                        // Update task status based on current date
+                        task.setStatus(getTaskStatus(task.getStartDate(), task.getEndDate()));
                         assignedTasks.add(task);
+
+                        // Update the task status in Firebase
+                        taskSnapshot.getRef().child("status").setValue(task.getStatus());
                     }
                 }
                 taskAdapter.notifyDataSetChanged();
@@ -185,6 +190,26 @@ public class AssignTaskActivity extends AppCompatActivity {
                 Toast.makeText(AssignTaskActivity.this, "Failed to load tasks: " + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private String getTaskStatus(String startDateStr, String endDateStr) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        try {
+            Date startDate = sdf.parse(startDateStr);
+            Date endDate = sdf.parse(endDateStr);
+            Date currentDate = new Date();
+
+            if (currentDate.before(startDate)) {
+                return "Pending";
+            } else if (currentDate.after(endDate)) {
+                return "Completed";
+            } else {
+                return "In Progress";
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return "Pending"; // Default status if parsing fails
+        }
     }
 
     private void assignTask() {
@@ -202,7 +227,10 @@ public class AssignTaskActivity extends AppCompatActivity {
             return;
         }
 
-        Task task = new Task(taskDesc, start, end, selectedGroupId, "Pending");
+        // Set initial status based on current date
+        String status = getTaskStatus(start, end);
+
+        Task task = new Task(taskDesc, start, end, selectedGroupId, status);
         DatabaseReference tasksRef = databaseReference.child("tasks");
         String taskId = tasksRef.push().getKey();
 
