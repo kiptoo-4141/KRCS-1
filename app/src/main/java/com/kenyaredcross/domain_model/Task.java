@@ -5,30 +5,18 @@ public class Task {
     private String startDate;
     private String endDate;
     private String groupId;
-
     private String status;
-
-    public Task(String status, String start, String end, String selectedGroupId, String s) {
-        this.status = status;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
 
     public Task() {
         // Default constructor required for Firebase
     }
 
-    public Task(String description, String startDate, String endDate, String groupId) {
+    public Task(String description, String startDate, String endDate, String groupId, String status) {
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
         this.groupId = groupId;
+        this.status = status;
     }
 
     public String getDescription() {
@@ -61,5 +49,13 @@ public class Task {
 
     public void setGroupId(String groupId) {
         this.groupId = groupId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
