@@ -92,7 +92,9 @@ public class FinanceManager extends AppCompatActivity implements NavigationView.
             startActivity(intent);
         } else if (id == R.id.nav_home) {
             // Handle home menu item click if needed
-        } else if (id == R.id.nav_contact_us) {
+        } else if (id ==R.id.nav_help) {
+            startActivity(new Intent(FinanceManager.this, HelpActivity.class));
+        }else if (id == R.id.nav_contact_us) {
             Intent intent = new Intent(FinanceManager.this, ContactUsActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_log_out) {

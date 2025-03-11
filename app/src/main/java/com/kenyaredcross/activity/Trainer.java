@@ -99,7 +99,9 @@ public class Trainer extends AppCompatActivity implements NavigationView.OnNavig
         } else if (id == R.id.nav_contact_us) {
             Intent intent = new Intent(Trainer.this, ContactUsActivity.class);
             startActivity(intent);
-        } else if (id == R.id.nav_log_out) {
+        } else if (id ==R.id.nav_help) {
+            startActivity(new Intent(Trainer.this, HelpActivity.class));
+        }else if (id == R.id.nav_log_out) {
             // Handle log out
             FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(Trainer.this, Login.class));

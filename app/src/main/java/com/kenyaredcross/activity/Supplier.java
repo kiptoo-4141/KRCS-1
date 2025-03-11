@@ -106,7 +106,9 @@ public class Supplier extends AppCompatActivity implements NavigationView.OnNavi
             startActivity(new Intent(this, AboutUsActivity.class));
         } else if (id == R.id.nav_contact_us) {
             startActivity(new Intent(this, ContactUsActivity.class));
-        } else if (id == R.id.nav_log_out) {
+        } else if (id ==R.id.nav_help) {
+            startActivity(new Intent(Supplier.this, HelpActivity.class));
+        }else if (id == R.id.nav_log_out) {
             auth.signOut();
             startActivity(new Intent(this, Login.class));
             finish();

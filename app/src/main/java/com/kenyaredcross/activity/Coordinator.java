@@ -88,7 +88,10 @@ public class Coordinator extends AppCompatActivity implements NavigationView.OnN
         if (id == R.id.nav_about_us2) {
             Intent intent = new Intent(Coordinator.this, AboutUsActivity.class);
             startActivity(intent);
-        } else if (id == R.id.nav_home) {
+        }
+        else if (id ==R.id.nav_help) {
+            startActivity(new Intent(Coordinator.this, HelpActivity.class));
+        }else if (id == R.id.nav_home) {
             // Handle home menu item click if needed
         } else if (id == R.id.nav_contact_us) {
             Intent intent = new Intent(Coordinator.this, ContactUsActivity.class);
