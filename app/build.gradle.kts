@@ -47,6 +47,7 @@ dependencies {
     implementation(libs.gridlayout)
 
     implementation("androidx.core:core-ktx:1.12.0")
+    implementation ("com.tbuonomo:dotsindicator:5.0")
 
 
     implementation(libs.glide)

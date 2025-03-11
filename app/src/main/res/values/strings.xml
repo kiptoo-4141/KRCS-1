@@ -78,5 +78,13 @@
         <item>DonationsReports</item>
     </string-array>
 
+    <string name="help_header_description">Help Header Image</string>
+    <string name="back_button_description">Back Button</string>
+    <string name="help_title">Help Center</string>
+    <string name="help_content">Welcome to the Help Center! Here you can find answers to common questions and get guidance on how to use the app.</string>
+    <string name="guidance_title">Guidance</string>
+    <string name="guidance_content">If you need further assistance, please contact our support team at support@kenyaredcross.com.</string>
+    <string name="animation_description">Help Animation</string>
+
 
 </resources>

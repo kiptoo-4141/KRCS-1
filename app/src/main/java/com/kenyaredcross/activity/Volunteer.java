@@ -39,7 +39,7 @@ public class Volunteer extends AppCompatActivity implements NavigationView.OnNav
     private FirebaseAuth auth;
     private DatabaseReference databaseReference;
 
-    CardView group, courses, profile, myCourses;
+    CardView group, courses, tasks, myCourses, myCerts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +63,23 @@ public class Volunteer extends AppCompatActivity implements NavigationView.OnNav
         myCourses = findViewById(R.id.volunteermycourses);
         myCourses.setOnClickListener(v -> startActivity(new Intent(Volunteer.this, MyCoursesActivity.class)));
 
-        profile = findViewById(R.id.profileCard);
-        profile.setOnClickListener(v -> startActivity(new Intent(Volunteer.this, MyProfileActivity.class)));
+        myCerts = findViewById(R.id.myCertificates);
+        myCerts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Volunteer.this, CertActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        tasks = findViewById(R.id.myTasks);
+        tasks.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Volunteer.this, MyTasksActivity.class);
+                startActivity(intent);
+            }
+        });
 
         group = findViewById(R.id.groupCard);
         group.setOnClickListener(v -> startActivity(new Intent(Volunteer.this, MyGroupsActivity.class)));
@@ -160,6 +175,8 @@ public class Volunteer extends AppCompatActivity implements NavigationView.OnNav
             startActivity(new Intent(Volunteer.this, AboutUsActivity.class));
         } else if (id == R.id.nav_contact_us) {
             startActivity(new Intent(Volunteer.this, ContactUsActivity.class));
+        } else if (id ==R.id.nav_help) {
+            startActivity(new Intent(Volunteer.this, HelpActivity.class));
         } else if (id == R.id.nav_log_out) {
             FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(Volunteer.this, Login.class));

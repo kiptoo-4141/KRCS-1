@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:id="@+id/main"
+    tools:context=".activity.HelpActivity">
+
+    <!-- Header Section -->
+
+    <!-- Back Button -->
+    <ImageButton
+        android:id="@+id/backButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="16dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/arrow_forward"
+        android:contentDescription="@string/back_button_description"
+        android:onClick="onBackButtonClick"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:clickable="true"
+        android:foreground="?attr/selectableItemBackgroundBorderless" />
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/titleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:text="@string/help_title"
+        android:textSize="24sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:fontFamily="sans-serif-condensed"
+        android:letterSpacing="0.1"
+        android:lineSpacingExtra="4sp" />
+
+    <!-- ScrollView for the content -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/titleText"
+        android:fillViewport="true"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Sign Up Guide -->
+            <LinearLayout
+                android:id="@+id/signup_guide"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:background="@drawable/card_background"
+                android:layout_marginBottom="16dp"
+                android:animateLayoutChanges="true">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="How to Sign Up"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-condensed"
+                    android:paddingBottom="8dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="1. Select the role you want to sign up for.\n2. Fill in the User name (Full name recommended).\n3. Fill in the email address.\n4. Fill in the password and confirm password.\n5. Click on the sign-up button.\n6. You will be redirected to the login page.\n7. Wait for the administrator to confirm your registration."
+                    android:textSize="14sp"
+                    android:textColor="@color/gray"
+                    android:lineSpacingExtra="4sp"
+                    android:paddingBottom="16dp" />
+
+                <ImageView
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:src="@drawable/signup_image"
+                    android:layout_gravity="center_horizontal"
+                    android:contentDescription="signup_image_description" />
+            </LinearLayout>
+
+            <!-- Login Guide -->
+            <LinearLayout
+                android:id="@+id/login_guide"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:background="@drawable/card_background"
+                android:layout_marginBottom="16dp"
+                android:animateLayoutChanges="true">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="How to Login"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-condensed"
+                    android:paddingBottom="8dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="1. Select Your Role.\n2. Fill in the email address.\n3. Fill in the password.\n4. Click on the login button.\n5. You will be redirected to the dashboard page if you are approved by the administrator."
+                    android:textSize="14sp"
+                    android:textColor="@color/gray"
+                    android:lineSpacingExtra="4sp"
+                    android:paddingBottom="16dp" />
+
+                <ImageView
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:src="@drawable/login_image"
+                    android:layout_gravity="center_horizontal"
+                    android:contentDescription="login_image_description" />
+            </LinearLayout>
+
+            <!-- Forgot Password Guide -->
+            <LinearLayout
+                android:id="@+id/forgotPassword_guide"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:background="@drawable/card_background"
+                android:layout_marginBottom="16dp"
+                android:animateLayoutChanges="true">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="How to Reset Password"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-condensed"
+                    android:paddingBottom="8dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="1. Fill in the email address.\n2. Fill in the new password and confirm password.\n3. Click on the change button.\n4. You will be redirected to the login page."
+                    android:textSize="14sp"
+                    android:textColor="@color/gray"
+                    android:lineSpacingExtra="4sp"
+                    android:paddingBottom="16dp" />
+
+                <ImageView
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:src="@drawable/forgot_password_image"
+                    android:layout_gravity="center_horizontal"
+                    android:contentDescription="forgot password" />
+            </LinearLayout>
+
+            <!-- Dashboard Guide -->
+            <LinearLayout
+                android:id="@+id/dashboard_guide"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:background="@drawable/card_background"
+                android:layout_marginBottom="16dp"
+                android:animateLayoutChanges="true">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="How to Use the Dashboard"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-condensed"
+                    android:paddingBottom="8dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="1. Click on the cards to navigate to the appropriate page."
+                    android:textSize="14sp"
+                    android:textColor="@color/gray"
+                    android:lineSpacingExtra="4sp"
+                    android:paddingBottom="16dp" />
+
+                <ImageView
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:src="@drawable/dashboard_image"
+                    android:layout_gravity="center_horizontal"
+                    android:contentDescription="log" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

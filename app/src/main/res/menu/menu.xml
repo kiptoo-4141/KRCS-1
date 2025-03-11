@@ -11,11 +11,15 @@
          <item
             android:id="@+id/nav_about_us2"
             android:icon="@drawable/info_circle"
-            android:title="@string/info"/>
+            android:title="About Us?"/>
         <item
             android:id="@+id/nav_contact_us"
             android:icon="@drawable/contact_us"
             android:title="@string/contact_us2"/>
+        <item
+            android:id="@+id/nav_help"
+            android:icon="@drawable/baseline_question_mark_24"
+            android:title="Help"/>
         <item
             android:id="@+id/nav_log_out"
             android:icon="@drawable/baseline_logout_24"
