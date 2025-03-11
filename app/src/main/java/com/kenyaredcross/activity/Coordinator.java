@@ -47,14 +47,14 @@ public class Coordinator extends AppCompatActivity implements NavigationView.OnN
             }
         });
 
-        events = findViewById(R.id.events);
-        events.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Coordinator.this, PendingTaskActivity.class);
-                startActivity(intent);
-            }
-        });
+//        events = findViewById(R.id.events);
+//        events.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(Coordinator.this, PendingTaskActivity.class);
+//                startActivity(intent);
+//            }
+//        });
 
         groupss = findViewById(R.id.groups);
         groupss.setOnClickListener(new View.OnClickListener() {

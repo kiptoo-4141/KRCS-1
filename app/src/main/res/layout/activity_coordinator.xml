@@ -6,69 +6,60 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.Coordinator"
-    android:background="@color/white"
-    android:backgroundTint="@color/white"
-    android:fitsSystemWindows="true"
-    tools:openDrawer="">
+    android:fitsSystemWindows="true">
 
     <!-- Main content layout -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:backgroundTint="@color/white">
+        android:layout_marginTop="25dp"
+        android:background="@color/white">
 
         <!-- Toolbar at the top -->
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="?attr/actionBarSize"
             android:background="@color/red"
             android:elevation="8dp"
-            android:layout_marginTop="10dp"
-            app:title="Volunteer Dashboard"
-            app:titleTextColor="@color/black"
+            app:title="Coordinator Dashboard"
+            app:titleTextColor="@color/white"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
-
-        <!-- Main Fragment Container -->
-        <!-- <FrameLayout
-             android:background="@color/white"
-             android:id="@+id/fragment_container"
-             android:layout_width="match_parent"
-             android:layout_height="0dp"
-             android:layout_weight="1" /> -->
 
         <!-- GridLayout for content cards -->
         <androidx.gridlayout.widget.GridLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:padding="2dp"
+            android:layout_marginTop="16dp"
+            android:padding="16dp"
             app:columnCount="2"
-            app:rowCount="3">
+            app:rowCount="2">
 
-            <!-- Card 1: Courses -->
+            <!-- Card 1: Volunteers -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/volunteersCard"
-                android:layout_width="150dp"
+                android:layout_width="0dp"
                 android:layout_height="150dp"
-                android:backgroundTint="@color/white"
-                android:layout_margin="10dp"
-                android:background="@color/cardview_dark_background"
+                android:layout_margin="8dp"
                 app:cardCornerRadius="12dp"
-                app:cardElevation="8dp">
+                app:cardElevation="8dp"
+                app:layout_columnWeight="1"
+                app:layout_rowWeight="1">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:padding="16dp">
 
                     <ImageView
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:src="@drawable/people_24" />
+                        android:src="@drawable/people_24"
+                        android:contentDescription="volunteer icon" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -76,31 +67,34 @@
                         android:text="Volunteers"
                         android:textSize="18sp"
                         android:textColor="@color/black"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:layout_marginTop="8dp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Card 2: Info -->
+            <!-- Card 2: Groups -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/groups"
-                android:backgroundTint="@color/white"
-                android:layout_width="150dp"
+                android:layout_width="0dp"
                 android:layout_height="150dp"
-                android:layout_margin="10dp"
-                android:background="@color/cardview_dark_background"
+                android:layout_margin="8dp"
                 app:cardCornerRadius="12dp"
-                app:cardElevation="8dp">
+                app:cardElevation="8dp"
+                app:layout_columnWeight="1"
+                app:layout_rowWeight="1">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:padding="16dp">
 
                     <ImageView
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:src="@drawable/groups_24" />
+                        android:src="@drawable/groups_24"
+                        android:contentDescription="group icon" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -108,63 +102,36 @@
                         android:text="Groups"
                         android:textSize="18sp"
                         android:textColor="@color/black"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:layout_marginTop="8dp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Card 3: Events -->
-            <androidx.cardview.widget.CardView
-                android:id="@+id/events"
-                android:backgroundTint="@color/white"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_margin="10dp"
-                android:background="@color/cardview_dark_background"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="8dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:gravity="center">
 
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/baseline_event_24" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Events"
-                        android:textSize="18sp"
-                        android:textColor="@color/black"
-                        android:textStyle="bold" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <!-- Card 4: More Courses -->
+            <!-- Card 3: Tasks -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/giveTasks"
-                android:backgroundTint="@color/white"
-                android:layout_width="150dp"
+                android:layout_width="0dp"
                 android:layout_height="150dp"
-                android:layout_margin="10dp"
-                android:background="@color/cardview_dark_background"
+                android:layout_margin="8dp"
                 app:cardCornerRadius="12dp"
-                app:cardElevation="8dp">
+                app:cardElevation="8dp"
+                app:layout_columnWeight="1"
+                app:layout_rowWeight="1">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:padding="16dp">
 
                     <ImageView
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:src="@drawable/baseline_assignment_turned_in_24" />
+                        android:src="@drawable/baseline_assignment_turned_in_24"
+                        android:contentDescription="task icon" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -172,7 +139,8 @@
                         android:text="Tasks"
                         android:textSize="18sp"
                         android:textColor="@color/black"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:layout_marginTop="8dp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
