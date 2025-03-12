@@ -4,31 +4,26 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
 
-import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.kenyaredcross.R;
-import com.kenyaredcross.adapters.EnrolledCourseAdapter;
-import com.kenyaredcross.domain_model.EnrolledCourseModel;
+import com.kenyaredcross.adapters.ViewPagerAdapter;
 
 public class MyCoursesActivity extends AppCompatActivity {
 
-    TextView feedback,resc;
-    RecyclerView mycourses;
-    EnrolledCourseAdapter enrolledCourseAdapter;
-    FirebaseAuth auth;
-    FirebaseUser user;
+    private TextView feedback, resc;
+    private FirebaseAuth auth;
+    private FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,27 +41,31 @@ public class MyCoursesActivity extends AppCompatActivity {
                 // Replace '.' in email with '_' for Firebase node key
                 String userEmailKey = userEmail.replace(".", "_");
 
-                // Set up Firebase reference to enrollments of the user
-                DatabaseReference enrollmentsRef = FirebaseDatabase.getInstance().getReference()
-                        .child("Enrollments")
-                        .child(userEmailKey);
+                // Set up ViewPager2 and TabLayout
+                ViewPager2 viewPager = findViewById(R.id.viewPager);
+                TabLayout tabLayout = findViewById(R.id.tabLayout);
 
-                // Modify the query to only fetch courses with 'approved' status
-                Query approvedCoursesQuery = enrollmentsRef.orderByChild("status").equalTo("approved");
+                // Create an adapter for ViewPager2
+                ViewPagerAdapter adapter = new ViewPagerAdapter(this);
+                adapter.addFragment(new EnrolledCoursesFragment(userEmailKey), "Enrolled Courses");
+                adapter.addFragment(new CoursesWithResourcesFragment(userEmailKey), "Resources");
+                viewPager.setAdapter(adapter);
 
-                // Set up FirebaseRecyclerOptions with the query for approved courses
-                FirebaseRecyclerOptions<EnrolledCourseModel> options =
-                        new FirebaseRecyclerOptions.Builder<EnrolledCourseModel>()
-                                .setQuery(approvedCoursesQuery, EnrolledCourseModel.class) // use query here
-                                .build();
+                // Connect TabLayout with ViewPager2
+                new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
+                    tab.setText(adapter.getPageTitle(position));
+                }).attach();
 
-                // Set up RecyclerView
-                mycourses = findViewById(R.id.myCoursesView);
-                mycourses.setLayoutManager(new LinearLayoutManager(this));
-
-                // Set up adapter
-                enrolledCourseAdapter = new EnrolledCourseAdapter(options);
-                mycourses.setAdapter(enrolledCourseAdapter);
+                // Add swipe animation to guide the user
+                viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+                    @Override
+                    public void onPageSelected(int position) {
+                        if (position == 1) {
+                            // Show a toast or animation when the user swipes to the resources tab
+                            Toast.makeText(MyCoursesActivity.this, "Swipe left to go back to courses", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             }
         }
 
@@ -77,37 +76,17 @@ public class MyCoursesActivity extends AppCompatActivity {
             return insets;
         });
 
-        resc = findViewById(R.id.coursesresources);
-        resc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MyCoursesActivity.this, CoursesResourcesActivity.class);
-                startActivity(intent);
-            }
-        });
+//        resc = findViewById(R.id.coursesresources);
+//        resc.setOnClickListener(v -> {
+//            Intent intent = new Intent(MyCoursesActivity.this, CoursesResourcesActivity.class);
+//            startActivity(intent);
+//        });
 
         feedback = findViewById(R.id.feedbackLink);
         feedback.setOnClickListener(view -> {
             Intent intent = new Intent(MyCoursesActivity.this, FeedbacksActivity.class);
             intent.putExtra("activityName", "MyCoursesActivity");
             startActivity(intent);
-
         });
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if (enrolledCourseAdapter != null) {
-            enrolledCourseAdapter.startListening();  // Start listening for Firebase data
-        }
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (enrolledCourseAdapter != null) {
-            enrolledCourseAdapter.stopListening();  // Stop listening when activity is stopped
-        }
     }
 }
