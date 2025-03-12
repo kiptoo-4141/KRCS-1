@@ -21,7 +21,7 @@ import java.util.Locale;
 
 public class VolunteerTasksAdapter extends RecyclerView.Adapter<VolunteerTasksAdapter.TaskViewHolder> {
 
-    private List<VolunteerTasks> taskList;
+    private final List<VolunteerTasks> taskList;
 
     public VolunteerTasksAdapter(List<VolunteerTasks> taskList) {
         this.taskList = taskList;
@@ -47,8 +47,11 @@ public class VolunteerTasksAdapter extends RecyclerView.Adapter<VolunteerTasksAd
     }
 
     static class TaskViewHolder extends RecyclerView.ViewHolder {
-        private TextView taskDescription, taskDates, taskStatus, taskGroup;
-        private ProgressBar taskProgress;
+        private final TextView taskDescription;
+        private final TextView taskDates;
+        private final TextView taskStatus;
+        private final TextView taskGroup;
+        private final ProgressBar taskProgress;
 
         public TaskViewHolder(@NonNull View itemView) {
             super(itemView);

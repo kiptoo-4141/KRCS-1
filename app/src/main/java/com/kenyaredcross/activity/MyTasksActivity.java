@@ -77,7 +77,7 @@ public class MyTasksActivity extends AppCompatActivity {
                         userGroupIds.add(groupSnapshot.getKey());
                     }
                 }
-                Log.d("MyTasksActivity", "User Group IDs: " + userGroupIds.toString());
+                Log.d("MyTasksActivity", "User Group IDs: " + userGroupIds);
 
                 if (userGroupIds.isEmpty()) {
                     Log.d("MyTasksActivity", "User is not part of any groups");

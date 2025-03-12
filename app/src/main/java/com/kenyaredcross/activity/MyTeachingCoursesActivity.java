@@ -1,41 +1,28 @@
 package com.kenyaredcross.activity;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
 
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.kenyaredcross.R;
-import com.kenyaredcross.domain_model.Course;
-import com.kenyaredcross.viewholder.CourseViewHolder;
-
-import java.util.HashSet;
+import com.kenyaredcross.adapters.ViewPagerAdapter;
 
 public class MyTeachingCoursesActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerView;
     private DatabaseReference coursesRef;
-    private FirebaseRecyclerAdapter<Course, CourseViewHolder> adapter;
-    private SearchView searchView;
     private String loggedInTrainerEmail;
+    private ViewPager2 viewPager;
+    private TabLayout tabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,114 +30,34 @@ public class MyTeachingCoursesActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_my_teaching_courses);
 
-        recyclerView = findViewById(R.id.recyclerView);
-        searchView = findViewById(R.id.searchView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        // Initialize ViewPager2 and TabLayout
+        viewPager = findViewById(R.id.viewPager);
+        tabLayout = findViewById(R.id.tabLayout);
 
+        // Initialize Firebase references
         coursesRef = FirebaseDatabase.getInstance().getReference("AssignedCourses");
 
         // Retrieve logged-in user's email dynamically
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             loggedInTrainerEmail = user.getEmail();
-            loadCourses(""); // Load courses after getting the email
+            setupViewPager(); // Set up ViewPager after getting the email
         } else {
             Toast.makeText(this, "Error: User not logged in!", Toast.LENGTH_SHORT).show();
-            return;
+            finish(); // Close the activity if the user is not logged in
         }
-
-        // Search functionality
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                loadCourses(query);
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                loadCourses(newText);
-                return true;
-            }
-        });
     }
 
-    private void loadCourses(String query) {
-        if (loggedInTrainerEmail == null) return;
+    private void setupViewPager() {
+        // Create an adapter for ViewPager2
+        ViewPagerAdapter adapter = new ViewPagerAdapter(this);
+        adapter.addFragment(new CoursesListFragment(loggedInTrainerEmail), "Courses");
+        adapter.addFragment(new CoursesWithResourcesFragment(loggedInTrainerEmail), "Resources");
+        viewPager.setAdapter(adapter);
 
-        HashSet<String> displayedCourses = new HashSet<>();
-
-        // Convert email format if needed
-        String formattedEmail = loggedInTrainerEmail.replace(".", "_");
-
-        Log.d("DEBUG", "Querying courses for trainer: " + loggedInTrainerEmail);
-
-        FirebaseRecyclerOptions<Course> options = new FirebaseRecyclerOptions.Builder<Course>()
-                .setQuery(coursesRef.orderByChild("trainerEmail").equalTo(loggedInTrainerEmail), Course.class)
-                .build();
-
-        adapter = new FirebaseRecyclerAdapter<Course, CourseViewHolder>(options) {
-            @NonNull
-            @Override
-            public CourseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_course, parent, false);
-                return new CourseViewHolder(view);
-            }
-
-            @Override
-            protected void onBindViewHolder(@NonNull CourseViewHolder holder, int position, @NonNull Course model) {
-                if (!displayedCourses.contains(model.getCourseId())) {
-                    if (query.isEmpty() || model.getCourseTitle().toLowerCase().contains(query.toLowerCase())) {
-                        holder.courseTitle.setText(model.getCourseTitle());
-                        holder.courseDesc.setText(model.getCourseDescription());
-
-                        holder.itemView.setOnClickListener(v -> openCoursePopup(model));
-                        displayedCourses.add(model.getCourseId());
-                    }
-                }
-            }
-        };
-
-        recyclerView.setAdapter(adapter);
-        adapter.startListening();
-    }
-
-    private void openCoursePopup(Course course) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        View view = LayoutInflater.from(this).inflate(R.layout.dialog_course_resources, null);
-
-        EditText courseOutline = view.findViewById(R.id.courseOutline);
-        EditText courseActivities = view.findViewById(R.id.courseActivities);
-        EditText courseStructure = view.findViewById(R.id.courseStructure);
-        EditText resourceLinks = view.findViewById(R.id.resourceLinks);
-
-        builder.setView(view);
-        builder.setPositiveButton("Add", (dialog, which) -> {
-            addCourseResources(course.getCourseId(), courseOutline.getText().toString(),
-                    courseActivities.getText().toString(), courseStructure.getText().toString(),
-                    resourceLinks.getText().toString());
-        });
-
-        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
-        builder.show();
-    }
-
-    private void addCourseResources(String courseId, String outline, String activities, String structure, String links) {
-        DatabaseReference resourcesRef = FirebaseDatabase.getInstance().getReference("CoursesResources").child(courseId);
-
-        if (!outline.isEmpty()) {
-            resourcesRef.child("courseOutlines").push().setValue(outline);
-        }
-        if (!activities.isEmpty()) {
-            resourcesRef.child("courseActivities").push().setValue(activities);
-        }
-        if (!structure.isEmpty()) {
-            resourcesRef.child("courseStructures").push().setValue(structure);
-        }
-        if (!links.isEmpty()) {
-            resourcesRef.child("resourceLinks").push().setValue(links);
-        }
-
-        Toast.makeText(this, "Resources Added", Toast.LENGTH_SHORT).show();
+        // Connect TabLayout with ViewPager2
+        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
+            tab.setText(adapter.getPageTitle(position));
+        }).attach();
     }
 }

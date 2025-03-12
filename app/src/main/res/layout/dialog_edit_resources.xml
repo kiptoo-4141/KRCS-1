@@ -1,0 +1,30 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/outlineEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Course Outline" />
+
+    <EditText
+        android:id="@+id/activitiesEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Course Activities" />
+
+    <EditText
+        android:id="@+id/structureEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Course Structure" />
+
+    <EditText
+        android:id="@+id/linksEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Resource Links" />
+</LinearLayout>
