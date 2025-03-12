@@ -29,8 +29,11 @@ public class CoursesWithResourcesAdapter extends FirebaseRecyclerAdapter<Enrolle
         holder.courseTitle.setText(model.getTitle());
         holder.courseDescription.setText(model.getDescription());
 
-        // Get the course ID from the Firebase key
+        // Get the course ID from the Firebase reference key (not from the model)
         String courseId = getRef(position).getKey();
+
+        // Log or debug to see what courseId is being retrieved
+        System.out.println("Course ID: " + courseId);
 
         // Load resources for the course
         if (courseId != null) {
@@ -50,7 +53,7 @@ public class CoursesWithResourcesAdapter extends FirebaseRecyclerAdapter<Enrolle
 
                         // Parse courseActivities
                         if (snapshot.child("courseActivities").exists()) {
-                            resourcesBuilder.append("Activities:\n");
+                            resourcesBuilder.append("\nActivities:\n");
                             for (DataSnapshot activity : snapshot.child("courseActivities").getChildren()) {
                                 resourcesBuilder.append("- ").append(activity.getValue(String.class)).append("\n");
                             }
@@ -58,7 +61,7 @@ public class CoursesWithResourcesAdapter extends FirebaseRecyclerAdapter<Enrolle
 
                         // Parse courseStructures
                         if (snapshot.child("courseStructures").exists()) {
-                            resourcesBuilder.append("Structures:\n");
+                            resourcesBuilder.append("\nStructures:\n");
                             for (DataSnapshot structure : snapshot.child("courseStructures").getChildren()) {
                                 resourcesBuilder.append("- ").append(structure.getValue(String.class)).append("\n");
                             }
@@ -66,18 +69,26 @@ public class CoursesWithResourcesAdapter extends FirebaseRecyclerAdapter<Enrolle
 
                         // Parse resourceLinks
                         if (snapshot.child("resourceLinks").exists()) {
-                            resourcesBuilder.append("Links:\n");
+                            resourcesBuilder.append("\nLinks:\n");
                             for (DataSnapshot link : snapshot.child("resourceLinks").getChildren()) {
                                 resourcesBuilder.append("- ").append(link.getValue(String.class)).append("\n");
                             }
                         }
+
+                        // Set the text or show a message if no resources found
+                        if (resourcesBuilder.length() > 0) {
+                            holder.resourcesTextView.setText(resourcesBuilder.toString());
+                        } else {
+                            holder.resourcesTextView.setText("No resources found for this course");
+                        }
+                    } else {
+                        holder.resourcesTextView.setText("No resources found for this course");
                     }
-                    holder.resourcesTextView.setText(resourcesBuilder.toString());
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-                    holder.resourcesTextView.setText("Failed to load resources");
+                    holder.resourcesTextView.setText("Failed to load resources: " + error.getMessage());
                 }
             });
         } else {
