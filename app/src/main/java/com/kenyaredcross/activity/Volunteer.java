@@ -1,14 +1,13 @@
 package com.kenyaredcross.activity;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -20,16 +19,22 @@ import androidx.core.view.GravityCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.kenyaredcross.R;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Volunteer extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -39,7 +44,10 @@ public class Volunteer extends AppCompatActivity implements NavigationView.OnNav
     private FirebaseAuth auth;
     private DatabaseReference databaseReference;
 
-    CardView group, courses, tasks, myCourses, myCerts, attendanceCard;
+    private CardView group, courses, tasks, myCourses, myCerts, attendanceCard;
+
+    private static final int DOCUMENT_PICK_CODE = 1001;
+    private List<Uri> documentUris = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,46 +68,33 @@ public class Volunteer extends AppCompatActivity implements NavigationView.OnNav
             return insets;
         });
 
+        // Initialize UI components
+        initializeUI();
+
+        // Initialize drawer layout and navigation view
+        drawerLayout = findViewById(R.id.main);
+        navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    private void initializeUI() {
         myCourses = findViewById(R.id.volunteermycourses);
         myCourses.setOnClickListener(v -> startActivity(new Intent(Volunteer.this, MyCoursesActivity.class)));
 
         myCerts = findViewById(R.id.myCertificates);
-        myCerts.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Volunteer.this, CertActivity.class);
-                startActivity(intent);
-            }
-        });
+        myCerts.setOnClickListener(v -> startActivity(new Intent(Volunteer.this, CertActivity.class)));
 
         tasks = findViewById(R.id.myTasks);
-        tasks.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Volunteer.this, MyTasksActivity.class);
-                startActivity(intent);
-            }
-        });
+        tasks.setOnClickListener(v -> startActivity(new Intent(Volunteer.this, MyTasksActivity.class)));
 
         attendanceCard = findViewById(R.id.classAttendanceCard);
-        attendanceCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                    Intent intent = new Intent(Volunteer.this, ClassAttendanceActivity.class);
-                    startActivity(intent);
-            }
-        });
+        attendanceCard.setOnClickListener(v -> startActivity(new Intent(Volunteer.this, ClassAttendanceActivity.class)));
 
         group = findViewById(R.id.groupCard);
         group.setOnClickListener(v -> startActivity(new Intent(Volunteer.this, MyGroupsActivity.class)));
 
         courses = findViewById(R.id.volunteercourses);
         courses.setOnClickListener(v -> startActivity(new Intent(Volunteer.this, CoursesActivity.class)));
-
-        // Initialize drawer layout and navigation view
-        drawerLayout = findViewById(R.id.main);
-        navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
     }
 
     private void checkUserProfile() {
@@ -116,26 +111,40 @@ public class Volunteer extends AppCompatActivity implements NavigationView.OnNav
     }
 
     private void showUserProfilePopup() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomAlertDialog);
         builder.setTitle("Complete Your Profile");
 
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.popup_user_profile, null);
         builder.setView(dialogView);
 
-        EditText fullName = dialogView.findViewById(R.id.fullName);
-        EditText email = dialogView.findViewById(R.id.email);
-        EditText location = dialogView.findViewById(R.id.location);
-        EditText specialization = dialogView.findViewById(R.id.specialization);
-        EditText phone = dialogView.findViewById(R.id.phone);
+        TextInputEditText fullName = dialogView.findViewById(R.id.fullName);
+        TextInputEditText email = dialogView.findViewById(R.id.email);
+        TextInputEditText location = dialogView.findViewById(R.id.location);
+        TextInputEditText specialization = dialogView.findViewById(R.id.specialization);
+        TextInputEditText phone = dialogView.findViewById(R.id.phone);
+        Button btnUploadDocs = dialogView.findViewById(R.id.btnUploadDocs);
+        RecyclerView rvDocuments = dialogView.findViewById(R.id.rvDocuments);
 
+        // Auto-populate email
         email.setText(auth.getCurrentUser().getEmail());
         email.setEnabled(false);
 
-        builder.setPositiveButton("Save", null);
-        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
+        // Set up document upload
+        btnUploadDocs.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.setType("*/*");
+            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+            startActivityForResult(intent, DOCUMENT_PICK_CODE);
+        });
+
+        // Set up RecyclerView for documents
+        DocumentAdapter documentAdapter = new DocumentAdapter(documentUris);
+        rvDocuments.setLayoutManager(new LinearLayoutManager(this));
+        rvDocuments.setAdapter(documentAdapter);
 
         AlertDialog dialog = builder.create();
+        dialog.setCancelable(false);
 
         dialog.setOnShowListener(d -> {
             Button saveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
@@ -146,9 +155,7 @@ public class Volunteer extends AppCompatActivity implements NavigationView.OnNav
                 String userSpecialization = specialization.getText().toString().trim();
                 String userPhone = phone.getText().toString().trim();
 
-                if (name.isEmpty() || userLocation.isEmpty() || userSpecialization.isEmpty() || userPhone.isEmpty()) {
-                    Toast.makeText(Volunteer.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
-                } else {
+                if (validateInputs(name, userLocation, userSpecialization, userPhone)) {
                     saveUserProfile(name, userEmail, userLocation, userSpecialization, userPhone);
                     dialog.dismiss();
                 }
@@ -156,6 +163,18 @@ public class Volunteer extends AppCompatActivity implements NavigationView.OnNav
         });
 
         dialog.show();
+    }
+
+    private boolean validateInputs(String name, String location, String specialization, String phone) {
+        if (name.isEmpty() || location.isEmpty() || specialization.isEmpty() || phone.isEmpty()) {
+            Toast.makeText(this, "All fields are required!", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (phone.length() < 10) {
+            Toast.makeText(this, "Invalid phone number", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 
     private void saveUserProfile(String name, String email, String location, String specialization, String phone) {
@@ -177,6 +196,29 @@ public class Volunteer extends AppCompatActivity implements NavigationView.OnNav
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == DOCUMENT_PICK_CODE && resultCode == RESULT_OK) {
+            if (data != null) {
+                if (data.getClipData() != null) {
+                    int count = data.getClipData().getItemCount();
+                    for (int i = 0; i < count; i++) {
+                        documentUris.add(data.getClipData().getItemAt(i).getUri());
+                    }
+                } else if (data.getData() != null) {
+                    documentUris.add(data.getData());
+                }
+                // Update RecyclerView
+                RecyclerView rvDocuments = findViewById(R.id.rvDocuments);
+                if (rvDocuments != null) {
+                    rvDocuments.getAdapter().notifyDataSetChanged();
+                    rvDocuments.setVisibility(View.VISIBLE);
+                }
+            }
+        }
+    }
+
+    @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         int id = menuItem.getItemId();
 
@@ -184,7 +226,7 @@ public class Volunteer extends AppCompatActivity implements NavigationView.OnNav
             startActivity(new Intent(Volunteer.this, AboutUsActivity.class));
         } else if (id == R.id.nav_contact_us) {
             startActivity(new Intent(Volunteer.this, ContactUsActivity.class));
-        } else if (id ==R.id.nav_help) {
+        } else if (id == R.id.nav_help) {
             startActivity(new Intent(Volunteer.this, HelpActivity.class));
         } else if (id == R.id.nav_log_out) {
             FirebaseAuth.getInstance().signOut();

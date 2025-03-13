@@ -42,7 +42,7 @@ public class EventsAdapter extends FirebaseRecyclerAdapter<EventModel, EventsAda
     protected void onBindViewHolder(@NonNull myViewHolder holder, int position, @NonNull EventModel model) {
         holder.title.setText(model.getEvent_title());
         holder.description.setText(model.getEvent_description());
-        holder.fees.setText(model.getEvent_fees());
+//        holder.fees.setText(model.getEvent_fees());
         holder.location.setText(model.getEvent_location());
 
         // Load image with Glide
@@ -71,7 +71,7 @@ public class EventsAdapter extends FirebaseRecyclerAdapter<EventModel, EventsAda
             img = itemView.findViewById(R.id.EventImg);
             title = itemView.findViewById(R.id.EventTitle);
             description = itemView.findViewById(R.id.EventDescription);
-            fees = itemView.findViewById(R.id.EventFee);
+//            fees = itemView.findViewById(R.id.EventFee);
             location = itemView.findViewById(R.id.EventLocation);
 
         }

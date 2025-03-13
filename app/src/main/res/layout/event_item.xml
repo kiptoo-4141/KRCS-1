@@ -56,26 +56,26 @@
             android:textColor="@color/red"
             android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/EventFee"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:padding="6dp"
-            android:layout_toRightOf="@id/EventImg"
-            android:layout_below="@id/EventLocation"
-            android:text="Ksh:200"
-            android:textColor="@color/red"
-            android:textSize="16sp" />
+<!--        <TextView-->
+<!--            android:id="@+id/EventFee"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginLeft="12dp"-->
+<!--            android:padding="6dp"-->
+<!--            android:layout_toRightOf="@id/EventImg"-->
+<!--            android:layout_below="@id/EventLocation"-->
+<!--            android:text="Ksh:200"-->
+<!--            android:textColor="@color/red"-->
+<!--            android:textSize="16sp" />-->
 
-        <Button
-            android:id="@+id/enrollButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/EventFee"
-            android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@id/EventImg"
-            android:backgroundTint="@color/red"
-            android:text="ENROLL" />
+<!--        <Button-->
+<!--            android:id="@+id/enrollButton"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@id/EventFee"-->
+<!--            android:layout_marginLeft="5dp"-->
+<!--            android:layout_toRightOf="@id/EventImg"-->
+<!--            android:backgroundTint="@color/red"-->
+<!--            android:text="ENROLL" />-->
     </RelativeLayout>
 </androidx.cardview.widget.CardView>
