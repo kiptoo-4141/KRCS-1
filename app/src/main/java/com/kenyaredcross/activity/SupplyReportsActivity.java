@@ -1,6 +1,7 @@
 package com.kenyaredcross.activity;
 
 import android.os.Bundle;
+import android.os.Environment;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -14,10 +15,19 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Table;
+import com.itextpdf.layout.properties.TextAlignment;
 import com.kenyaredcross.R;
 import com.kenyaredcross.adapters.SupplyReportsAdapter;
 import com.kenyaredcross.domain_model.SupplyReportsModel;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,14 +55,14 @@ public class SupplyReportsActivity extends AppCompatActivity {
         supplyReportsView.setAdapter(supplyReportsAdapter);
 
         // Get the logged-in supplier's email
-        String currentUserEmail = mAuth.getCurrentUser().getEmail().replace(".", "_");
+        String currentUserEmail = mAuth.getCurrentUser().getEmail();
 
         // Fetch data from SuppliedGoods node
         fetchSuppliedGoodsData(currentUserEmail);
 
         // Set up download button
         Button downloadButton = findViewById(R.id.downloadButton);
-        downloadButton.setOnClickListener(v -> exportToCSV(supplyReportsList));
+        downloadButton.setOnClickListener(v -> exportToPDF(supplyReportsList));
     }
 
     private void fetchSuppliedGoodsData(String supplierEmail) {
@@ -62,18 +72,27 @@ public class SupplyReportsActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 supplyReportsList.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    // Check if the entry has a "supplier" field
+                    // Check if the entry has a "supplier" field and matches the logged-in supplier's email
                     if (snapshot.hasChild("supplier")) {
                         String supplier = snapshot.child("supplier").getValue(String.class);
-                        if (supplier != null && supplier.equals(supplierEmail.replace(".", "_"))) {
-                            SupplyReportsModel report = snapshot.getValue(SupplyReportsModel.class);
-                            if (report != null) {
-                                // Fetch the username from the Users node
-                                fetchUsername(report, supplierEmail);
-                            }
+                        if (supplier != null && supplier.equals(supplierEmail)) {
+                            // Create a SupplyReportsModel object from the snapshot
+                            SupplyReportsModel report = new SupplyReportsModel(
+                                    snapshot.getKey(), // ID
+                                    snapshot.child("itemName").getValue(String.class), // Item Name
+                                    snapshot.child("category").getValue(String.class), // Category
+                                    snapshot.child("requestCount").getValue(Integer.class), // Request Count
+                                    snapshot.child("totalAmount").getValue(Double.class), // Amount
+                                    snapshot.child("timestamp").getValue(String.class), // Date & Time
+                                    snapshot.child("inventoryManager").getValue(String.class), // Inventory Manager
+                                    snapshot.child("status").getValue(String.class) // Status
+                            );
+                            supplyReportsList.add(report);
                         }
                     }
                 }
+                // Notify the adapter that the data has changed
+                supplyReportsAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -83,41 +102,58 @@ public class SupplyReportsActivity extends AppCompatActivity {
         });
     }
 
-    private void fetchUsername(SupplyReportsModel report, String supplierEmail) {
-        mDatabase.child("Users").child(supplierEmail).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot userSnapshot) {
-                if (userSnapshot.exists()) {
-                    String username = userSnapshot.child("username").getValue(String.class);
-                    report.setInventoryManager(username); // Set the username
-                    supplyReportsList.add(report);
-                    supplyReportsAdapter.notifyDataSetChanged();
-                }
+    private void exportToPDF(List<SupplyReportsModel> reports) {
+        // Create a file in the Downloads directory
+        String fileName = "SupplyReports_" + System.currentTimeMillis() + ".pdf";
+        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), fileName);
+
+        try {
+            // Initialize PDF writer and document
+            PdfWriter writer = new PdfWriter(new FileOutputStream(file));
+            PdfDocument pdf = new PdfDocument(writer);
+            Document document = new Document(pdf);
+
+            // Add a title to the PDF
+            Paragraph title = new Paragraph("Supply Reports")
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .setFontSize(18);
+            document.add(title);
+
+            // Create a table for the data
+            float[] columnWidths = {100, 100, 100, 100, 100, 100, 100};
+            Table table = new Table(columnWidths);
+
+            // Add table headers
+            table.addHeaderCell("Item Name");
+            table.addHeaderCell("Category");
+            table.addHeaderCell("Request Count");
+            table.addHeaderCell("Amount");
+            table.addHeaderCell("Date & Time");
+            table.addHeaderCell("Inventory Manager");
+            table.addHeaderCell("Status");
+
+            // Add data rows
+            for (SupplyReportsModel report : reports) {
+                table.addCell(report.getItemName());
+                table.addCell(report.getCategory());
+                table.addCell(String.valueOf(report.getRequestCount()));
+                table.addCell(String.valueOf(report.getAmount()));
+                table.addCell(report.getDateTime());
+                table.addCell(report.getInventoryManager());
+                table.addCell(report.getStatus());
             }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(SupplyReportsActivity.this, "Failed to fetch username: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
+            // Add the table to the document
+            document.add(table);
 
-    private void exportToCSV(List<SupplyReportsModel> reports) {
-        // Implement CSV export logic here
-        StringBuilder csvData = new StringBuilder();
-        csvData.append("Item Name,Category,Request Count,Amount,Date & Time,Inventory Manager,Status\n");
+            // Close the document
+            document.close();
 
-        for (SupplyReportsModel report : reports) {
-            csvData.append(report.getItemName()).append(",")
-                    .append(report.getCategory()).append(",")
-                    .append(report.getRequestCount()).append(",")
-                    .append(report.getAmount()).append(",")
-                    .append(report.getDateTime()).append(",")
-                    .append(report.getInventoryManager()).append(",")
-                    .append(report.getStatus()).append("\n");
+            // Notify the user
+            Toast.makeText(this, "PDF saved to Downloads: " + file.getAbsolutePath(), Toast.LENGTH_LONG).show();
+        } catch (FileNotFoundException e) {
+            Toast.makeText(this, "Failed to create PDF: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
         }
-
-        // Save the CSV file (you can use FileWriter or a library like Apache Commons CSV)
-        Toast.makeText(this, "CSV data:\n" + csvData.toString(), Toast.LENGTH_LONG).show();
     }
 }

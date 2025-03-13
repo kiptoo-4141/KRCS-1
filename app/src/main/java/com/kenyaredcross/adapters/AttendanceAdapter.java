@@ -17,9 +17,9 @@ import com.kenyaredcross.domain_model.AttendanceRecord;
 import java.util.List;
 
 public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.AttendanceViewHolder> {
-    private List<AttendanceRecord> attendanceRecords;
-    private Context context;
-    private boolean isTrainer;
+    private final List<AttendanceRecord> attendanceRecords;
+    private final Context context;
+    private final boolean isTrainer;
 
     public AttendanceAdapter(List<AttendanceRecord> attendanceRecords, Context context, boolean isTrainer) {
         this.attendanceRecords = attendanceRecords;

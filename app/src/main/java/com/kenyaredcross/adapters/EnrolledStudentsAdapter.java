@@ -14,7 +14,7 @@ import com.kenyaredcross.domain_model.Student;
 import java.util.List;
 
 public class EnrolledStudentsAdapter extends RecyclerView.Adapter<EnrolledStudentsAdapter.StudentViewHolder> {
-    private List<Student> studentList;
+    private final List<Student> studentList;
 
     public EnrolledStudentsAdapter(List<Student> studentList) {
         this.studentList = studentList;

@@ -54,8 +54,8 @@ public class ClassAttendanceActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private AttendanceAdapter attendanceAdapter;
     private ClassForAttendanceAdapter classForAttendanceAdapter;
-    private List<CourseModel> courseList = new ArrayList<>();
-    private List<AttendanceRecord> attendanceRecords = new ArrayList<>();
+    private final List<CourseModel> courseList = new ArrayList<>();
+    private final List<AttendanceRecord> attendanceRecords = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -329,7 +329,7 @@ public class ClassAttendanceActivity extends AppCompatActivity {
                     record.setActivationTime(sdf.format(new Date()));
 
                     // Calculate expiration time
-                    long expirationTime = System.currentTimeMillis() + (durationMinutes * 60 * 1000);
+                    long expirationTime = System.currentTimeMillis() + ((long) durationMinutes * 60 * 1000);
                     record.setExpirationTime(sdf.format(new Date(expirationTime)));
 
                     // Save to database

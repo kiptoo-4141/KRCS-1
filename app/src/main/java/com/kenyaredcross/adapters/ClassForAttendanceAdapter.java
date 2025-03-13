@@ -14,8 +14,8 @@ import com.kenyaredcross.domain_model.CourseModel;
 import java.util.List;
 
 public class ClassForAttendanceAdapter extends RecyclerView.Adapter<ClassForAttendanceAdapter.CourseViewHolder> {
-    private List<CourseModel> courseList;
-    private OnCourseClickListener listener;
+    private final List<CourseModel> courseList;
+    private final OnCourseClickListener listener;
 
     public interface OnCourseClickListener {
         void onCourseClick(CourseModel course);

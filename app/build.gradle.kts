@@ -49,6 +49,8 @@ dependencies {
     implementation("androidx.core:core-ktx:1.12.0")
     implementation ("com.tbuonomo:dotsindicator:5.0")
 
+    implementation ("com.itextpdf:itext7-core:7.2.3")
+
 
     implementation(libs.glide)
     implementation(libs.circleimageview)
