@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.kenyaredcross.R;
 import com.kenyaredcross.domain_model.Group;
+import com.kenyaredcross.domain_model.Member;
 
 import java.util.List;
 
@@ -32,6 +33,15 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.GroupViewHol
     public void onBindViewHolder(@NonNull GroupViewHolder holder, int position) {
         Group group = groupList.get(position);
         holder.groupName.setText(group.getGroupName());
+
+        StringBuilder membersBuilder = new StringBuilder();
+        for (Member member : group.getMembers()) {
+            membersBuilder.append(member.getUsername()).append(", ");
+        }
+        if (membersBuilder.length() > 0) {
+            membersBuilder.setLength(membersBuilder.length() - 2); // Remove the last comma and space
+        }
+        holder.groupMembers.setText(membersBuilder.toString());
     }
 
     @Override
@@ -41,10 +51,12 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.GroupViewHol
 
     static class GroupViewHolder extends RecyclerView.ViewHolder {
         TextView groupName;
+        TextView groupMembers;
 
         public GroupViewHolder(@NonNull View itemView) {
             super(itemView);
             groupName = itemView.findViewById(R.id.groupName);
+            groupMembers = itemView.findViewById(R.id.groupMembers);
         }
     }
 }

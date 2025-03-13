@@ -14,9 +14,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.kenyaredcross.R;
-//import com.kenyaredcross.adapters.GroupAdapter;
-import com.kenyaredcross.domain_model.Group;
 import com.kenyaredcross.adapters.GroupAdapter;
+import com.kenyaredcross.domain_model.Group;
+import com.kenyaredcross.domain_model.Member;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,15 +53,24 @@ public class MyGroupsActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot snapshot) {
                 groupList.clear();
                 for (DataSnapshot groupSnapshot : snapshot.getChildren()) {
+                    boolean isMember = false;
+                    List<Member> members = new ArrayList<>();
                     for (DataSnapshot userSnapshot : groupSnapshot.getChildren()) {
                         String emailKey = userSnapshot.getKey();
                         if (emailKey != null && emailKey.equals(loggedInUserEmail)) {
-                            String groupId = groupSnapshot.getKey();
-                            String groupName = groupSnapshot.child("groupName").getValue(String.class);
-                            Group group = new Group(groupId, groupName);
-                            groupList.add(group);
-                            break;
+                            isMember = true;
                         }
+                        if (emailKey != null && userSnapshot.child("email").exists()) {
+                            String email = userSnapshot.child("email").getValue(String.class);
+                            String username = userSnapshot.child("username").getValue(String.class);
+                            members.add(new Member(email, username));
+                        }
+                    }
+                    if (isMember) {
+                        String groupId = groupSnapshot.getKey();
+                        String groupName = groupSnapshot.child("groupName").getValue(String.class);
+                        Group group = new Group(groupId, groupName, members);
+                        groupList.add(group);
                     }
                 }
                 groupAdapter.notifyDataSetChanged();
