@@ -84,15 +84,15 @@ public class SupplyReportsActivity extends AppCompatActivity {
                                     snapshot.child("requestCount").getValue(Integer.class), // Request Count
                                     snapshot.child("totalAmount").getValue(Double.class), // Amount
                                     snapshot.child("timestamp").getValue(String.class), // Date & Time
-                                    snapshot.child("inventoryManager").getValue(String.class), // Inventory Manager
+                                    snapshot.child("inventoryManager").getValue(String.class), // Inventory Manager Email
                                     snapshot.child("status").getValue(String.class) // Status
                             );
-                            supplyReportsList.add(report);
+
+                            // Fetch the username of the inventory manager
+                            fetchInventoryManagerUsername(report);
                         }
                     }
                 }
-                // Notify the adapter that the data has changed
-                supplyReportsAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -100,6 +100,32 @@ public class SupplyReportsActivity extends AppCompatActivity {
                 Toast.makeText(SupplyReportsActivity.this, "Failed to load data: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void fetchInventoryManagerUsername(SupplyReportsModel report) {
+        String inventoryManagerEmail = report.getInventoryManager();
+        if (inventoryManagerEmail != null) {
+            // Replace dots with underscores in the email to match Firebase key format
+            String formattedEmail = inventoryManagerEmail.replace(".", "_");
+
+            DatabaseReference userRef = mDatabase.child("Users").child(formattedEmail);
+            userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot userSnapshot) {
+                    if (userSnapshot.exists()) {
+                        String username = userSnapshot.child("username").getValue(String.class);
+                        report.setInventoryManager(username); // Update the inventory manager field with the username
+                        supplyReportsList.add(report);
+                        supplyReportsAdapter.notifyDataSetChanged();
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Toast.makeText(SupplyReportsActivity.this, "Failed to fetch username: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     private void exportToPDF(List<SupplyReportsModel> reports) {
