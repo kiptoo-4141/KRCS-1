@@ -6,8 +6,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -15,6 +17,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.kenyaredcross.R;
 import com.kenyaredcross.domain_model.SuppliedGoodsModel;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -44,6 +47,7 @@ public class SuppliedGoodsAdapter extends RecyclerView.Adapter<SuppliedGoodsAdap
                 for (DataSnapshot goodsSnapshot : snapshot.getChildren()) {
                     SuppliedGoodsModel goods = goodsSnapshot.getValue(SuppliedGoodsModel.class);
                     if (goods != null) {
+                        goods.setRequestId(goodsSnapshot.getKey()); // Set the requestId from the snapshot key
                         suppliedGoodsList.add(goods);
                     }
                 }
@@ -105,35 +109,35 @@ public class SuppliedGoodsAdapter extends RecyclerView.Adapter<SuppliedGoodsAdap
     }
 
     private void approveRequest(SuppliedGoodsModel goods, ViewHolder holder) {
-        // Create a new FinanceRequest object with all details from SuppliedGoods
-        Map<String, Object> financeRequestData = new HashMap<>();
-        financeRequestData.put("category", goods.getCategory());
-        financeRequestData.put("inventoryManager", goods.getInventoryManager());
-        financeRequestData.put("itemName", goods.getItemName());
-        financeRequestData.put("requestCount", goods.getRequestCount());
-        financeRequestData.put("requestId", goods.getRequestId());
-        financeRequestData.put("status", "pending");  // Set status to pending
-        financeRequestData.put("supplier", goods.getSupplier());
-        financeRequestData.put("timestamp", goods.getDateTime());
-        financeRequestData.put("totalAmount", goods.getTotalAmount());
-
-        // Store the finance request in Firebase
-        financeRequestsRef.push().setValue(financeRequestData)
+        // Update the status to "approved" in the existing SuppliedGoods node
+        suppliedGoodsRef.child(goods.getRequestId()).child("status").setValue("approved")
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        // Update the status to "approved" in SuppliedGoods
-                        suppliedGoodsRef.child(goods.getRequestId()).child("status").setValue("approved")
-                                .addOnCompleteListener(updateTask -> {
-                                    if (updateTask.isSuccessful()) {
+                        // Create a new FinanceRequest object with all details from SuppliedGoods
+                        Map<String, Object> financeRequestData = new HashMap<>();
+                        financeRequestData.put("category", goods.getCategory());
+                        financeRequestData.put("inventoryManager", goods.getInventoryManager());
+                        financeRequestData.put("itemName", goods.getItemName());
+                        financeRequestData.put("requestCount", goods.getRequestCount());
+                        financeRequestData.put("requestId", goods.getRequestId());
+                        financeRequestData.put("status", "pending");  // Set status to pending
+                        financeRequestData.put("supplier", goods.getSupplier());
+                        financeRequestData.put("timestamp", goods.getDateTime());
+                        financeRequestData.put("totalAmount", goods.getTotalAmount());
+
+                        // Store the finance request in Firebase
+                        financeRequestsRef.push().setValue(financeRequestData)
+                                .addOnCompleteListener(financeTask -> {
+                                    if (financeTask.isSuccessful()) {
                                         holder.status.setText("approved");
                                         holder.btnApprove.setEnabled(false);  // Disable the button after approval
                                         Toast.makeText(holder.itemView.getContext(), "Supplied goods approved and finance request created", Toast.LENGTH_SHORT).show();
                                     } else {
-                                        Toast.makeText(holder.itemView.getContext(), "Failed to update status", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(holder.itemView.getContext(), "Failed to create finance request", Toast.LENGTH_SHORT).show();
                                     }
                                 });
                     } else {
-                        Toast.makeText(holder.itemView.getContext(), "Failed to create finance request", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(holder.itemView.getContext(), "Failed to update status", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
