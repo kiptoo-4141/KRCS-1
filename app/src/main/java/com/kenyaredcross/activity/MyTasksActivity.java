@@ -15,6 +15,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.kenyaredcross.R;
 import com.kenyaredcross.adapters.VolunteerTasksAdapter;
+import com.kenyaredcross.domain_model.GroupMember;
 import com.kenyaredcross.domain_model.VolunteerTasks;
 
 import java.util.ArrayList;
@@ -59,8 +60,8 @@ public class MyTasksActivity extends AppCompatActivity {
     }
 
     private void loadTasksForUser() {
-        String userId = mAuth.getCurrentUser().getUid();
-        Log.d("MyTasksActivity", "Loading tasks for user: " + userId);
+        String userEmail = mAuth.getCurrentUser().getEmail().replace(".", "_");
+        Log.d("MyTasksActivity", "Loading tasks for user: " + userEmail);
 
         // Fetch groups the user is in
         groupsRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -73,7 +74,7 @@ public class MyTasksActivity extends AppCompatActivity {
 
                 List<String> userGroupIds = new ArrayList<>();
                 for (DataSnapshot groupSnapshot : snapshot.getChildren()) {
-                    if (groupSnapshot.child(userId).exists()) {
+                    if (groupSnapshot.child(userEmail).exists()) {
                         userGroupIds.add(groupSnapshot.getKey());
                     }
                 }
@@ -98,6 +99,19 @@ public class MyTasksActivity extends AppCompatActivity {
                             VolunteerTasks task = taskSnapshot.getValue(VolunteerTasks.class);
                             if (task != null && userGroupIds.contains(task.getGroupId())) {
                                 task.setTaskId(taskSnapshot.getKey()); // Set the task ID
+
+                                // Fetch group members
+                                DataSnapshot groupSnapshot = snapshot.child(task.getGroupId());
+                                List<GroupMember> groupMembers = new ArrayList<>();
+                                for (DataSnapshot memberSnapshot : groupSnapshot.getChildren()) {
+                                    if (!memberSnapshot.getKey().equals("groupId") && !memberSnapshot.getKey().equals("groupName")) {
+                                        String email = memberSnapshot.child("email").getValue(String.class);
+                                        String username = memberSnapshot.child("username").getValue(String.class);
+                                        groupMembers.add(new GroupMember(email, username));
+                                    }
+                                }
+                                task.setGroupMembers(groupMembers);
+
                                 taskList.add(task);
                             }
                         }

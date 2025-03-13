@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kenyaredcross.R;
+import com.kenyaredcross.domain_model.GroupMember;
 import com.kenyaredcross.domain_model.VolunteerTasks;
 
 import java.text.ParseException;
@@ -41,16 +42,12 @@ public class VolunteerTasksAdapter extends RecyclerView.Adapter<VolunteerTasksAd
         holder.bind(task);
     }
 
-    @Override
-    public int getItemCount() {
-        return taskList.size();
-    }
-
     static class TaskViewHolder extends RecyclerView.ViewHolder {
         private final TextView taskDescription;
         private final TextView taskDates;
         private final TextView taskStatus;
         private final TextView taskGroup;
+        private final TextView taskMembers;
         private final ProgressBar taskProgress;
 
         public TaskViewHolder(@NonNull View itemView) {
@@ -59,6 +56,7 @@ public class VolunteerTasksAdapter extends RecyclerView.Adapter<VolunteerTasksAd
             taskDates = itemView.findViewById(R.id.taskDates);
             taskStatus = itemView.findViewById(R.id.taskStatus);
             taskGroup = itemView.findViewById(R.id.taskGroup);
+            taskMembers = itemView.findViewById(R.id.taskMembers);
             taskProgress = itemView.findViewById(R.id.taskProgress);
         }
 
@@ -66,13 +64,18 @@ public class VolunteerTasksAdapter extends RecyclerView.Adapter<VolunteerTasksAd
             taskDescription.setText(task.getDescription());
             taskDates.setText("Start: " + task.getStartDate() + " - End: " + task.getEndDate());
             taskStatus.setText("Status: " + task.getStatus());
+            taskGroup.setText("Group ID: " + task.getGroupId());
+
+            // Display group members
+            StringBuilder membersBuilder = new StringBuilder("Members: ");
+            for (GroupMember member : task.getGroupMembers()) {
+                membersBuilder.append(member.getUsername()).append(" (").append(member.getEmail()).append("), ");
+            }
+            taskMembers.setText(membersBuilder.toString());
 
             // Calculate and set progress
             int progress = calculateProgress(task.getStartDate(), task.getEndDate());
             taskProgress.setProgress(progress);
-
-            // Display group ID
-            taskGroup.setText("Group ID: " + task.getGroupId());
         }
 
         private int calculateProgress(String startDateStr, String endDateStr) {
@@ -97,4 +100,11 @@ public class VolunteerTasksAdapter extends RecyclerView.Adapter<VolunteerTasksAd
             }
         }
     }
+
+    @Override
+    public int getItemCount() {
+        return taskList.size();
+    }
+
+
 }

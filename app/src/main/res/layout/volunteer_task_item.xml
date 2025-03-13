@@ -32,6 +32,12 @@
         android:layout_height="wrap_content"
         android:text="Group ID: MW1O3KB"
         android:textSize="14sp" />
+    <TextView
+        android:id="@+id/taskMembers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Members: "
+        android:textSize="14sp" />
 
     <ProgressBar
         android:id="@+id/taskProgress"

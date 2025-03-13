@@ -1,5 +1,7 @@
 package com.kenyaredcross.domain_model;
 
+import java.util.List;
+
 public class VolunteerTasks {
     private String taskId; // Unique ID for the task
     private String description;
@@ -7,17 +9,19 @@ public class VolunteerTasks {
     private String endDate;
     private String groupId;
     private String status;
+    private List<GroupMember> groupMembers; // List of group members
 
     // Default constructor required for Firebase
     public VolunteerTasks() {}
 
-    public VolunteerTasks(String taskId, String description, String startDate, String endDate, String groupId, String status) {
+    public VolunteerTasks(String taskId, String description, String startDate, String endDate, String groupId, String status, List<GroupMember> groupMembers) {
         this.taskId = taskId;
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
         this.groupId = groupId;
         this.status = status;
+        this.groupMembers = groupMembers;
     }
 
     // Getters and Setters
@@ -38,4 +42,8 @@ public class VolunteerTasks {
 
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
+
+    public List<GroupMember> getGroupMembers() { return groupMembers; }
+    public void setGroupMembers(List<GroupMember> groupMembers) { this.groupMembers = groupMembers; }
 }
+
