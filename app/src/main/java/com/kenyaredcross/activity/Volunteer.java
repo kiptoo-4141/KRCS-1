@@ -39,7 +39,7 @@ public class Volunteer extends AppCompatActivity implements NavigationView.OnNav
     private FirebaseAuth auth;
     private DatabaseReference databaseReference;
 
-    CardView group, courses, tasks, myCourses, myCerts;
+    CardView group, courses, tasks, myCourses, myCerts, attendanceCard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +78,15 @@ public class Volunteer extends AppCompatActivity implements NavigationView.OnNav
             public void onClick(View v) {
                 Intent intent = new Intent(Volunteer.this, MyTasksActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        attendanceCard = findViewById(R.id.classAttendanceCard);
+        attendanceCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    Intent intent = new Intent(Volunteer.this, ClassAttendanceActivity.class);
+                    startActivity(intent);
             }
         });
 

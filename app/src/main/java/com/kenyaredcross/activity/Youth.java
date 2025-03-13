@@ -38,7 +38,7 @@ public class Youth extends AppCompatActivity implements NavigationView.OnNavigat
     private FirebaseAuth auth;
     private FirebaseUser user;
 
-    private CardView courses, youthDonationCard, myCourses, events, messaging, receipt, cert;
+    private CardView courses, youthDonationCard, myCourses, events, messaging, receipt, cert, attendanceCard;
     private Toolbar toolbar;
 
     private ValueEventListener enrollmentsListener;
@@ -55,6 +55,9 @@ public class Youth extends AppCompatActivity implements NavigationView.OnNavigat
         user = auth.getCurrentUser();
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
+//        mAuth = FirebaseAuth.getInstance();
+//        mDatabase = FirebaseDatabase.getInstance().getReference();
+
         // Initialize UI components
         cert = findViewById(R.id.youthCertificationCard);
         cert.setOnClickListener(v -> startActivity(new Intent(Youth.this, CertActivity.class)));
@@ -70,6 +73,15 @@ public class Youth extends AppCompatActivity implements NavigationView.OnNavigat
 
         myCourses = findViewById(R.id.mycourses);
         myCourses.setOnClickListener(v -> startActivity(new Intent(Youth.this, MyCoursesActivity.class)));
+
+        attendanceCard = findViewById(R.id.classAttendanceCard);
+        attendanceCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Youth.this, ClassAttendanceActivity.class);
+                startActivity(intent);
+            }
+        });
 
         courses = findViewById(R.id.courses);
         courses.setOnClickListener(v -> startActivity(new Intent(Youth.this, CoursesActivity.class)));
