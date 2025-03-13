@@ -3,7 +3,7 @@ package com.kenyaredcross.domain_model;
 import java.util.List;
 
 public class VolunteerTasks {
-    private String taskId; // Unique ID for the task
+    private String taskId;
     private String description;
     private String startDate;
     private String endDate;
@@ -46,4 +46,3 @@ public class VolunteerTasks {
     public List<GroupMember> getGroupMembers() { return groupMembers; }
     public void setGroupMembers(List<GroupMember> groupMembers) { this.groupMembers = groupMembers; }
 }
-
