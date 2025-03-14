@@ -93,9 +93,9 @@
         android:id="@+id/btnUploadDocs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Upload Certifications"
+        android:text="Upload Documents(ID/PASSPORT)"
         android:backgroundTint="@color/white"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:layout_marginTop="16dp"/>
 
     <androidx.recyclerview.widget.RecyclerView

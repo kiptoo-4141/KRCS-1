@@ -29,6 +29,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.kenyaredcross.R;
 
 import java.util.ArrayList;
@@ -43,6 +47,8 @@ public class Youth extends AppCompatActivity implements NavigationView.OnNavigat
     private DatabaseReference databaseReference;
     private FirebaseAuth auth;
     private FirebaseUser user;
+    private FirebaseFirestore firestore;
+    private StorageReference storageReference;
 
     private CardView courses, youthDonationCard, myCourses, events, messaging, receipt, cert, attendanceCard;
     private Toolbar toolbar;
@@ -58,6 +64,8 @@ public class Youth extends AppCompatActivity implements NavigationView.OnNavigat
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
         databaseReference = FirebaseDatabase.getInstance().getReference();
+        firestore = FirebaseFirestore.getInstance();
+        storageReference = FirebaseStorage.getInstance().getReference();
 
         // Initialize UI components
         initializeUI();
@@ -133,11 +141,26 @@ public class Youth extends AppCompatActivity implements NavigationView.OnNavigat
         Button btnUploadDocs = dialogView.findViewById(R.id.btnUploadDocs);
         RecyclerView rvDocuments = dialogView.findViewById(R.id.rvDocuments);
 
-        // Auto-populate email and username
+        // Auto-populate email and retrieve full name from Users node
         etEmail.setText(user.getEmail());
-        etUsername.setText(user.getDisplayName());
         etEmail.setEnabled(false);
-        etUsername.setEnabled(false);
+
+        // Retrieve full name from Users node
+        databaseReference.child("Users").child(user.getEmail().replace(".", "_")).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    String fullName = snapshot.child("username").getValue(String.class);
+                    etUsername.setText(fullName);
+                    etUsername.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(Youth.this, "Error retrieving username: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
         // Set up date picker for DOB
         etDob.setOnClickListener(v -> showDatePicker(etDob));
@@ -242,6 +265,27 @@ public class Youth extends AppCompatActivity implements NavigationView.OnNavigat
         profile.put("idNumber", idNumber);
         profile.put("dob", dob);
 
+        // Upload documents to Firestore and store links
+        if (!documentUris.isEmpty()) {
+            List<String> documentUrls = new ArrayList<>();
+            for (Uri uri : documentUris) {
+                StorageReference fileRef = storageReference.child("documents/" + System.currentTimeMillis() + "_" + uri.getLastPathSegment());
+                UploadTask uploadTask = fileRef.putFile(uri);
+                uploadTask.addOnSuccessListener(taskSnapshot -> fileRef.getDownloadUrl().addOnSuccessListener(uri1 -> {
+                    documentUrls.add(uri1.toString());
+                    if (documentUrls.size() == documentUris.size()) {
+                        profile.put("documents", documentUrls);
+                        saveProfileToDatabase(profile, dialog);
+                    }
+                })).addOnFailureListener(e -> Toast.makeText(Youth.this, "Failed to upload document: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+            }
+        } else {
+            saveProfileToDatabase(profile, dialog);
+        }
+    }
+
+    private void saveProfileToDatabase(Map<String, Object> profile, AlertDialog dialog) {
+        String userId = user.getUid();
         databaseReference.child("Profiles").child(userId).setValue(profile)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -251,6 +295,24 @@ public class Youth extends AppCompatActivity implements NavigationView.OnNavigat
                         Toast.makeText(Youth.this, "Failed to save profile", Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == DOCUMENT_PICK_CODE && resultCode == RESULT_OK) {
+            if (data.getClipData() != null) {
+                int count = data.getClipData().getItemCount();
+                for (int i = 0; i < count; i++) {
+                    Uri uri = data.getClipData().getItemAt(i).getUri();
+                    documentUris.add(uri);
+                }
+            } else if (data.getData() != null) {
+                Uri uri = data.getData();
+                documentUris.add(uri);
+            }
+            Toast.makeText(this, "Documents selected: " + documentUris.size(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
