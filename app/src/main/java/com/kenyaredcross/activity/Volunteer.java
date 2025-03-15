@@ -334,7 +334,9 @@ public class Volunteer extends AppCompatActivity implements NavigationView.OnNav
             startActivity(new Intent(Volunteer.this, AboutUsActivity.class));
         } else if (id == R.id.nav_contact_us) {
             startActivity(new Intent(Volunteer.this, ContactUsActivity.class));
-        } else if (id == R.id.nav_help) {
+        } else if (id == R.id.nav_profile) {
+            startActivity(new Intent(Volunteer.this, MyProfileActivity.class));
+        }else if (id == R.id.nav_help) {
             startActivity(new Intent(Volunteer.this, HelpActivity.class));
         } else if (id == R.id.nav_log_out) {
             FirebaseAuth.getInstance().signOut();

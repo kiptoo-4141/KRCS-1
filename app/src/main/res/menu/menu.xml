@@ -8,6 +8,10 @@
             android:id="@+id/nav_home"
             android:icon="@drawable/baseline_home_24"
             android:title="@string/home"/>
+        <item
+            android:id="@+id/nav_profile"
+            android:icon="@drawable/person"
+            android:title="Profile"/>
          <item
             android:id="@+id/nav_about_us2"
             android:icon="@drawable/info_circle"

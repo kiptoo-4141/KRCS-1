@@ -325,7 +325,9 @@ public class Youth extends AppCompatActivity implements NavigationView.OnNavigat
             startActivity(new Intent(Youth.this, ContactUsActivity.class));
         } else if (id == R.id.nav_help) {
             startActivity(new Intent(Youth.this, HelpActivity.class));
-        } else if (id == R.id.nav_log_out) {
+        } else if (id == R.id.nav_profile) {
+            startActivity(new Intent(Youth.this, MyProfileActivity.class));
+        }else if (id == R.id.nav_log_out) {
             FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(Youth.this, Login.class));
             finish();
