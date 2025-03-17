@@ -36,7 +36,7 @@ public class CoursesWithResourcesFragment2 extends Fragment {
         recyclerView = view.findViewById(R.id.resourcesRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // Ensure email is properly formatted for Firebase path
+        // Validate userEmailKey
         if (userEmailKey == null || userEmailKey.isEmpty()) {
             Toast.makeText(getContext(), "User email not available", Toast.LENGTH_SHORT).show();
             return view;
@@ -45,18 +45,18 @@ public class CoursesWithResourcesFragment2 extends Fragment {
         // Set up Firebase reference to enrollments of the user
         DatabaseReference enrollmentsRef = FirebaseDatabase.getInstance().getReference()
                 .child("Enrollments")
-                .child(userEmailKey);
+                .child(userEmailKey.replace(".", "_")); // Replace dots with underscores for Firebase key compatibility
 
-        // Modify the query to only fetch courses with 'approved' status
+        // Query to fetch only approved courses
         Query approvedCoursesQuery = enrollmentsRef.orderByChild("status").equalTo("approved");
 
-        // Set up FirebaseRecyclerOptions with the query for approved courses
+        // Set up FirebaseRecyclerOptions for the adapter
         FirebaseRecyclerOptions<EnrolledCourseModel> options =
                 new FirebaseRecyclerOptions.Builder<EnrolledCourseModel>()
                         .setQuery(approvedCoursesQuery, EnrolledCourseModel.class)
                         .build();
 
-        // Set up adapter
+        // Initialize and set the adapter
         adapter = new CoursesWithResourcesAdapter(options);
         recyclerView.setAdapter(adapter);
 
@@ -67,7 +67,7 @@ public class CoursesWithResourcesFragment2 extends Fragment {
     public void onStart() {
         super.onStart();
         if (adapter != null) {
-            adapter.startListening();  // Start listening for Firebase data
+            adapter.startListening(); // Start listening for Firebase data
         }
     }
 
@@ -75,7 +75,7 @@ public class CoursesWithResourcesFragment2 extends Fragment {
     public void onStop() {
         super.onStop();
         if (adapter != null) {
-            adapter.stopListening();  // Stop listening when fragment is stopped
+            adapter.stopListening(); // Stop listening when the fragment is stopped
         }
     }
 }

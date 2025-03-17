@@ -6,38 +6,28 @@ public class EnrolledCourseModel {
     private String description;
     private String duration;
     private String image_link;
-    private String certification_status;
+    private String certificationStatus; // Added to match Firebase field
     private String courseStatus;
     private String image;
-    private  String status;
-
-
-
-    public EnrolledCourseModel(String image) {
-        this.image = image;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
+    private String status;
+    private String email; // Added
+    private String username; // Added
 
     // Default constructor (required for Firebase)
     public EnrolledCourseModel() {
     }
 
     // Constructor with parameters
-    public EnrolledCourseModel(String id, String title, String description, String duration, String image_link, String certification_status, String courseStatus) {
+    public EnrolledCourseModel(String id, String title, String description, String duration, String image_link, String certificationStatus, String courseStatus, String email, String username) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.duration = duration;
         this.image_link = image_link;
-        this.certification_status = certification_status;
+        this.certificationStatus = certificationStatus;
         this.courseStatus = courseStatus;
+        this.email = email;
+        this.username = username;
     }
 
     // Getters and Setters
@@ -81,12 +71,12 @@ public class EnrolledCourseModel {
         this.image_link = image_link;
     }
 
-    public String getCertification_status() {
-        return certification_status;
+    public String getCertificationStatus() {
+        return certificationStatus;
     }
 
-    public void setCertification_status(String certification_status) {
-        this.certification_status = certification_status;
+    public void setCertificationStatus(String certificationStatus) {
+        this.certificationStatus = certificationStatus;
     }
 
     public String getCourseStatus() {
@@ -95,5 +85,37 @@ public class EnrolledCourseModel {
 
     public void setCourseStatus(String courseStatus) {
         this.courseStatus = courseStatus;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

@@ -52,7 +52,7 @@ public class Volunteer extends AppCompatActivity implements NavigationView.OnNav
     private FirebaseFirestore firestore;
     private StorageReference storageReference;
 
-    private CardView group, courses, tasks, myCourses, myCerts, attendanceCard;
+    private CardView group, courses, tasks, myCourses, myCerts, attendanceCard, messages;
 
     private static final int DOCUMENT_PICK_CODE = 1001;
     private List<Uri> documentUris = new ArrayList<>();
@@ -102,6 +102,9 @@ public class Volunteer extends AppCompatActivity implements NavigationView.OnNav
 
         group = findViewById(R.id.groupCard);
         group.setOnClickListener(v -> startActivity(new Intent(Volunteer.this, MyGroupsActivity.class)));
+
+        messages = findViewById(R.id.volunteerMessages);
+            messages.setOnClickListener(v -> startActivity(new Intent(Volunteer.this, FeedbacksActivity.class)));
 
         courses = findViewById(R.id.volunteercourses);
         courses.setOnClickListener(v -> startActivity(new Intent(Volunteer.this, CoursesActivity.class)));

@@ -18,6 +18,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.kenyaredcross.R;
 import com.kenyaredcross.domain_model.EnrolledCourseModel;
 
+import java.util.List;
+
 public class CoursesWithResourcesAdapter extends FirebaseRecyclerAdapter<EnrolledCourseModel, CoursesWithResourcesAdapter.CourseWithResourcesViewHolder> {
 
     public CoursesWithResourcesAdapter(@NonNull FirebaseRecyclerOptions<EnrolledCourseModel> options) {
@@ -29,49 +31,59 @@ public class CoursesWithResourcesAdapter extends FirebaseRecyclerAdapter<Enrolle
         holder.courseTitle.setText(model.getTitle());
         holder.courseDescription.setText(model.getDescription());
 
-        // Get the course ID from the Firebase reference key (not from the model)
+        // Get the course ID from the Firebase reference key
         String courseId = getRef(position).getKey();
 
-        // Log or debug to see what courseId is being retrieved
-        System.out.println("Course ID: " + courseId);
-
-        // Load resources for the course
         if (courseId != null) {
+            // Load resources for the course
             DatabaseReference resourcesRef = FirebaseDatabase.getInstance().getReference("CoursesResources").child(courseId);
             resourcesRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     StringBuilder resourcesBuilder = new StringBuilder();
+
                     if (snapshot.exists()) {
-                        // Parse courseOutlines
+                        // Parse courseOutlines (array)
                         if (snapshot.child("courseOutlines").exists()) {
                             resourcesBuilder.append("Outlines:\n");
-                            for (DataSnapshot outline : snapshot.child("courseOutlines").getChildren()) {
-                                resourcesBuilder.append("- ").append(outline.getValue(String.class)).append("\n");
+                            List<String> outlines = (List<String>) snapshot.child("courseOutlines").getValue();
+                            if (outlines != null) {
+                                for (String outline : outlines) {
+                                    resourcesBuilder.append("- ").append(outline).append("\n");
+                                }
                             }
                         }
 
-                        // Parse courseActivities
+                        // Parse courseActivities (array)
                         if (snapshot.child("courseActivities").exists()) {
                             resourcesBuilder.append("\nActivities:\n");
-                            for (DataSnapshot activity : snapshot.child("courseActivities").getChildren()) {
-                                resourcesBuilder.append("- ").append(activity.getValue(String.class)).append("\n");
+                            List<String> activities = (List<String>) snapshot.child("courseActivities").getValue();
+                            if (activities != null) {
+                                for (String activity : activities) {
+                                    resourcesBuilder.append("- ").append(activity).append("\n");
+                                }
                             }
                         }
 
-                        // Parse courseStructures
+                        // Parse courseStructures (array)
                         if (snapshot.child("courseStructures").exists()) {
                             resourcesBuilder.append("\nStructures:\n");
-                            for (DataSnapshot structure : snapshot.child("courseStructures").getChildren()) {
-                                resourcesBuilder.append("- ").append(structure.getValue(String.class)).append("\n");
+                            List<String> structures = (List<String>) snapshot.child("courseStructures").getValue();
+                            if (structures != null) {
+                                for (String structure : structures) {
+                                    resourcesBuilder.append("- ").append(structure).append("\n");
+                                }
                             }
                         }
 
-                        // Parse resourceLinks
+                        // Parse resourceLinks (array)
                         if (snapshot.child("resourceLinks").exists()) {
                             resourcesBuilder.append("\nLinks:\n");
-                            for (DataSnapshot link : snapshot.child("resourceLinks").getChildren()) {
-                                resourcesBuilder.append("- ").append(link.getValue(String.class)).append("\n");
+                            List<String> links = (List<String>) snapshot.child("resourceLinks").getValue();
+                            if (links != null) {
+                                for (String link : links) {
+                                    resourcesBuilder.append("- ").append(link).append("\n");
+                                }
                             }
                         }
 

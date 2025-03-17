@@ -27,7 +27,7 @@ public class EnrolledCourseAdapter extends FirebaseRecyclerAdapter<EnrolledCours
         // Set course details in view holder
         myViewHolder.courseTitle.setText(enrolledCourseModel.getTitle());
         myViewHolder.courseDescription.setText(enrolledCourseModel.getDescription());
-        myViewHolder.certificationStatus.setText(enrolledCourseModel.getCertification_status());
+        myViewHolder.certificationStatus.setText(enrolledCourseModel.getCertificationStatus());
         myViewHolder.courseDuration.setText(enrolledCourseModel.getDuration());
         myViewHolder.courseStatus.setText(enrolledCourseModel.getCourseStatus());
 
