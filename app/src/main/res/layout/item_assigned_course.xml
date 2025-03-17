@@ -1,0 +1,35 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/tvCourseTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Course Title"
+        android:textSize="16sp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/tvCourseDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Course Description"
+        android:textSize="14sp"/>
+
+    <TextView
+        android:id="@+id/tvCourseDuration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Course Duration"
+        android:textSize="14sp"/>
+
+    <TextView
+        android:id="@+id/tvTrainerName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Trainer Name"
+        android:textSize="14sp"/>
+</LinearLayout>
