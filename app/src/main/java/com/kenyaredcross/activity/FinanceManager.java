@@ -23,7 +23,7 @@ public class FinanceManager extends AppCompatActivity implements NavigationView.
 
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
-    private CardView requests, reports, coursepayments, feed_backs,transaction;
+    private CardView requests, reports, coursepayments, feed_backs,transaction, donations;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +67,15 @@ public class FinanceManager extends AppCompatActivity implements NavigationView.
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(FinanceManager.this,TransactionsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        donations = findViewById(R.id.FMdonationsCard);
+        donations.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(FinanceManager.this, DonationsActivity.class);
                 startActivity(intent);
             }
         });

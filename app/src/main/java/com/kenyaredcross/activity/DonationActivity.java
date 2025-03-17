@@ -136,6 +136,8 @@ public class DonationActivity extends AppCompatActivity {
             donationMap.put("amount", donationAmountStr);
             donationMap.put("paymentMethod", paymentMethod);
             donationMap.put("donationId", donationId);
+            donationMap.put("status", "pending"); // Default status
+            donationMap.put("donationTime", currentTime); // Store date and time
 
             databaseReference.child("Donations").child(donationId).setValue(donationMap)
                     .addOnCompleteListener(task -> {
@@ -147,7 +149,7 @@ public class DonationActivity extends AppCompatActivity {
                             donationReportMap.put("email", userEmail);
                             donationReportMap.put("donationId", donationId);
                             donationReportMap.put("donationTime", currentTime);
-                            donationReportMap.put("status", "approved");
+                            donationReportMap.put("status", "pending"); // Default status
                             donationReportMap.put("paymentMethod", paymentMethod);
 
                             databaseReference.child("DonationReports").child(donationId).setValue(donationReportMap)
