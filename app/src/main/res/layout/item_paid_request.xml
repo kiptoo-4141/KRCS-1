@@ -16,36 +16,36 @@
             android:id="@+id/tvAmount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Amount: 1200"
+            android:text="Amount: 3000"
             android:textSize="16sp"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/tvDate"
+            android:id="@+id/tvCategory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Date: 2025-02-28"
+            android:text="Category: Training"
             android:textSize="14sp" />
 
         <TextView
-            android:id="@+id/tvPaymentMethod"
+            android:id="@+id/tvDateTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Method: M-Pesa"
+            android:text="Date &amp; Time: 2025-03-08 12:39:39"
             android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tvStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Status: Approved"
+            android:text="Status: approved"
             android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tvDetails"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Course ID: 101"
+            android:text="Item: First Aid Kit, Count: 2"
             android:textSize="14sp" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>

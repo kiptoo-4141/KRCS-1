@@ -16,36 +16,36 @@
             android:id="@+id/tvAmount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Amount: 1200"
+            android:text="Amount: 56000"
             android:textSize="16sp"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/tvDate"
+            android:id="@+id/tvDonationTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Date: 2025-02-28"
+            android:text="Donation Time: 2025-03-17 05:07:09"
             android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tvPaymentMethod"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Method: M-Pesa"
+            android:text="Method: Mobile Money"
             android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tvStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Status: Approved"
+            android:text="Status: pending"
             android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tvDetails"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Course ID: 101"
+            android:text="Donor: David Kaje"
             android:textSize="14sp" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>
