@@ -22,6 +22,9 @@
         android:theme="@style/Theme.KenyaRedCross"
         tools:targetApi="31">
         <activity
+            android:name=".activity.BorrowedEquipmentsActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.CoordinatorEquipmentsActivity"
             android:exported="false" />
         <activity

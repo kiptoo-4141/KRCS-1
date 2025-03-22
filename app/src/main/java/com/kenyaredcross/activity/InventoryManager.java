@@ -23,7 +23,7 @@ public class InventoryManager extends AppCompatActivity implements NavigationVie
 
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
-    private CardView inventory;
+    private CardView inventory,messages,borrowedEquipments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +49,24 @@ public class InventoryManager extends AppCompatActivity implements NavigationVie
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(InventoryManager.this, OrganizationInventoryActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        borrowedEquipments = findViewById(R.id.borrowedEquipmentCard);
+        borrowedEquipments.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(InventoryManager.this, BorrowedEquipmentsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        messages = findViewById(R.id.messagesCard);
+        messages.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(InventoryManager.this, FeedbacksActivity.class);
                 startActivity(intent);
             }
         });

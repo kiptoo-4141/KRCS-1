@@ -85,7 +85,7 @@
 
             <!-- Card 3: Events -->
             <androidx.cardview.widget.CardView
-                android:id="@+id/events"
+                android:id="@+id/messagesCard"
                 android:backgroundTint="@color/white"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
@@ -103,49 +103,51 @@
                     <ImageView
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:src="@drawable/baseline_report_24" />
+                        android:src="@drawable/baseline_library_books_24" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Reports"
+                        android:text="Messages"
                         android:textSize="18sp"
                         android:textColor="@color/black"
                         android:textStyle="bold" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Card 4: More Courses -->
-<!--            <androidx.cardview.widget.CardView-->
-<!--                android:id="@+id/donationsCard"-->
-<!--                android:backgroundTint="@color/white"-->
-<!--                android:layout_width="150dp"-->
-<!--                android:layout_height="150dp"-->
-<!--                android:layout_margin="10dp"-->
-<!--                android:background="@color/cardview_dark_background"-->
-<!--                app:cardCornerRadius="12dp"-->
-<!--                app:cardElevation="8dp">-->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/borrowedEquipmentCard"
+                android:backgroundTint="@color/white"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_margin="10dp"
+                android:background="@color/cardview_dark_background"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="8dp">
 
-<!--                <LinearLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:orientation="vertical"-->
-<!--                    android:gravity="center">-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center">
 
-<!--                    <ImageView-->
-<!--                        android:layout_width="50dp"-->
-<!--                        android:layout_height="50dp"-->
-<!--                        android:src="@drawable/baseline_chrome_reader_mode_24" />-->
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/baseline_library_add_check_24" />
 
-<!--                    <TextView-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="Donate"-->
-<!--                        android:textSize="18sp"-->
-<!--                        android:textColor="@color/black"-->
-<!--                        android:textStyle="bold" />-->
-<!--                </LinearLayout>-->
-<!--            </androidx.cardview.widget.CardView>-->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Borrowed Equipments"
+                        android:textAlignment="center"
+                        android:textSize="18sp"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+
 
         </androidx.gridlayout.widget.GridLayout>
     </LinearLayout>
