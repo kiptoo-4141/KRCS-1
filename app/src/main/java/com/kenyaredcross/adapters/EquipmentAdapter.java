@@ -32,10 +32,10 @@ import java.util.Locale;
 
 public class EquipmentAdapter extends FirebaseRecyclerAdapter<EquipmentModel, EquipmentAdapter.EquipmentViewHolder> {
 
-    private Context context;
-    private FirebaseAuth auth;
-    private FirebaseUser user;
-    private DatabaseReference databaseReference;
+    private final Context context;
+    private final FirebaseAuth auth;
+    private final FirebaseUser user;
+    private final DatabaseReference databaseReference;
 
     public EquipmentAdapter(@NonNull FirebaseRecyclerOptions<EquipmentModel> options, Context context) {
         super(options);

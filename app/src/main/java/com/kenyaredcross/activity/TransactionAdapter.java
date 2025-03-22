@@ -11,7 +11,7 @@ import com.kenyaredcross.R;
 import java.util.List;
 
 public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.TransactionGroupViewHolder> {
-    private List<TransactionGroup> transactionGroups;
+    private final List<TransactionGroup> transactionGroups;
 
     public TransactionAdapter(List<TransactionGroup> transactionGroups) {
         this.transactionGroups = transactionGroups;
@@ -36,9 +36,9 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
     }
 
     static class TransactionGroupViewHolder extends RecyclerView.ViewHolder {
-        private TextView tvGroupName;
-        private RecyclerView rvTransactions;
-        private TransactionChildAdapter childAdapter;
+        private final TextView tvGroupName;
+        private final RecyclerView rvTransactions;
+        private final TransactionChildAdapter childAdapter;
 
         public TransactionGroupViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -124,7 +124,11 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         }
 
         static class CoursePaymentViewHolder extends RecyclerView.ViewHolder {
-            private TextView tvAmount, tvDate, tvPaymentMethod, tvStatus, tvDetails;
+            private final TextView tvAmount;
+            private final TextView tvDate;
+            private final TextView tvPaymentMethod;
+            private final TextView tvStatus;
+            private final TextView tvDetails;
 
             public CoursePaymentViewHolder(@NonNull View itemView) {
                 super(itemView);
@@ -145,7 +149,11 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         }
 
         static class DonationViewHolder extends RecyclerView.ViewHolder {
-            private TextView tvAmount, tvDonationTime, tvPaymentMethod, tvStatus, tvDetails;
+            private final TextView tvAmount;
+            private final TextView tvDonationTime;
+            private final TextView tvPaymentMethod;
+            private final TextView tvStatus;
+            private final TextView tvDetails;
 
             public DonationViewHolder(@NonNull View itemView) {
                 super(itemView);
@@ -166,7 +174,11 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         }
 
         static class PaidRequestViewHolder extends RecyclerView.ViewHolder {
-            private TextView tvAmount, tvCategory, tvDateTime, tvStatus, tvDetails;
+            private final TextView tvAmount;
+            private final TextView tvCategory;
+            private final TextView tvDateTime;
+            private final TextView tvStatus;
+            private final TextView tvDetails;
 
             public PaidRequestViewHolder(@NonNull View itemView) {
                 super(itemView);

@@ -3,7 +3,6 @@ package com.kenyaredcross.activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -13,108 +12,78 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 import com.kenyaredcross.R;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Youth extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
     private DatabaseReference databaseReference;
     private FirebaseAuth auth;
-    private FirebaseUser user;
-    private FirebaseFirestore firestore;
-    private StorageReference storageReference;
 
     private CardView courses, youthDonationCard, myCourses, events, messaging, receipt, cert, attendanceCard;
-    private Toolbar toolbar;
-
-    private static final int DOCUMENT_PICK_CODE = 1001;
-    private List<Uri> documentUris = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_youth);
 
+        // Initialize Firebase
         auth = FirebaseAuth.getInstance();
-        user = auth.getCurrentUser();
         databaseReference = FirebaseDatabase.getInstance().getReference();
-        firestore = FirebaseFirestore.getInstance();
-        storageReference = FirebaseStorage.getInstance().getReference();
 
-        // Initialize UI components
-        initializeUI();
+        // Check if user profile exists
+        checkUserProfile();
 
-        // Show profile popup when the user first logs in
-        showProfilePopup();
-    }
-
-    private void initializeUI() {
-        cert = findViewById(R.id.youthCertificationCard);
-        cert.setOnClickListener(v -> startActivity(new Intent(Youth.this, CertActivity.class)));
-
-        messaging = findViewById(R.id.youthMessagingCard);
-        messaging.setOnClickListener(v -> startActivity(new Intent(Youth.this, FeedbacksActivity.class)));
-
-        receipt = findViewById(R.id.youthReceiptCards);
-        receipt.setOnClickListener(v -> startActivity(new Intent(Youth.this, YTReceiptsActivity.class)));
-
-        events = findViewById(R.id.events);
-        events.setOnClickListener(v -> startActivity(new Intent(Youth.this, EventsActivity.class)));
-
-        myCourses = findViewById(R.id.mycourses);
-        myCourses.setOnClickListener(v -> startActivity(new Intent(Youth.this, MyCoursesActivity.class)));
-
-        attendanceCard = findViewById(R.id.classAttendanceCard);
-        attendanceCard.setOnClickListener(v -> startActivity(new Intent(Youth.this, ClassAttendanceActivity.class)));
-
-        courses = findViewById(R.id.courses);
-        courses.setOnClickListener(v -> startActivity(new Intent(Youth.this, CoursesActivity.class)));
-
-        youthDonationCard = findViewById(R.id.youthDonationCard);
-        youthDonationCard.setOnClickListener(v -> startActivity(new Intent(Youth.this, DonationActivity.class)));
-
-        toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
+        // Initialize views
         drawerLayout = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
+        courses = findViewById(R.id.courses);
+        youthDonationCard = findViewById(R.id.youthDonationCard);
+        myCourses = findViewById(R.id.mycourses);
+        events = findViewById(R.id.events);
+        messaging = findViewById(R.id.youthMessagingCard);
+        receipt = findViewById(R.id.youthReceiptCards);
+        cert = findViewById(R.id.youthCertificationCard);
+        attendanceCard = findViewById(R.id.classAttendanceCard);
+
+        // Set up navigation drawer
         navigationView.setNavigationItemSelectedListener(this);
+
+        // Set click listeners for card views
+        courses.setOnClickListener(v -> startActivity(new Intent(Youth.this, CoursesActivity.class)));
+        youthDonationCard.setOnClickListener(v -> startActivity(new Intent(Youth.this, DonationActivity.class)));
+        myCourses.setOnClickListener(v -> startActivity(new Intent(Youth.this, MyCoursesActivity.class)));
+        events.setOnClickListener(v -> startActivity(new Intent(Youth.this, EventsActivity.class)));
+        messaging.setOnClickListener(v -> startActivity(new Intent(Youth.this, FeedbacksActivity.class)));
+        receipt.setOnClickListener(v -> startActivity(new Intent(Youth.this, YTReceiptsActivity.class)));
+        cert.setOnClickListener(v -> startActivity(new Intent(Youth.this, CertActivity.class)));
+        attendanceCard.setOnClickListener(v -> startActivity(new Intent(Youth.this, ClassAttendanceActivity.class)));
     }
 
-    private void showProfilePopup() {
-        String userId = user.getUid();
-
+    private void checkUserProfile() {
+        String userId = auth.getCurrentUser().getUid();
         databaseReference.child("Profiles").child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (!snapshot.exists()) {
-                    showProfileDialog();
+                    showProfilePopup();
                 }
             }
 
@@ -125,7 +94,7 @@ public class Youth extends AppCompatActivity implements NavigationView.OnNavigat
         });
     }
 
-    private void showProfileDialog() {
+    private void showProfilePopup() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomAlertDialog);
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.dialog_profile_update, null);
@@ -134,24 +103,24 @@ public class Youth extends AppCompatActivity implements NavigationView.OnNavigat
         TextInputEditText etEmail = dialogView.findViewById(R.id.etEmail);
         TextInputEditText etUsername = dialogView.findViewById(R.id.etUsername);
         TextInputEditText etPhone = dialogView.findViewById(R.id.etPhone);
-        TextInputEditText etTown = dialogView.findViewById(R.id.etTown);
+        TextInputEditText etLocation = dialogView.findViewById(R.id.etLocation);
         TextInputEditText etIdNumber = dialogView.findViewById(R.id.etIdNumber);
         TextInputEditText etDob = dialogView.findViewById(R.id.etDob);
+        TextInputEditText etGender = dialogView.findViewById(R.id.etGender);
+        TextInputEditText etSkills = dialogView.findViewById(R.id.etSkills);
+        TextInputEditText etExperiences = dialogView.findViewById(R.id.etExperiences);
         Button btnSaveProfile = dialogView.findViewById(R.id.btnSaveProfile);
-        Button btnUploadDocs = dialogView.findViewById(R.id.btnUploadDocs);
-        RecyclerView rvDocuments = dialogView.findViewById(R.id.rvDocuments);
 
         // Auto-populate email and retrieve full name from Users node
-        etEmail.setText(user.getEmail());
+        etEmail.setText(auth.getCurrentUser().getEmail());
         etEmail.setEnabled(false);
 
-        // Retrieve full name from Users node
-        databaseReference.child("Users").child(user.getEmail().replace(".", "_")).addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.child("Users").child(auth.getCurrentUser().getEmail().replace(".", "_")).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
-                    String fullName = snapshot.child("username").getValue(String.class);
-                    etUsername.setText(fullName);
+                    String username = snapshot.child("username").getValue(String.class);
+                    etUsername.setText(username);
                     etUsername.setEnabled(false);
                 }
             }
@@ -165,25 +134,21 @@ public class Youth extends AppCompatActivity implements NavigationView.OnNavigat
         // Set up date picker for DOB
         etDob.setOnClickListener(v -> showDatePicker(etDob));
 
-        // Set up document upload
-        btnUploadDocs.setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-            intent.setType("*/*");
-            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-            startActivityForResult(intent, DOCUMENT_PICK_CODE);
-        });
-
         AlertDialog alertDialog = builder.create();
         alertDialog.setCancelable(false);
 
         btnSaveProfile.setOnClickListener(v -> {
             String phone = etPhone.getText().toString().trim();
-            String town = etTown.getText().toString().trim();
+            String location = etLocation.getText().toString().trim();
             String idNumber = etIdNumber.getText().toString().trim();
             String dob = etDob.getText().toString().trim();
+            String gender = etGender.getText().toString().trim();
+            String skills = etSkills.getText().toString().trim();
+            String experiences = etExperiences.getText().toString().trim();
+            String username = etUsername.getText().toString().trim(); // Get the username value
 
-            if (validateInputs(phone, town, idNumber, dob)) {
-                checkUniquenessAndSave(phone, idNumber, town, dob, alertDialog);
+            if (validateInputs(phone, location, idNumber, dob, gender, skills, experiences)) {
+                saveProfile(username, phone, location, idNumber, dob, gender, skills, experiences, alertDialog); // Pass username to saveProfile
             }
         });
 
@@ -196,21 +161,31 @@ public class Youth extends AppCompatActivity implements NavigationView.OnNavigat
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, (view, year1, month1, dayOfMonth) -> {
-            Calendar selectedDate = Calendar.getInstance();
-            selectedDate.set(year1, month1, dayOfMonth);
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                this,
+                (view, year1, month1, dayOfMonth) -> {
+                    // Create a Calendar instance for the selected date
+                    Calendar selectedDate = Calendar.getInstance();
+                    selectedDate.set(year1, month1, dayOfMonth);
 
-            if (selectedDate.after(Calendar.getInstance())) {
-                Toast.makeText(Youth.this, "Date of Birth cannot be in the future", Toast.LENGTH_SHORT).show();
-            } else {
-                etDob.setText(dayOfMonth + "/" + (month1 + 1) + "/" + year1);
-            }
-        }, year, month, day);
+                    // Check if the selected date is in the future
+                    if (selectedDate.after(Calendar.getInstance())) {
+                        Toast.makeText(Youth.this, "Date of Birth cannot be in the future", Toast.LENGTH_SHORT).show();
+                    } else {
+                        // Format the selected date and set it to the etDob field
+                        String formattedDate = dayOfMonth + "/" + (month1 + 1) + "/" + year1;
+                        etDob.setText(formattedDate);
+                    }
+                },
+                year, month, day
+        );
+
+        // Show the date picker dialog
         datePickerDialog.show();
     }
 
-    private boolean validateInputs(String phone, String town, String idNumber, String dob) {
-        if (phone.isEmpty() || town.isEmpty() || idNumber.isEmpty() || dob.isEmpty()) {
+    private boolean validateInputs(String phone, String location, String idNumber, String dob, String gender, String skills, String experiences) {
+        if (phone.isEmpty() || location.isEmpty() || idNumber.isEmpty() || dob.isEmpty() || gender.isEmpty() || skills.isEmpty() || experiences.isEmpty()) {
             Toast.makeText(this, "All fields are required!", Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -221,71 +196,19 @@ public class Youth extends AppCompatActivity implements NavigationView.OnNavigat
         return true;
     }
 
-    private void checkUniquenessAndSave(String phone, String idNumber, String town, String dob, AlertDialog dialog) {
-        DatabaseReference profilesRef = databaseReference.child("Profiles");
-
-        profilesRef.orderByChild("phone").equalTo(phone).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    Toast.makeText(Youth.this, "Phone number already registered", Toast.LENGTH_SHORT).show();
-                } else {
-                    profilesRef.orderByChild("idNumber").equalTo(idNumber).addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if (snapshot.exists()) {
-                                Toast.makeText(Youth.this, "ID number already registered", Toast.LENGTH_SHORT).show();
-                            } else {
-                                saveProfile(phone, town, idNumber, dob, dialog);
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-                            Toast.makeText(Youth.this, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(Youth.this, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void saveProfile(String phone, String town, String idNumber, String dob, AlertDialog dialog) {
-        String userId = user.getUid();
+    private void saveProfile(String username, String phone, String location, String idNumber, String dob, String gender, String skills, String experiences, AlertDialog dialog) {
+        String userId = auth.getCurrentUser().getUid();
         Map<String, Object> profile = new HashMap<>();
-        profile.put("email", user.getEmail());
-        profile.put("username", user.getDisplayName());
+        profile.put("email", auth.getCurrentUser().getEmail());
+        profile.put("username", username); // Use the passed username value
         profile.put("phone", phone);
-        profile.put("town", town);
+        profile.put("location", location);
         profile.put("idNumber", idNumber);
         profile.put("dob", dob);
+        profile.put("gender", gender);
+        profile.put("skills", skills);
+        profile.put("experiences", experiences);
 
-        // Upload documents to Firestore and store links
-        if (!documentUris.isEmpty()) {
-            List<String> documentUrls = new ArrayList<>();
-            for (Uri uri : documentUris) {
-                StorageReference fileRef = storageReference.child("documents/" + System.currentTimeMillis() + "_" + uri.getLastPathSegment());
-                UploadTask uploadTask = fileRef.putFile(uri);
-                uploadTask.addOnSuccessListener(taskSnapshot -> fileRef.getDownloadUrl().addOnSuccessListener(uri1 -> {
-                    documentUrls.add(uri1.toString());
-                    if (documentUrls.size() == documentUris.size()) {
-                        profile.put("documents", documentUrls);
-                        saveProfileToDatabase(profile, dialog);
-                    }
-                })).addOnFailureListener(e -> Toast.makeText(Youth.this, "Failed to upload document: " + e.getMessage(), Toast.LENGTH_SHORT).show());
-            }
-        } else {
-            saveProfileToDatabase(profile, dialog);
-        }
-    }
-
-    private void saveProfileToDatabase(Map<String, Object> profile, AlertDialog dialog) {
-        String userId = user.getUid();
         databaseReference.child("Profiles").child(userId).setValue(profile)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -298,24 +221,6 @@ public class Youth extends AppCompatActivity implements NavigationView.OnNavigat
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == DOCUMENT_PICK_CODE && resultCode == RESULT_OK) {
-            if (data.getClipData() != null) {
-                int count = data.getClipData().getItemCount();
-                for (int i = 0; i < count; i++) {
-                    Uri uri = data.getClipData().getItemAt(i).getUri();
-                    documentUris.add(uri);
-                }
-            } else if (data.getData() != null) {
-                Uri uri = data.getData();
-                documentUris.add(uri);
-            }
-            Toast.makeText(this, "Documents selected: " + documentUris.size(), Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         int id = menuItem.getItemId();
 
@@ -325,9 +230,7 @@ public class Youth extends AppCompatActivity implements NavigationView.OnNavigat
             startActivity(new Intent(Youth.this, ContactUsActivity.class));
         } else if (id == R.id.nav_help) {
             startActivity(new Intent(Youth.this, HelpActivity.class));
-        } else if (id == R.id.nav_profile) {
-            startActivity(new Intent(Youth.this, MyProfileActivity.class));
-        }else if (id == R.id.nav_log_out) {
+        } else if (id == R.id.nav_log_out) {
             FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(Youth.this, Login.class));
             finish();
@@ -335,5 +238,14 @@ public class Youth extends AppCompatActivity implements NavigationView.OnNavigat
 
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 }

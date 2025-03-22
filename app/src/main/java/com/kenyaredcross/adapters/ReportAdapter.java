@@ -14,7 +14,7 @@ import com.kenyaredcross.domain_model.ReportItem;
 import java.util.List;
 
 public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder> {
-    private List<ReportItem> reportItems;
+    private final List<ReportItem> reportItems;
 
     public ReportAdapter(List<ReportItem> reportItems) {
         this.reportItems = reportItems;

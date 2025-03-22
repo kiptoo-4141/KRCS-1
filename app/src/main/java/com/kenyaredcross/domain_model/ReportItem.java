@@ -1,7 +1,14 @@
 package com.kenyaredcross.domain_model;
 
 public class ReportItem {
-    private String title, description, duration, status, trainerName, paymentMethod, date, time;
+    private final String title;
+    private String description;
+    private String duration;
+    private String status;
+    private String trainerName;
+    private String paymentMethod;
+    private String date;
+    private String time;
     private double amount;
 
     // Constructor for Enrollments and CompletedCourses

@@ -16,7 +16,7 @@ import java.util.List;
 
 public class DocumentAdapter extends RecyclerView.Adapter<DocumentAdapter.DocumentViewHolder> {
 
-    private List<Uri> documentUris;
+    private final List<Uri> documentUris;
 
     public DocumentAdapter(List<Uri> documentUris) {
         this.documentUris = documentUris;

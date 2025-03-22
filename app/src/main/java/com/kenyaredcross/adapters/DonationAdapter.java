@@ -16,7 +16,7 @@ import java.util.List;
 
 public class DonationAdapter extends RecyclerView.Adapter<DonationAdapter.DonationViewHolder> {
 
-    private List<Donation> donationList;
+    private final List<Donation> donationList;
     public OnItemClickListener listener;
 
     public interface OnItemClickListener {
@@ -48,8 +48,15 @@ public class DonationAdapter extends RecyclerView.Adapter<DonationAdapter.Donati
     }
 
     public static class DonationViewHolder extends RecyclerView.ViewHolder {
-        private TextView tvFullName, tvAmount, tvStatus, tvDonationID, tvEmail, tvPaymentMethod, tvAccountNumber;
-        private Button btnApprove, btnReject;
+        private final TextView tvFullName;
+        private final TextView tvAmount;
+        private final TextView tvStatus;
+        private final TextView tvDonationID;
+        private final TextView tvEmail;
+        private final TextView tvPaymentMethod;
+        private final TextView tvAccountNumber;
+        private final Button btnApprove;
+        private final Button btnReject;
 
         public DonationViewHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);

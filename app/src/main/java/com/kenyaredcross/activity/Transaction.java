@@ -5,24 +5,24 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class Transaction {
-    private String id;
-    private double amount;
-    private LocalDate date;
-    private LocalTime time;
-    private String paymentMethod;
-    private String status;
-    private String userEmail;
-    private String paymentDetails;
-    private String courseId;
-    private String fullName;
-    private String phoneNumber;
-    private String category;
-    private String itemName;
-    private int requestCount;
-    private String supplier;
-    private String inventoryManager;
-    private String donationId;
-    private LocalDateTime donationTime;
+    private final String id;
+    private final double amount;
+    private final LocalDate date;
+    private final LocalTime time;
+    private final String paymentMethod;
+    private final String status;
+    private final String userEmail;
+    private final String paymentDetails;
+    private final String courseId;
+    private final String fullName;
+    private final String phoneNumber;
+    private final String category;
+    private final String itemName;
+    private final int requestCount;
+    private final String supplier;
+    private final String inventoryManager;
+    private final String donationId;
+    private final LocalDateTime donationTime;
 
     private Transaction(Builder builder) {
         this.id = builder.id;
@@ -74,7 +74,7 @@ public class Transaction {
 
     // Builder class for Transaction
     public static class Builder {
-        private String id;
+        private final String id;
         private double amount;
         private LocalDate date;
         private LocalTime time;

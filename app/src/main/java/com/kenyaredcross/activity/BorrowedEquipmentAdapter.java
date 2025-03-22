@@ -16,8 +16,8 @@ import java.util.List;
 
 public class BorrowedEquipmentAdapter extends RecyclerView.Adapter<BorrowedEquipmentAdapter.ViewHolder> {
 
-    private List<BorrowedEquipmentModel2> borrowedEquipmentList;
-    private OnApproveButtonClickListener listener;
+    private final List<BorrowedEquipmentModel2> borrowedEquipmentList;
+    private final OnApproveButtonClickListener listener;
 
     public BorrowedEquipmentAdapter(List<BorrowedEquipmentModel2> borrowedEquipmentList, OnApproveButtonClickListener listener) {
         this.borrowedEquipmentList = borrowedEquipmentList;
