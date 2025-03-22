@@ -58,7 +58,7 @@ public class FinanceManager extends AppCompatActivity implements NavigationView.
 //        reports = findViewById(R.id.FMreportsCard);
         coursepayments = findViewById(R.id.FMCoursePaymentCard);
         feed_backs = findViewById(R.id.FMFeedbacks);
-        transaction = findViewById(R.id.FMtransactionCard);
+//        transaction = findViewById(R.id.FMtransactionCard);
         donations = findViewById(R.id.FMdonationsCard);
 
         // Set up navigation drawer
@@ -66,7 +66,7 @@ public class FinanceManager extends AppCompatActivity implements NavigationView.
 
         // Set click listeners for card views
         requests.setOnClickListener(v -> startActivity(new Intent(FinanceManager.this, FinanceRequestsActivity.class)));
-        reports.setOnClickListener(v -> startActivity(new Intent(FinanceManager.this, FMReportsActivity.class)));
+//        reports.setOnClickListener(v -> startActivity(new Intent(FinanceManager.this, FMReportsActivity.class)));
         coursepayments.setOnClickListener(v -> startActivity(new Intent(FinanceManager.this, CoursePaymentsActivity.class)));
         feed_backs.setOnClickListener(v -> startActivity(new Intent(FinanceManager.this, FeedbacksActivity.class)));
 //        transaction.setOnClickListener(v -> startActivity(new Intent(FinanceManager.this, TransactionsActivity.class)));
