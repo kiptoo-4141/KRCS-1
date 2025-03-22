@@ -2,7 +2,6 @@ package com.kenyaredcross.activity;
 
 import android.os.Bundle;
 import android.view.Gravity;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -65,9 +64,11 @@ public class RequestsActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 requestList.clear();
                 for (DataSnapshot userSnapshot : snapshot.getChildren()) {
-                    for (DataSnapshot courseSnapshot : userSnapshot.getChildren()) {
-                        RequestModel request = courseSnapshot.getValue(RequestModel.class);
+                    for (DataSnapshot enrollmentSnapshot : userSnapshot.getChildren()) {
+                        RequestModel request = enrollmentSnapshot.getValue(RequestModel.class);
                         if (request != null && "pending".equals(request.getStatus())) {
+                            request.setUserId(userSnapshot.getKey()); // Store the user ID (email with underscores)
+                            request.setCourseId(enrollmentSnapshot.getKey()); // Store the course ID
                             requestList.add(request);
                         }
                     }
@@ -170,8 +171,12 @@ public class RequestsActivity extends AppCompatActivity {
     }
 
     private void updateRequestStatus(RequestModel request, String newStatus) {
-        DatabaseReference requestRef = databaseReference.child(request.getEmail().replace(".", "_"))
-                .child(request.getTitle().replace(" ", "_")); // Assuming title is unique for each request
+        // Construct the path to the specific enrollment request
+        DatabaseReference requestRef = databaseReference
+                .child(request.getUserId()) // User node (email with underscores)
+                .child(request.getCourseId()); // Course ID node
+
+        // Update the status field
         requestRef.child("status").setValue(newStatus)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(RequestsActivity.this, "Request " + newStatus, Toast.LENGTH_SHORT).show();
