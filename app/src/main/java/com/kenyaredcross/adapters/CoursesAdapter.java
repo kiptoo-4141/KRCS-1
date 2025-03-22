@@ -30,6 +30,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Random;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -137,10 +138,20 @@ public class CoursesAdapter extends FirebaseRecyclerAdapter<CoursesModel, Course
         updateOptions(options);
     }
 
+    private String generateTransactionCode() {
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        StringBuilder transactionCode = new StringBuilder();
+        Random random = new Random();
+        for (int i = 0; i < 10; i++) {
+            transactionCode.append(characters.charAt(random.nextInt(characters.length())));
+        }
+        return transactionCode.toString();
+    }
 
     private void recordPayment(myViewHolder holder, CoursesModel coursesModel, String userEmailKey, String paymentMethod, String paymentDetail) {
         String currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
         String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
+        String transactionCode = generateTransactionCode();
 
         HashMap<String, Object> paymentData = new HashMap<>();
         paymentData.put("userEmail", user.getEmail());
@@ -151,11 +162,12 @@ public class CoursesAdapter extends FirebaseRecyclerAdapter<CoursesModel, Course
         paymentData.put("status", "Pending");
         paymentData.put("date", currentDate);
         paymentData.put("time", currentTime);
+        paymentData.put("transactionCode", transactionCode);
 
         databaseReference.child("CoursePayments").child(userEmailKey).child(coursesModel.getId()).setValue(paymentData)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        Toast.makeText(holder.enrollButton.getContext(), "Payment recorded. Await confirmation.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(holder.enrollButton.getContext(), "Payment recorded. Await confirmation. Transaction Code: " + transactionCode, Toast.LENGTH_LONG).show();
                     } else {
                         Toast.makeText(holder.enrollButton.getContext(), "Payment recording failed", Toast.LENGTH_SHORT).show();
                     }

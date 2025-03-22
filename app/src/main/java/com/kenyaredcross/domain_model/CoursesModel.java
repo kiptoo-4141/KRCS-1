@@ -2,11 +2,23 @@ package com.kenyaredcross.domain_model;
 
 public class CoursesModel
 {
-    String id,title, description, duration, image_link, certification_status;
+    String id,title, description, duration, image_link, certification_status, transactionCode;
     Integer fees;
 
     CoursesModel(){
 
+    }
+
+    public CoursesModel(String transactionCode) {
+        this.transactionCode = transactionCode;
+    }
+
+    public String getTransactionCode() {
+        return transactionCode;
+    }
+
+    public void setTransactionCode(String transactionCode) {
+        this.transactionCode = transactionCode;
     }
 
     public CoursesModel(Integer fees) {
