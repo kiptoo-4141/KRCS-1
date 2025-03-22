@@ -24,7 +24,7 @@ public class Coordinator extends AppCompatActivity implements NavigationView.OnN
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
 
-    CardView volunteers, groupss, task,events, messages, equipments;
+    CardView volunteers, groupss, task,borrowed, messages, equipments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,14 +47,16 @@ public class Coordinator extends AppCompatActivity implements NavigationView.OnN
             }
         });
 
-//        events = findViewById(R.id.events);
-//        events.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(Coordinator.this, PendingTaskActivity.class);
-//                startActivity(intent);
-//            }
-//        });
+        borrowed = findViewById(R.id.coordinatorBorrowedEquipmentsCard);
+        borrowed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Coordinator.this, CoordinatorBorrowedEquipmentActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
 
         groupss = findViewById(R.id.groups);
         groupss.setOnClickListener(new View.OnClickListener() {
