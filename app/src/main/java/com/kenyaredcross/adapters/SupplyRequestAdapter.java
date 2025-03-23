@@ -10,15 +10,22 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.kenyaredcross.R;
 import com.kenyaredcross.domain_model.SupplyRequestModel;
 
 public class SupplyRequestAdapter extends FirebaseRecyclerAdapter<SupplyRequestModel, SupplyRequestAdapter.SupplyRequestViewHolder> {
 
+    private final DatabaseReference supplierInventoryRef;
+
     public SupplyRequestAdapter(@NonNull FirebaseRecyclerOptions<SupplyRequestModel> options) {
         super(options);
+        // Initialize Firebase reference for SupplierInventory
+        supplierInventoryRef = FirebaseDatabase.getInstance().getReference("SupplierInventory");
     }
 
     @Override
@@ -55,15 +62,48 @@ public class SupplyRequestAdapter extends FirebaseRecyclerAdapter<SupplyRequestM
         suppliedGoodsRef.child("timestamp").setValue(model.getTimestamp());
         suppliedGoodsRef.child("totalAmount").setValue(model.getTotalAmount());
 
-        // Update the status in the SupplyRequest node to "approved"
-        requestRef.child("status").setValue("approved")
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        Toast.makeText(holder.itemView.getContext(), "Request approved and moved to SuppliedGoods with pending status", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(holder.itemView.getContext(), "Failed to approve request", Toast.LENGTH_SHORT).show();
+        // Fetch the current stock count from SupplierInventory
+        supplierInventoryRef.orderByChild("itemName").equalTo(model.getItemName()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot itemSnapshot : snapshot.getChildren()) {
+                        Integer currentStock = itemSnapshot.child("stock").getValue(Integer.class);
+                        if (currentStock != null) {
+                            int newStock = currentStock - model.getRequestCount();
+
+                            // Update the stock count in SupplierInventory
+                            itemSnapshot.getRef().child("stock").setValue(newStock)
+                                    .addOnCompleteListener(stockUpdateTask -> {
+                                        if (stockUpdateTask.isSuccessful()) {
+                                            // Update the status in the SupplyRequest node to "approved"
+                                            requestRef.child("status").setValue("approved")
+                                                    .addOnCompleteListener(task -> {
+                                                        if (task.isSuccessful()) {
+                                                            Toast.makeText(holder.itemView.getContext(), "Request approved, stock updated, and moved to SuppliedGoods with pending status", Toast.LENGTH_SHORT).show();
+                                                        } else {
+                                                            Toast.makeText(holder.itemView.getContext(), "Failed to approve request", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    });
+                                        } else {
+                                            Toast.makeText(holder.itemView.getContext(), "Failed to update supplier stock", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                        } else {
+                            Toast.makeText(holder.itemView.getContext(), "Failed to fetch current stock", Toast.LENGTH_SHORT).show();
+                        }
+                        break; // Exit loop after finding the matching item
                     }
-                });
+                } else {
+                    Toast.makeText(holder.itemView.getContext(), "Item not found in SupplierInventory", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(holder.itemView.getContext(), "Failed to fetch supplier inventory data", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @NonNull
