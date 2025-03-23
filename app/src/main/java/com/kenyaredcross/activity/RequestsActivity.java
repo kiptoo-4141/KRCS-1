@@ -20,8 +20,11 @@ import com.google.firebase.database.ValueEventListener;
 import com.kenyaredcross.R;
 import com.kenyaredcross.domain_model.RequestModel;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class RequestsActivity extends AppCompatActivity {
     private TableLayout tableLayout;
@@ -179,8 +182,19 @@ public class RequestsActivity extends AppCompatActivity {
         // Update the status field
         requestRef.child("status").setValue(newStatus)
                 .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(RequestsActivity.this, "Request " + newStatus, Toast.LENGTH_SHORT).show();
-                    loadPendingRequests(); // Refresh the list
+                    // If the status is "approved", add the current date as the startDate
+                    if ("approved".equals(newStatus)) {
+                        String currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+                        requestRef.child("startDate").setValue(currentDate)
+                                .addOnSuccessListener(aVoid1 -> {
+                                    Toast.makeText(RequestsActivity.this, "Request approved and start date set to " + currentDate, Toast.LENGTH_SHORT).show();
+                                    loadPendingRequests(); // Refresh the list
+                                })
+                                .addOnFailureListener(e -> Toast.makeText(RequestsActivity.this, "Failed to set start date", Toast.LENGTH_SHORT).show());
+                    } else {
+                        Toast.makeText(RequestsActivity.this, "Request " + newStatus, Toast.LENGTH_SHORT).show();
+                        loadPendingRequests(); // Refresh the list
+                    }
                 })
                 .addOnFailureListener(e -> Toast.makeText(RequestsActivity.this, "Failed to update status", Toast.LENGTH_SHORT).show());
     }

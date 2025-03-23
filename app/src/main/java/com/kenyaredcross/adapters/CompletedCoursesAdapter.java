@@ -21,8 +21,10 @@ import com.google.firebase.database.ValueEventListener;
 import com.kenyaredcross.R;
 import com.kenyaredcross.domain_model.CompletedCoursesModel;
 
-
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class CompletedCoursesAdapter extends RecyclerView.Adapter<CompletedCoursesAdapter.ViewHolder> {
     private final Context context;
@@ -65,8 +67,20 @@ public class CompletedCoursesAdapter extends RecyclerView.Adapter<CompletedCours
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot courseSnapshot : snapshot.getChildren()) {
-                    DatabaseReference courseStatusRef = courseSnapshot.getRef().child("status");
-                    courseStatusRef.setValue(newStatus);
+                    DatabaseReference courseRef = courseSnapshot.getRef();
+                    courseRef.child("status").setValue(newStatus);
+
+                    // If the status is "completed", add the current date as the endDate
+                    if ("completed".equals(newStatus)) {
+                        String currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+                        courseRef.child("endDate").setValue(currentDate)
+                                .addOnSuccessListener(aVoid -> {
+                                    Toast.makeText(context, "Course marked as completed and end date set to " + currentDate, Toast.LENGTH_SHORT).show();
+                                })
+                                .addOnFailureListener(e -> {
+                                    Toast.makeText(context, "Failed to set end date", Toast.LENGTH_SHORT).show();
+                                });
+                    }
                 }
                 request.setStatus(newStatus);
                 notifyDataSetChanged();
