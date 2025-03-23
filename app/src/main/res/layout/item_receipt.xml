@@ -52,6 +52,12 @@
             android:layout_height="wrap_content"
             android:text="Email: kiptoo@gmail.com"
             android:textSize="16sp" />
+        <TextView
+            android:id="@+id/tv_transactionCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Transaction: QWERT89HT7"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/tv_amount"

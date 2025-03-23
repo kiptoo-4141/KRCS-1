@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.pdf.PdfDocument;
+import android.os.Environment;
 import android.widget.Toast;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -52,10 +54,11 @@ public class ReceiptAdapter extends RecyclerView.Adapter<ReceiptAdapter.ReceiptV
 
         holder.email.setText("Email: " + receipt.getUserEmail());
         holder.time.setText("Time: " + receipt.getTime());
-        holder.ammount.setText("Amount: " + receipt.getAmount());
-        holder.paymentdetails.setText("Payment Details: " + receipt.getPaymentDetails());
+        holder.amount.setText("Amount: " + receipt.getAmount());
+        holder.tvTransactionCode.setText("Transaction Code: " + receipt.getTransactionCode());
+        holder.paymentDetails.setText("Payment Details: " + receipt.getPaymentDetails());
         holder.tvCourseId.setText("Course ID: " + receipt.getCourseId());
-        holder.tvDate.setText(receipt.getDate());
+        holder.tvDate.setText("Date: " + receipt.getDate());
         holder.tvPaymentMethod.setText("Payment Method: " + receipt.getPaymentMethod());
 
         // Retrieve username from Firebase using email
@@ -103,8 +106,8 @@ public class ReceiptAdapter extends RecyclerView.Adapter<ReceiptAdapter.ReceiptV
         Paint paint = new Paint();
         Paint titlePaint = new Paint();
 
-        // Page size and dimensions
-        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(595, 842, 1).create(); // A4 size
+        // Page size and dimensions (A4 size)
+        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(595, 842, 1).create();
         PdfDocument.Page page = pdfDocument.startPage(pageInfo);
         Canvas canvas = page.getCanvas();
 
@@ -135,16 +138,24 @@ public class ReceiptAdapter extends RecyclerView.Adapter<ReceiptAdapter.ReceiptV
         y += lineSpacing;
         canvas.drawText("Payment Details: " + receipt.getPaymentDetails(), 50, y, paint);
         y += lineSpacing;
+        canvas.drawText("Transaction Code: " + receipt.getTransactionCode(), 50, y, paint);
+        y += lineSpacing;
         canvas.drawText("Username: " + username, 50, y, paint);
+        y += lineSpacing;
+        canvas.drawText("Email: " + receipt.getUserEmail(), 50, y, paint);
+        y += lineSpacing;
+        canvas.drawText("Time: " + receipt.getTime(), 50, y, paint);
 
         // Finish the page
         pdfDocument.finishPage(page);
 
-        // Save the PDF file
-        File file = new File(context.getExternalFilesDir(null), "receipt_" + receipt.getCourseId() + ".pdf");
+        // Save the PDF file to the Downloads folder
+        File downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+        File file = new File(downloadsDir, "receipt_" + receipt.getCourseId() + ".pdf");
+
         try (FileOutputStream fos = new FileOutputStream(file)) {
             pdfDocument.writeTo(fos);
-            Toast.makeText(context, "PDF saved: " + file.getAbsolutePath(), Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "PDF saved to Downloads: " + file.getAbsolutePath(), Toast.LENGTH_LONG).show();
         } catch (IOException e) {
             e.printStackTrace();
             Toast.makeText(context, "Failed to save PDF", Toast.LENGTH_SHORT).show();
@@ -154,7 +165,7 @@ public class ReceiptAdapter extends RecyclerView.Adapter<ReceiptAdapter.ReceiptV
     }
 
     public static class ReceiptViewHolder extends RecyclerView.ViewHolder {
-        TextView tvCourseId, email, tvDate, tvPaymentMethod, paymentdetails, time, ammount, username;
+        TextView tvCourseId, email, tvDate, tvPaymentMethod, paymentDetails, time, amount, username, tvTransactionCode;
         Button btnDownload;
 
         public ReceiptViewHolder(@NonNull View itemView) {
@@ -163,10 +174,11 @@ public class ReceiptAdapter extends RecyclerView.Adapter<ReceiptAdapter.ReceiptV
             email = itemView.findViewById(R.id.tv_email);
             username = itemView.findViewById(R.id.tv_username);
             time = itemView.findViewById(R.id.tv_time);
-            paymentdetails = itemView.findViewById(R.id.tv_paymentDetails);
-            ammount = itemView.findViewById(R.id.tv_amount);
+            paymentDetails = itemView.findViewById(R.id.tv_paymentDetails);
+            amount = itemView.findViewById(R.id.tv_amount);
             tvCourseId = itemView.findViewById(R.id.tv_course_id);
             tvDate = itemView.findViewById(R.id.tv_date);
+            tvTransactionCode = itemView.findViewById(R.id.tv_transactionCode);
             tvPaymentMethod = itemView.findViewById(R.id.tv_payment_method);
             btnDownload = itemView.findViewById(R.id.btn_download_receipt);
         }

@@ -6,12 +6,26 @@ public class Receipt {
     private String paymentDetails;
     private String paymentMethod;
     private String status;
+
+    String  transactionCode;
     private String time;
     private String userEmail;
     private int amount;
 
     public Receipt() {
         // Default constructor for Firebase
+    }
+
+    public Receipt(String transactionCode) {
+        this.transactionCode = transactionCode;
+    }
+
+    public String getTransactionCode() {
+        return transactionCode;
+    }
+
+    public void setTransactionCode(String transactionCode) {
+        this.transactionCode = transactionCode;
     }
 
     public Receipt(String courseId, String date, String paymentDetails, String paymentMethod, String status, String time, String userEmail, int amount) {
