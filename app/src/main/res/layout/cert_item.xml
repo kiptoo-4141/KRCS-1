@@ -108,7 +108,7 @@ android:padding="16dp">
     <ImageView
         android:layout_width="100dp"
         android:layout_height="50dp"
-        android:src="@drawable/horizontal_line"
+        android:src="@drawable/sig_one"
     android:layout_marginTop="8dp"/>
 </LinearLayout>
 
@@ -131,7 +131,7 @@ android:padding="16dp">
     <ImageView
         android:layout_width="100dp"
         android:layout_height="50dp"
-        android:src="@drawable/horizontal_line"
+        android:src="@drawable/sig_two"
     android:layout_marginTop="8dp"/>
 </LinearLayout>
 </LinearLayout>
