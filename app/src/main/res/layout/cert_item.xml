@@ -7,64 +7,142 @@
     android:background="@color/white"
     android:elevation="4dp">
 
+    <!-- Header Section -->
+<TextView
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="Certificate of Completion"
+    android:textAlignment="center"
+android:textSize="24sp"
+android:textStyle="bold"
+android:textColor="@color/black"
+android:layout_gravity="center"
+android:padding="16dp"/>
+
+    <!-- Logo -->
+<ImageView
+android:layout_width="100dp"
+android:layout_height="100dp"
+android:src="@drawable/logo3"
+android:id="@+id/logo"
+android:layout_gravity="center"/>
+
+    <!-- User Details -->
+<TextView
+android:id="@+id/username1"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="Username: John Doe"
+android:textSize="18sp"
+android:textStyle="bold"
+android:textColor="@color/black"
+android:layout_gravity="center"
+android:paddingTop="8dp"/>
+
+<TextView
+android:id="@+id/email"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="Email: john.doe@example.com"
+android:textSize="16sp"
+android:textColor="@color/black"
+android:layout_gravity="center"
+android:paddingTop="8dp"/>
+
+    <!-- Course Details -->
+<TextView
+android:id="@+id/certTitle"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="Course: Advanced First Aid"
+android:textSize="18sp"
+android:textStyle="bold"
+android:textColor="@color/black"
+android:layout_gravity="center"
+android:paddingTop="16dp"/>
+
+<TextView
+android:id="@+id/certDuration"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="Duration: 24 Days"
+android:textSize="16sp"
+android:textColor="@color/black"
+android:layout_gravity="center"
+android:paddingTop="8dp"/>
+
+<TextView
+android:id="@+id/certDescription"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="Description: Learn advanced first aid techniques."
+android:textSize="14sp"
+android:textColor="@color/black"
+android:layout_gravity="center"
+android:paddingTop="8dp"/>
+
+    <!-- Signatures Section -->
+<LinearLayout
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:orientation="horizontal"
+android:layout_marginTop="24dp"
+android:padding="16dp">
+
+<!-- Trainer Signature -->
+<LinearLayout
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Trainer Signature"
+        android:textSize="14sp"
+        android:textColor="@color/black"
+        android:paddingTop="8dp"/>
+
     <ImageView
         android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/logo3"
-        android:id="@+id/logo"
-        android:layout_gravity="center"/>
-
-    <TextView
-        android:id="@+id/username1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAllCaps="true"
-        android:textStyle="bold"
-        android:textColor="@color/black"
-        android:layout_gravity="center"
-        android:textSize="18sp"
-        android:paddingTop="8dp"/>
-    <TextView
-        android:id="@+id/email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:layout_gravity="center"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        android:paddingTop="8dp"/>
-
-    <TextView
-        android:id="@+id/certTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:layout_gravity="center"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        android:paddingTop="8dp"/>
-
-    <TextView
-        android:id="@+id/certDescription"
-        android:layout_width="wrap_content"
-        android:textColor="@color/black"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textSize="14sp"/>
-
-    <TextView
-        android:id="@+id/certDuration"
-        android:layout_width="wrap_content"
-        android:textColor="@color/black"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textSize="14sp"/>
-
-    <TextView
-        android:id="@+id/certStatus"
-        android:layout_width="wrap_content"
-        android:textColor="@color/black"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textSize="14sp"/>
+        android:layout_height="50dp"
+        android:src="@drawable/horizontal_line"
+    android:layout_marginTop="8dp"/>
 </LinearLayout>
+
+<!-- Service Manager Signature -->
+<LinearLayout
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Service Manager Signature"
+        android:textSize="14sp"
+        android:textColor="@color/black"
+        android:paddingTop="8dp"/>
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:src="@drawable/horizontal_line"
+    android:layout_marginTop="8dp"/>
+</LinearLayout>
+</LinearLayout>
+
+    <!-- Footer Section -->
+<TextView
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="Issued by Kenya Red Cross"
+android:textSize="14sp"
+android:textColor="@color/black"
+android:layout_gravity="center"
+android:paddingTop="16dp"/>
+    </LinearLayout>

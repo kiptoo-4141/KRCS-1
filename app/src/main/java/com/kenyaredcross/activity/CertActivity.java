@@ -38,10 +38,11 @@ import java.io.IOException;
 
 public class CertActivity extends AppCompatActivity {
 
-    private DatabaseReference enrollmentsRef;
+    private DatabaseReference enrollmentsRef, usersRef;
     private FirebaseAuth auth;
     private LinearLayout certContainer;
     private Button downloadBtn;
+    private String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,11 +64,31 @@ public class CertActivity extends AppCompatActivity {
         if (userEmail != null) {
             String formattedEmail = userEmail.replace(".", "_");
             enrollmentsRef = FirebaseDatabase.getInstance().getReference("Enrollments").child(formattedEmail);
+            usersRef = FirebaseDatabase.getInstance().getReference("Users").child(formattedEmail);
 
+            fetchUsername();
             fetchCertificates();
         }
 
         downloadBtn.setOnClickListener(v -> generatePDF());
+    }
+
+    private void fetchUsername() {
+        usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    username = snapshot.child("username").getValue(String.class);
+                } else {
+                    username = "N/A";
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(CertActivity.this, "Error fetching username", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void fetchCertificates() {
@@ -83,7 +104,6 @@ public class CertActivity extends AppCompatActivity {
                     String status = courseSnapshot.child("status").getValue(String.class);
                     String description = courseSnapshot.child("description").getValue(String.class);
                     String email = courseSnapshot.child("email").getValue(String.class);
-                    String username = courseSnapshot.child("username").getValue(String.class);
 
                     if ("completed".equals(status)) {
                         addCertificateView(title, duration, certificationStatus, imageUrl, description, email, username);
@@ -98,25 +118,22 @@ public class CertActivity extends AppCompatActivity {
         });
     }
 
-    private void addCertificateView(String title, String duration, String certificationStatus, String imageUrl,String description, String email, String username) {
+    private void addCertificateView(String title, String duration, String certificationStatus, String imageUrl, String description, String email, String username) {
         View certView = getLayoutInflater().inflate(R.layout.cert_item, certContainer, false);
 
         TextView certTitle = certView.findViewById(R.id.certTitle);
         TextView certDuration = certView.findViewById(R.id.certDuration);
-        TextView certStatus = certView.findViewById(R.id.certStatus);
+//        TextView certStatus = certView.findViewById(R.id.certStatus);
         TextView certDescription = certView.findViewById(R.id.certDescription);
         TextView username2 = certView.findViewById(R.id.username1);
         TextView email2 = certView.findViewById(R.id.email);
 
-
-
         certTitle.setText("Course: " + title);
         certDuration.setText("Duration: " + duration);
 //        certStatus.setText("Certification: " + certificationStatus);
-        email2.setText(email);
-        username2.setText(username);
-        certDescription.setText(description);
-
+        email2.setText("Email: " + email);
+        username2.setText("Username: " + username);
+        certDescription.setText("Description: " + description);
 
         certContainer.addView(certView);
     }
