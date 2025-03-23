@@ -16,6 +16,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.kenyaredcross.R;
+import com.kenyaredcross.domain_model.OrgInventoryModel;
 import com.kenyaredcross.domain_model.SuppliedGoodsModel;
 
 import java.util.ArrayList;
@@ -113,29 +114,56 @@ public class SuppliedGoodsAdapter extends RecyclerView.Adapter<SuppliedGoodsAdap
         suppliedGoodsRef.child(goods.getRequestId()).child("status").setValue("approved")
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        // Create a new FinanceRequest object with all details from SuppliedGoods
-                        Map<String, Object> financeRequestData = new HashMap<>();
-                        financeRequestData.put("category", goods.getCategory());
-                        financeRequestData.put("inventoryManager", goods.getInventoryManager());
-                        financeRequestData.put("itemName", goods.getItemName());
-                        financeRequestData.put("requestCount", goods.getRequestCount());
-                        financeRequestData.put("requestId", goods.getRequestId());
-                        financeRequestData.put("status", "pending");  // Set status to pending
-                        financeRequestData.put("supplier", goods.getSupplier());
-                        financeRequestData.put("timestamp", goods.getDateTime());
-                        financeRequestData.put("totalAmount", goods.getTotalAmount());
+                        // Fetch the current count of the item from OrganisationInventory
+                        organisationInventoryRef.child(goods.getItemName()).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                OrgInventoryModel orgInventoryItem = snapshot.getValue(OrgInventoryModel.class);
+                                if (orgInventoryItem != null) {
+                                    int currentCount = orgInventoryItem.getCount();
+                                    int newCount = currentCount + goods.getRequestCount();
 
-                        // Store the finance request in Firebase
-                        financeRequestsRef.push().setValue(financeRequestData)
-                                .addOnCompleteListener(financeTask -> {
-                                    if (financeTask.isSuccessful()) {
-                                        holder.status.setText("approved");
-                                        holder.btnApprove.setEnabled(false);  // Disable the button after approval
-                                        Toast.makeText(holder.itemView.getContext(), "Supplied goods approved and finance request created", Toast.LENGTH_SHORT).show();
-                                    } else {
-                                        Toast.makeText(holder.itemView.getContext(), "Failed to create finance request", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
+                                    // Update the OrganisationInventory with the new count
+                                    organisationInventoryRef.child(goods.getItemName()).child("count").setValue(newCount)
+                                            .addOnCompleteListener(updateTask -> {
+                                                if (updateTask.isSuccessful()) {
+                                                    // Create a new FinanceRequest object with all details from SuppliedGoods
+                                                    Map<String, Object> financeRequestData = new HashMap<>();
+                                                    financeRequestData.put("category", goods.getCategory());
+                                                    financeRequestData.put("inventoryManager", goods.getInventoryManager());
+                                                    financeRequestData.put("itemName", goods.getItemName());
+                                                    financeRequestData.put("requestCount", goods.getRequestCount());
+                                                    financeRequestData.put("requestId", goods.getRequestId());
+                                                    financeRequestData.put("status", "pending");  // Set status to pending
+                                                    financeRequestData.put("supplier", goods.getSupplier());
+                                                    financeRequestData.put("timestamp", goods.getDateTime());
+                                                    financeRequestData.put("totalAmount", goods.getTotalAmount());
+
+                                                    // Store the finance request in Firebase
+                                                    financeRequestsRef.push().setValue(financeRequestData)
+                                                            .addOnCompleteListener(financeTask -> {
+                                                                if (financeTask.isSuccessful()) {
+                                                                    holder.status.setText("approved");
+                                                                    holder.btnApprove.setEnabled(false);  // Disable the button after approval
+                                                                    Toast.makeText(holder.itemView.getContext(), "Supplied goods approved and finance request created", Toast.LENGTH_SHORT).show();
+                                                                } else {
+                                                                    Toast.makeText(holder.itemView.getContext(), "Failed to create finance request", Toast.LENGTH_SHORT).show();
+                                                                }
+                                                            });
+                                                } else {
+                                                    Toast.makeText(holder.itemView.getContext(), "Failed to update OrganisationInventory", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                } else {
+                                    Toast.makeText(holder.itemView.getContext(), "Item not found in OrganisationInventory", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                Toast.makeText(holder.itemView.getContext(), "Failed to fetch OrganisationInventory data", Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     } else {
                         Toast.makeText(holder.itemView.getContext(), "Failed to update status", Toast.LENGTH_SHORT).show();
                     }
