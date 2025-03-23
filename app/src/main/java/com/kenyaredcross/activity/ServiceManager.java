@@ -37,7 +37,7 @@ public class ServiceManager extends AppCompatActivity implements NavigationView.
     private DatabaseReference databaseReference;
     private FirebaseAuth auth;
 
-    private CardView courses, enrollmentrqst, feedback, completedcourses, reports;
+    private CardView courses, enrollmentrqst, feedback, completedcourses, reports, events;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +55,7 @@ public class ServiceManager extends AppCompatActivity implements NavigationView.
         drawerLayout = findViewById(R.id.main);
         navigationView = findViewById(R.id.nav_view);
         courses = findViewById(R.id.courses);
+        events=findViewById(R.id.events);
         enrollmentrqst = findViewById(R.id.enrollmentRequestsCard);
         feedback = findViewById(R.id.feedbackcard);
         completedcourses = findViewById(R.id.completedcoursescard);
@@ -65,6 +66,7 @@ public class ServiceManager extends AppCompatActivity implements NavigationView.
 
         // Set click listeners for card views
         courses.setOnClickListener(v -> startActivity(new Intent(ServiceManager.this, ServiceManagerCoursesViewActivity.class)));
+        events.setOnClickListener(v -> startActivity(new Intent(ServiceManager.this, ServiceManagerEventsActivity.class)));
         enrollmentrqst.setOnClickListener(v -> startActivity(new Intent(ServiceManager.this, RequestsActivity.class)));
         feedback.setOnClickListener(v -> startActivity(new Intent(ServiceManager.this, ServiceMessagesActivity.class)));
         completedcourses.setOnClickListener(v -> startActivity(new Intent(ServiceManager.this, CompletedCoursesActivity.class)));
