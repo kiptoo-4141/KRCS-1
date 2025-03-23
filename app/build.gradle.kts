@@ -73,6 +73,7 @@ dependencies {
     implementation(libs.annotation.jvm)
     implementation(libs.recyclerview)
     implementation(libs.firebase.vertexai)
+    implementation(libs.car.ui.lib)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
