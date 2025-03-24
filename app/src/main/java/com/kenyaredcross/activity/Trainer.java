@@ -37,7 +37,7 @@ public class Trainer extends AppCompatActivity implements NavigationView.OnNavig
     private DatabaseReference databaseReference;
     private FirebaseAuth auth;
 
-    private CardView students, attendance, myclass, itemrqst, course;
+    private CardView students, attendance, myclass, itemrqst, course, inUse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +59,7 @@ public class Trainer extends AppCompatActivity implements NavigationView.OnNavig
         myclass = findViewById(R.id.classCard);
         itemrqst = findViewById(R.id.requestItemCard);
         course = findViewById(R.id.courseCard);
+        inUse = findViewById(R.id.inuseItems);
 
         // Set up navigation drawer
         navigationView.setNavigationItemSelectedListener(this);
@@ -67,6 +68,7 @@ public class Trainer extends AppCompatActivity implements NavigationView.OnNavig
 //        students.setOnClickListener(v -> startActivity(new Intent(Trainer.this, StudentsActivity.class)));
         attendance.setOnClickListener(v -> startActivity(new Intent(Trainer.this, ClassAttendanceActivity.class)));
         myclass.setOnClickListener(v -> startActivity(new Intent(Trainer.this, MyClassesActivity.class)));
+        inUse.setOnClickListener(v -> startActivity(new Intent(Trainer.this, InUseActivity.class)));
         itemrqst.setOnClickListener(v -> startActivity(new Intent(Trainer.this, RequestItemsActivity.class)));
         course.setOnClickListener(v -> startActivity(new Intent(Trainer.this, MyTeachingCoursesActivity.class)));
     }
