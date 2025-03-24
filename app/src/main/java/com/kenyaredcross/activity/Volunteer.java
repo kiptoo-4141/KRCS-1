@@ -37,7 +37,7 @@ public class Volunteer extends AppCompatActivity implements NavigationView.OnNav
     private DatabaseReference databaseReference;
     private FirebaseAuth auth;
 
-    private CardView group, courses, tasks, myCourses, myCerts, attendanceCard, messages;
+    private CardView group, courses, tasks, myCourses, myCerts, attendanceCard, messages, resources;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +53,7 @@ public class Volunteer extends AppCompatActivity implements NavigationView.OnNav
 
         // Initialize views
         drawerLayout = findViewById(R.id.main);
+        resources = findViewById(R.id.resourcesCard);
         navigationView = findViewById(R.id.nav_view);
         group = findViewById(R.id.groupCard);
         courses = findViewById(R.id.volunteercourses);
@@ -67,6 +68,7 @@ public class Volunteer extends AppCompatActivity implements NavigationView.OnNav
 
         // Set click listeners for card views
         group.setOnClickListener(v -> startActivity(new Intent(Volunteer.this, MyGroupsActivity.class)));
+        resources.setOnClickListener(v -> startActivity(new Intent(Volunteer.this, CoursesResourcesActivity.class)));
         courses.setOnClickListener(v -> startActivity(new Intent(Volunteer.this, CoursesActivity.class)));
         tasks.setOnClickListener(v -> startActivity(new Intent(Volunteer.this, MyTasksActivity.class)));
         myCourses.setOnClickListener(v -> startActivity(new Intent(Volunteer.this, MyCoursesActivity.class)));

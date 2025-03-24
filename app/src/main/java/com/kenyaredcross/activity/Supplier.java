@@ -41,7 +41,7 @@ public class Supplier extends AppCompatActivity implements NavigationView.OnNavi
     private FirebaseUser user;
     private DatabaseReference databaseReference;
 
-    private CardView inventoryCard, requests, supplyPayment, reports, feeds;
+    private CardView inventoryCard, requests, supplyPayment, receipt, feeds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,12 +58,13 @@ public class Supplier extends AppCompatActivity implements NavigationView.OnNavi
 
         // Initialize views
         toolbar = findViewById(R.id.toolbar);
+        receipt = findViewById(R.id.supplyReceipt);
         drawerLayout = findViewById(R.id.main);
         navigationView = findViewById(R.id.nav_view);
         inventoryCard = findViewById(R.id.supplyInventoryCrd);
         requests = findViewById(R.id.FMRequestsCard);
         supplyPayment = findViewById(R.id.SupplyPayment);
-        reports = findViewById(R.id.SupplyReports);
+//        reports = findViewById(R.id.SupplyReports);
         feeds = findViewById(R.id.feedss);
 
         // Set up toolbar
@@ -94,8 +95,9 @@ public class Supplier extends AppCompatActivity implements NavigationView.OnNavi
                 Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show();
             }
         });
-        reports.setOnClickListener(v -> startActivity(new Intent(Supplier.this, SupplyReportsActivity.class)));
+//        reports.setOnClickListener(v -> startActivity(new Intent(Supplier.this, SupplyReportsActivity.class)));
         feeds.setOnClickListener(v -> startActivity(new Intent(Supplier.this, FeedbacksActivity.class)));
+        receipt.setOnClickListener(v -> startActivity(new Intent(Supplier.this, SupplyReceiptsActivity.class)));
 
         // Handle toolbar navigation
         toolbar.setNavigationOnClickListener(v -> {
