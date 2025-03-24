@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import android.widget.SearchView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -20,6 +21,7 @@ public class CourseResourcesActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private CourseResourceAdapter2 adapter;
     private Map<String, CourseResource2> courseResources = new HashMap<>();
+    private SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +31,26 @@ public class CourseResourcesActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        searchView = findViewById(R.id.searchView);
+        setupSearchView();
+
         fetchAllCourseResources();
+    }
+
+    private void setupSearchView() {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                // Filter the RecyclerView based on the search query
+                adapter.filter(newText);
+                return true;
+            }
+        });
     }
 
     private void fetchAllCourseResources() {
