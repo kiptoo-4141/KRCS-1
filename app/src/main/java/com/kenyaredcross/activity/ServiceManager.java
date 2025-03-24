@@ -59,7 +59,7 @@ public class ServiceManager extends AppCompatActivity implements NavigationView.
         enrollmentrqst = findViewById(R.id.enrollmentRequestsCard);
         feedback = findViewById(R.id.feedbackcard);
         completedcourses = findViewById(R.id.completedcoursescard);
-        reports = findViewById(R.id.reportscard);
+
 
         // Set up navigation drawer
         navigationView.setNavigationItemSelectedListener(this);
@@ -70,7 +70,6 @@ public class ServiceManager extends AppCompatActivity implements NavigationView.
         enrollmentrqst.setOnClickListener(v -> startActivity(new Intent(ServiceManager.this, RequestsActivity.class)));
         feedback.setOnClickListener(v -> startActivity(new Intent(ServiceManager.this, ServiceMessagesActivity.class)));
         completedcourses.setOnClickListener(v -> startActivity(new Intent(ServiceManager.this, CompletedCoursesActivity.class)));
-        reports.setOnClickListener(v -> startActivity(new Intent(ServiceManager.this, ServiceReportsActivity.class)));
     }
 
     private void checkUserProfile() {

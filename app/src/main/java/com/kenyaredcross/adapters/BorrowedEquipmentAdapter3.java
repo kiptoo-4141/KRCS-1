@@ -17,14 +17,11 @@ import java.util.List;
 public class BorrowedEquipmentAdapter3 extends RecyclerView.Adapter<BorrowedEquipmentAdapter3.ViewHolder> {
 
     private final List<BorrowedEquipmentModel3> borrowedEquipmentList;
-    private final OnAssignButtonClickListener assignButtonClickListener;
     private final OnReturnButtonClickListener returnButtonClickListener;
 
     public BorrowedEquipmentAdapter3(List<BorrowedEquipmentModel3> borrowedEquipmentList,
-                                     OnAssignButtonClickListener assignButtonClickListener,
                                      OnReturnButtonClickListener returnButtonClickListener) {
         this.borrowedEquipmentList = borrowedEquipmentList;
-        this.assignButtonClickListener = assignButtonClickListener;
         this.returnButtonClickListener = returnButtonClickListener;
     }
 
@@ -42,11 +39,13 @@ public class BorrowedEquipmentAdapter3 extends RecyclerView.Adapter<BorrowedEqui
         holder.countTextView.setText(String.valueOf(borrowedEquipment.getCount()));
         holder.statusTextView.setText(borrowedEquipment.getStatus());
 
-        // Set up the assign button click listener
-        holder.assignButton.setOnClickListener(v -> assignButtonClickListener.onAssignButtonClick(borrowedEquipment));
-
-        // Set up the return button click listener
-        holder.returnButton.setOnClickListener(v -> returnButtonClickListener.onReturnButtonClick(borrowedEquipment));
+        // Show/hide return button based on status
+        if ("returned".equalsIgnoreCase(borrowedEquipment.getStatus())) {
+            holder.returnButton.setVisibility(View.GONE);
+        } else {
+            holder.returnButton.setVisibility(View.VISIBLE);
+            holder.returnButton.setOnClickListener(v -> returnButtonClickListener.onReturnButtonClick(borrowedEquipment));
+        }
     }
 
     @Override
@@ -56,20 +55,15 @@ public class BorrowedEquipmentAdapter3 extends RecyclerView.Adapter<BorrowedEqui
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView itemNameTextView, countTextView, statusTextView;
-        Button assignButton, returnButton;
+        Button returnButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             itemNameTextView = itemView.findViewById(R.id.itemNameTextView);
             countTextView = itemView.findViewById(R.id.countTextView);
             statusTextView = itemView.findViewById(R.id.statusTextView);
-            assignButton = itemView.findViewById(R.id.assignButton);
             returnButton = itemView.findViewById(R.id.returnButton);
         }
-    }
-
-    public interface OnAssignButtonClickListener {
-        void onAssignButtonClick(BorrowedEquipmentModel3 borrowedEquipment);
     }
 
     public interface OnReturnButtonClickListener {
