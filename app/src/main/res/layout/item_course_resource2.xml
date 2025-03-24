@@ -1,0 +1,43 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/courseId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Course ID"
+        android:textStyle="bold"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/courseActivities"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Activities"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/courseOutlines"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Outlines"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/courseStructures"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Structures"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/resourceLinks"
+        android:layout_width="wrap_content"
+        android:textColor="#0B25B8"
+        android:layout_height="wrap_content"
+        android:text="Resource Links"
+        android:textSize="14sp" />
+</LinearLayout>

@@ -37,7 +37,7 @@ public class Youth extends AppCompatActivity implements NavigationView.OnNavigat
     private DatabaseReference databaseReference;
     private FirebaseAuth auth;
 
-    private CardView courses, youthDonationCard, myCourses, events, messaging, receipt, cert, attendanceCard;
+    private CardView courses, youthDonationCard, myCourses, events, messaging, receipt, cert, attendanceCard,resource;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +54,7 @@ public class Youth extends AppCompatActivity implements NavigationView.OnNavigat
         // Initialize views
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
+        resource = findViewById(R.id.resourcesCard);
         courses = findViewById(R.id.courses);
         youthDonationCard = findViewById(R.id.youthDonationCard);
         myCourses = findViewById(R.id.mycourses);
@@ -68,6 +69,7 @@ public class Youth extends AppCompatActivity implements NavigationView.OnNavigat
 
         // Set click listeners for card views
         courses.setOnClickListener(v -> startActivity(new Intent(Youth.this, CoursesActivity.class)));
+        resource.setOnClickListener(v -> startActivity(new Intent(Youth.this, CourseResourcesActivity.class)));
         youthDonationCard.setOnClickListener(v -> startActivity(new Intent(Youth.this, DonationActivity.class)));
         myCourses.setOnClickListener(v -> startActivity(new Intent(Youth.this, MyCoursesActivity.class)));
         events.setOnClickListener(v -> startActivity(new Intent(Youth.this, EventsActivity.class)));
