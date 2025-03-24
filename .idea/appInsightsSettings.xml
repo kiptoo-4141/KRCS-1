@@ -7,14 +7,6 @@
         <entry key="Firebase Crashlytics">
           <value>
             <InsightsFilterSettings>
-              <option name="connection">
-                <ConnectionSetting>
-                  <option name="appId" value="com.kenyaredcross" />
-                  <option name="mobileSdkAppId" value="1:875886335283:android:48d7dd6f66f2de67ae1a46" />
-                  <option name="projectId" value="red-cross-project-database" />
-                  <option name="projectNumber" value="875886335283" />
-                </ConnectionSetting>
-              </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
               <option name="timeIntervalDays" value="THIRTY_DAYS" />
               <option name="visibilityType" value="ALL" />
