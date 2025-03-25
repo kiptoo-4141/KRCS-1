@@ -47,7 +47,8 @@ public class RequestedItemsAdapter extends RecyclerView.Adapter<RequestedItemsAd
         holder.status.setText("Status: " + item.getStatus());
         holder.trainerEmail.setText("Requested by: " + item.getTrainerEmail());
 
-        if (item.getStatus().equals("Pending")) {
+        // Safe null check for status
+        if ("Pending".equals(item.getStatus())) {
             holder.approveButton.setVisibility(View.VISIBLE);
         } else {
             holder.approveButton.setVisibility(View.GONE);

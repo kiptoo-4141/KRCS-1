@@ -1,6 +1,5 @@
 package com.kenyaredcross.adapters;
 
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,12 +23,12 @@ import java.util.List;
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder> {
     private final Context context;
     private final List<Item> itemList;
-    private final String trainerEmail;
+    private final String currentUserEmail;
 
-    public ItemAdapter(Context context, List<Item> itemList, String trainerEmail) {
+    public ItemAdapter(Context context, List<Item> itemList, String currentUserEmail) {
         this.context = context;
         this.itemList = itemList;
-        this.trainerEmail = trainerEmail;
+        this.currentUserEmail = currentUserEmail;
     }
 
     @NonNull
@@ -42,30 +41,54 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
         Item item = itemList.get(position);
+        if (item == null) return;
+
         holder.itemName.setText(item.getItemName());
         holder.category.setText("Category: " + item.getCategory());
         holder.count.setText("Available: " + item.getCount());
 
         holder.requestButton.setOnClickListener(v -> {
-            String quantityStr = holder.quantityInput.getText().toString();
+            String quantityStr = holder.quantityInput.getText().toString().trim();
             if (quantityStr.isEmpty()) {
-                Toast.makeText(context, "Enter quantity", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Please enter quantity", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            int quantity = Integer.parseInt(quantityStr);
-            if (quantity <= 0 || quantity > item.getCount()) {
-                Toast.makeText(context, "Invalid quantity", Toast.LENGTH_SHORT).show();
-                return;
+            try {
+                int quantity = Integer.parseInt(quantityStr);
+                if (quantity <= 0) {
+                    Toast.makeText(context, "Quantity must be positive", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (quantity > item.getCount()) {
+                    Toast.makeText(context, "Not enough items available", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                DatabaseReference requestRef = FirebaseDatabase.getInstance()
+                        .getReference("ItemRequests")
+                        .push();
+
+                ItemRequest request = new ItemRequest(
+                        item.getItemName(),
+                        quantity,
+                        "Pending", // Default status
+                        currentUserEmail
+                );
+
+                requestRef.setValue(request)
+                        .addOnSuccessListener(aVoid -> {
+                            Toast.makeText(context, "Request sent successfully!", Toast.LENGTH_SHORT).show();
+                            holder.quantityInput.setText(""); // Clear input after successful request
+                        })
+                        .addOnFailureListener(e -> {
+                            Toast.makeText(context, "Failed to send request: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        });
+
+            } catch (NumberFormatException e) {
+                Toast.makeText(context, "Invalid quantity format", Toast.LENGTH_SHORT).show();
             }
-
-            DatabaseReference requestRef = FirebaseDatabase.getInstance()
-                    .getReference("ItemRequests")
-                    .push();
-            ItemRequest request = new ItemRequest(item.getItemName(), quantity, trainerEmail);
-            requestRef.setValue(request);
-
-            Toast.makeText(context, "Request Sent!", Toast.LENGTH_SHORT).show();
         });
     }
 

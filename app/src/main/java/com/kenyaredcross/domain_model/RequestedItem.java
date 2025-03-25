@@ -15,7 +15,7 @@ public class RequestedItem {
     public RequestedItem(String itemName, int quantity, String status, String trainerEmail) {
         this.itemName = itemName;
         this.quantity = quantity;
-        this.status = status;
+        this.status = status != null ? status : "Pending";
         this.trainerEmail = trainerEmail;
     }
 
