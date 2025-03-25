@@ -37,7 +37,7 @@ public class InventoryManager extends AppCompatActivity implements NavigationVie
     private DatabaseReference databaseReference;
     private FirebaseAuth auth;
 
-    private CardView inventory, messages, borrowedEquipments;
+    private CardView inventory, messages, borrowedEquipments, returnedEquipments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +54,7 @@ public class InventoryManager extends AppCompatActivity implements NavigationVie
         // Initialize views
         drawerLayout = findViewById(R.id.main);
         navigationView = findViewById(R.id.nav_view);
+        returnedEquipments = findViewById(R.id.returnedEquipmentCard);
         inventory = findViewById(R.id.inventoryCard);
         messages = findViewById(R.id.messagesCard);
         borrowedEquipments = findViewById(R.id.borrowedEquipmentCard);
@@ -64,6 +65,7 @@ public class InventoryManager extends AppCompatActivity implements NavigationVie
         // Set click listeners for card views
         inventory.setOnClickListener(v -> startActivity(new Intent(InventoryManager.this, OrganizationInventoryActivity.class)));
         messages.setOnClickListener(v -> startActivity(new Intent(InventoryManager.this, FeedbacksActivity.class)));
+        returnedEquipments.setOnClickListener(v -> startActivity(new Intent(InventoryManager.this, ReturnedEquipmentsActivity.class)));
         borrowedEquipments.setOnClickListener(v -> startActivity(new Intent(InventoryManager.this, BorrowedEquipmentsActivity.class)));
     }
 
