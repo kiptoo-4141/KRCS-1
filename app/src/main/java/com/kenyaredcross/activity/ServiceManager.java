@@ -223,7 +223,9 @@ public class ServiceManager extends AppCompatActivity implements NavigationView.
             startActivity(new Intent(ServiceManager.this, AboutUsActivity.class));
         } else if (id == R.id.nav_contact_us) {
             startActivity(new Intent(ServiceManager.this, ContactUsActivity.class));
-        } else if (id == R.id.nav_help) {
+        } else if (id == R.id.nav_profile) {
+            startActivity(new Intent(ServiceManager.this, UserProfileActivity.class));
+        }else if (id == R.id.nav_help) {
             startActivity(new Intent(ServiceManager.this, HelpActivity.class));
         } else if (id == R.id.nav_log_out) {
             FirebaseAuth.getInstance().signOut();

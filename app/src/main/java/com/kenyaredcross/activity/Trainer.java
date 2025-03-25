@@ -224,7 +224,9 @@ public class Trainer extends AppCompatActivity implements NavigationView.OnNavig
             startActivity(new Intent(Trainer.this, AboutUsActivity.class));
         } else if (id == R.id.nav_contact_us) {
             startActivity(new Intent(Trainer.this, ContactUsActivity.class));
-        } else if (id == R.id.nav_help) {
+        } else if (id == R.id.nav_profile) {
+            startActivity(new Intent(Trainer.this, UserProfileActivity.class));
+        }else if (id == R.id.nav_help) {
             startActivity(new Intent(Trainer.this, HelpActivity.class));
         } else if (id == R.id.nav_log_out) {
             FirebaseAuth.getInstance().signOut();

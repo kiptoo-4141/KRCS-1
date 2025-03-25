@@ -220,6 +220,8 @@ public class InventoryManager extends AppCompatActivity implements NavigationVie
             startActivity(new Intent(InventoryManager.this, AboutUsActivity.class));
         } else if (id == R.id.nav_contact_us) {
             startActivity(new Intent(InventoryManager.this, ContactUsActivity.class));
+        }else if (id == R.id.nav_profile) {
+            startActivity(new Intent(InventoryManager.this, UserProfileActivity.class));
         } else if (id == R.id.nav_help) {
             startActivity(new Intent(InventoryManager.this, HelpActivity.class));
         } else if (id == R.id.nav_log_out) {

@@ -245,7 +245,9 @@ public class Coordinator extends AppCompatActivity implements NavigationView.OnN
             startActivity(new Intent(Coordinator.this, ContactUsActivity.class));
         } else if (id == R.id.nav_help) {
             startActivity(new Intent(Coordinator.this, HelpActivity.class));
-        } else if (id == R.id.nav_log_out) {
+        } else if (id == R.id.nav_profile) {
+            startActivity(new Intent(Coordinator.this, UserProfileActivity.class));
+        }else if (id == R.id.nav_log_out) {
             FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(Coordinator.this, Login.class));
             finish();

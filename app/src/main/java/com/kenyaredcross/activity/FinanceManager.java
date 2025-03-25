@@ -226,7 +226,9 @@ public class FinanceManager extends AppCompatActivity implements NavigationView.
             startActivity(new Intent(FinanceManager.this, ContactUsActivity.class));
         } else if (id == R.id.nav_help) {
             startActivity(new Intent(FinanceManager.this, HelpActivity.class));
-        } else if (id == R.id.nav_log_out) {
+        }  else if (id == R.id.nav_profile) {
+            startActivity(new Intent(FinanceManager.this, UserProfileActivity.class));
+        }else if (id == R.id.nav_log_out) {
             FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(FinanceManager.this, Login.class));
             finish();
